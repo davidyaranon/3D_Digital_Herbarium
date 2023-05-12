@@ -1,0 +1,7 @@
+{
+  "name": "CPHHA",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite"
+}
