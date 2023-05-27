@@ -25,7 +25,7 @@ export const appPages: AppPage[] = [
   },
   {
     title: '3D Models',
-    url: '/pages/models',
+    url: '/pages/models/select',
     iosIcon: cubeOutline,
     mdIcon: cubeSharp
   },

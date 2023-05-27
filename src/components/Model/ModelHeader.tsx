@@ -22,6 +22,7 @@ import { useContext } from '../../my-context';
 {/* Styles */ }
 import './ModelHeader.css';
 import { timeout } from '../../herbarium';
+import { useHistory } from 'react-router';
 
 {/* Props definition */ }
 interface ModelHeaderProps {
@@ -36,6 +37,7 @@ const ModelHeader = (props: ModelHeaderProps) => {
 
   // Hooks
   const context = useContext();
+  const history = useHistory();
 
   // State Variables
   const searchRef = React.useRef<HTMLIonSearchbarElement>(null);
@@ -57,7 +59,7 @@ const ModelHeader = (props: ModelHeaderProps) => {
    */
   const handleClickOffSearchbar = async (): Promise<void> => {
     await timeout(100);
-    setShowSearchResults(false);
+    // setShowSearchResults(false);
   };
 
   /**
@@ -72,6 +74,7 @@ const ModelHeader = (props: ModelHeaderProps) => {
       setModelLoading(true);
       context.setModel(model);
       await Preferences.set({ key: 'model', value: model });
+      history.push('/pages/models/' + model)
     }
   };
 
@@ -134,7 +137,7 @@ const ModelHeader = (props: ModelHeaderProps) => {
       <div className={`item-list ${showSearchResults ? 'overlay' : ''}`}>
         {showSearchResults && filteredModels.slice(0, 4).map((model: string, index: number) => {
           return (
-            <IonItem key={index} onClick={() => handleModelListButtonPress(model)} button detail={false} lines='full' color='light'><IonText color='primary'>{model}</IonText></IonItem>
+            <IonItem type='submit' key={index} onClick={() => handleModelListButtonPress(model)} button detail={false} lines='full' color='light'><IonText color='primary'>{model}</IonText></IonItem>
           );
         })}
       </div>

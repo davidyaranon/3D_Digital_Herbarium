@@ -25,6 +25,8 @@ const ModelIframes = (props: ModelIframesProps) => {
   const loading = props.loading;
   const setModelLoading = props.setModelLoading;
 
+  console.log(model);
+
   /**
    * @description This function is called when the iframe loads.
    */

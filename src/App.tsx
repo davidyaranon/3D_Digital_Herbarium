@@ -49,33 +49,6 @@ const App: React.FC = () => {
   /* Hooks */
   const context = useContext();
 
-  /**
-   * @description callback function that sets the model name to Redwood if not already set.
-   */
-  const setModelName = React.useCallback(async () => {
-    if (!context.model) {
-      const modelName = await Preferences.get({ key: 'model' });
-      if (modelName.value) {
-        context.setModel(modelName.value);
-      } else {
-        context.setModel('Redwood');
-        await Preferences.set({ key: "model", value: "Redwood" });
-      }
-    }
-  }, []);
-
-  /**
-   * @description: This function is called when the app is loaded.
-   * Put any code that needs to be run one-time when the app is loaded here that deals with context
-   * 
-   * Currently, it sets the model name to Redwood if not already set. (using Context API as global variable)
-   */
-  React.useEffect(() => {
-    if (context) {
-      setModelName();
-    }
-  }, [context]);
-
   return (
     <IonApp>
       <IonReactRouter>
@@ -94,9 +67,7 @@ const App: React.FC = () => {
               <Home />
             </Route>
 
-            <Route path="/pages/models" exact={true}>
-              <Model />
-            </Route>
+            <Route path="/pages/models/:model" exact={true} component={Model} />
 
             <Route path="/pages/collections" exact={true}>
               <Collections />
