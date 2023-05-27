@@ -37,16 +37,24 @@ const ModelHeader = (props: ModelHeaderProps) => {
   const context = useContext();
 
   // State Variables
+  const searchRef = React.useRef<HTMLIonSearchbarElement>(null);
   const [showSearchResults, setShowSearchResults] = React.useState<boolean>(false);
   const [filteredModels, setFilteredModels] = React.useState<string[]>(listOfModels);
 
+  /**
+   * @description This function is called when the user clicks on the searchbar.
+   */
+  const handleClickOnSearchbar = (): void => {
+    if(searchRef && searchRef.current && searchRef.current.value !== '')
+      setShowSearchResults(true);
+  };
 
   /**
    * @description This function is called when the user clicks off the searchbar. 
    * It should hide the search results.
    */
   const handleClickOffSearchbar = (): void => {
-    // setShowSearchResults(false);
+    setShowSearchResults(false);
   };
 
   /**
@@ -96,7 +104,7 @@ const ModelHeader = (props: ModelHeaderProps) => {
 
           {/* Only display the search bar when the screen width is greater than or equal to 768px */}
           <div className="search-bar" >
-            <IonSearchbar animated color='light' onIonInput={handleSearch} onIonBlur={handleClickOffSearchbar} placeholder='Search 3D Models...' enterkeyhint='search' style={{ width: "50%", padding: '10px' }} />
+            <IonSearchbar animated color='light' ref={searchRef} onIonInput={handleSearch} onIonFocus={handleClickOnSearchbar} onIonBlur={handleClickOffSearchbar} placeholder='Search 3D Models...' enterkeyhint='search' style={{ width: "50%", padding: '10px' }} />
             <IonButton fill='clear' size='default'>
               <IonIcon icon={mapOutline}></IonIcon>
             </IonButton>
