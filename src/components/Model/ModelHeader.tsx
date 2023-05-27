@@ -46,7 +46,7 @@ const ModelHeader = (props: ModelHeaderProps) => {
    * It should hide the search results.
    */
   const handleClickOffSearchbar = (): void => {
-    setShowSearchResults(false);
+    // setShowSearchResults(false);
   };
 
   /**
@@ -122,7 +122,7 @@ const ModelHeader = (props: ModelHeaderProps) => {
           return (
             <IonItem key={index} onClick={() => handleModelListButtonPress(model)} button detail={false} lines='full' color='light'><IonText color='primary'>{model}</IonText></IonItem>
           );
-        })};
+        })}
       </div>
 
     </>

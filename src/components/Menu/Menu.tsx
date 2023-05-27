@@ -44,7 +44,7 @@ const Menu: React.FC = () => {
                 </IonItem>
               </IonMenuToggle>
             );
-          })};
+          })}
 
         </IonList>
 
@@ -56,7 +56,7 @@ const Menu: React.FC = () => {
               <IonIcon aria-hidden="true" slot="start" icon={bookmarkOutline} />
               <IonLabel>{label}</IonLabel>
             </IonItem>
-          ))};
+          ))}
         </IonList>
 
       </IonContent>
