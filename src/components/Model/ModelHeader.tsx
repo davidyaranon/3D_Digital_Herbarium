@@ -4,7 +4,7 @@
  * It handles the search bar and the search results.
  */
 
-{/* Ionic / React */}
+{/* Ionic / React */ }
 import React from 'react';
 import {
   IonHeader, IonToolbar, IonButtons, IonMenuButton,
@@ -12,17 +12,18 @@ import {
 } from '@ionic/react';
 import { mapOutline, searchOutline } from 'ionicons/icons';
 
-{/* Capacitor */}
+{/* Capacitor */ }
 import { Preferences } from '@capacitor/preferences';
 
-{/* Helpers */}
+{/* Helpers */ }
 import { listOfModels } from '../../assets/data/ListOfModels';
 import { useContext } from '../../my-context';
 
-{/* Styles */}
+{/* Styles */ }
 import './ModelHeader.css';
+import { timeout } from '../../herbarium';
 
-{/* Props definition */}
+{/* Props definition */ }
 interface ModelHeaderProps {
   loading: boolean;
   setModelLoading: React.Dispatch<React.SetStateAction<boolean>>;
@@ -43,9 +44,10 @@ const ModelHeader = (props: ModelHeaderProps) => {
 
   /**
    * @description This function is called when the user clicks on the searchbar.
+   * It should show the search results if the searchbar is not empty.
    */
   const handleClickOnSearchbar = (): void => {
-    if(searchRef && searchRef.current && searchRef.current.value !== '')
+    if (searchRef && searchRef.current && searchRef.current.value !== '')
       setShowSearchResults(true);
   };
 
@@ -53,7 +55,8 @@ const ModelHeader = (props: ModelHeaderProps) => {
    * @description This function is called when the user clicks off the searchbar. 
    * It should hide the search results.
    */
-  const handleClickOffSearchbar = (): void => {
+  const handleClickOffSearchbar = async (): Promise<void> => {
+    await timeout(100);
     setShowSearchResults(false);
   };
 
@@ -69,7 +72,7 @@ const ModelHeader = (props: ModelHeaderProps) => {
       setModelLoading(true);
       context.setModel(model);
       await Preferences.set({ key: 'model', value: model });
-    };
+    }
   };
 
   /**
@@ -104,7 +107,10 @@ const ModelHeader = (props: ModelHeaderProps) => {
 
           {/* Only display the search bar when the screen width is greater than or equal to 768px */}
           <div className="search-bar" >
-            <IonSearchbar animated color='light' ref={searchRef} onIonInput={handleSearch} onIonFocus={handleClickOnSearchbar} onIonBlur={handleClickOffSearchbar} placeholder='Search 3D Models...' enterkeyhint='search' style={{ width: "50%", padding: '10px' }} />
+            <IonSearchbar animated color='light' ref={searchRef}
+              onIonInput={handleSearch} onIonFocus={handleClickOnSearchbar} onIonBlur={handleClickOffSearchbar}
+              placeholder='Search 3D Models...' enterkeyhint='search' style={{ width: "50%", padding: '10px' }}
+            />
             <IonButton fill='clear' size='default'>
               <IonIcon icon={mapOutline}></IonIcon>
             </IonButton>
