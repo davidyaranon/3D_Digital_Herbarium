@@ -5,7 +5,7 @@
 
 {/* Ionic / React */ }
 import React from 'react';
-import { IonContent, IonPage, IonText, useIonRouter } from '@ionic/react';
+import { IonContent, IonModal, IonPage, IonText, useIonRouter } from '@ionic/react';
 import { RouteComponentProps, useHistory } from 'react-router-dom';
 
 {/* Helpers */ }
@@ -58,15 +58,11 @@ const Model = ({ match }: RouteComponentProps<ModelSelectPostParams>) => {
 
   // State Variables
   const [loading, setModelLoading] = React.useState<boolean>(true);
+  const [showSearchModel, setShowSearchModel] = React.useState<boolean>(false);
 
-  // const handleLoadNewModel = React.useCallback(async () => {
-  //   context.setModel(model);
-  //   await Preferences.set({ key: 'model', value: model });
-  // }, [])
-
-  // React.useEffect(() => {
-  //   handleLoadNewModel();
-  // }, [context, model])
+  const handleClickOnSearchIcon = () => {
+    setShowSearchModel(true);
+  };
 
   return (
     <IonPage>
