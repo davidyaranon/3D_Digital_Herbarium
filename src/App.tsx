@@ -46,7 +46,6 @@ setupIonicReact({
 
 const App: React.FC = () => {
 
-  /* Hooks */
   const context = useContext();
 
   return (
@@ -57,7 +56,7 @@ const App: React.FC = () => {
 
           <Menu />
 
-          <IonRouterOutlet id="main">
+          <IonRouterOutlet id="main" animated={false}>
 
             <Route path="/" exact={true}>
               <Redirect to="/pages/home" />
@@ -67,7 +66,7 @@ const App: React.FC = () => {
               <Home />
             </Route>
 
-            <Route path="/pages/models/:model" exact={true} component={Model} />
+            <Route path="/pages/models/:model" exact={true} component={Model} key={context.model} />
 
             <Route path="/pages/collections" exact={true}>
               <Collections />

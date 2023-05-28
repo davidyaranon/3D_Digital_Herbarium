@@ -10,7 +10,7 @@ import {
   IonHeader, IonToolbar, IonButtons, IonMenuButton,
   IonSearchbar, IonIcon, IonButton, IonTitle, IonText, IonItem
 } from '@ionic/react';
-import { mapOutline, searchOutline } from 'ionicons/icons';
+import { informationCircleOutline, mapOutline, searchOutline } from 'ionicons/icons';
 
 {/* Capacitor */ }
 import { Preferences } from '@capacitor/preferences';
@@ -58,7 +58,7 @@ const ModelHeader = (props: ModelHeaderProps) => {
    * It should hide the search results.
    */
   const handleClickOffSearchbar = async (): Promise<void> => {
-    await timeout(100);
+    await timeout(250);
     // setShowSearchResults(false);
   };
 
@@ -71,6 +71,7 @@ const ModelHeader = (props: ModelHeaderProps) => {
   const handleModelListButtonPress = async (model: string): Promise<void> => {
     setShowSearchResults(false);
     if (model !== context.model) {
+      console.log('setting context.model to ' + model)
       setModelLoading(true);
       context.setModel(model);
       await Preferences.set({ key: 'model', value: model });
@@ -114,9 +115,14 @@ const ModelHeader = (props: ModelHeaderProps) => {
               onIonInput={handleSearch} onIonFocus={handleClickOnSearchbar} onIonBlur={handleClickOffSearchbar}
               placeholder='Search 3D Models...' enterkeyhint='search' style={{ width: "50%", padding: '10px' }}
             />
-            <IonButton fill='clear' size='default'>
-              <IonIcon icon={mapOutline}></IonIcon>
-            </IonButton>
+            <div style={{ display: 'flex', paddingLeft: '35%' }}>
+              <IonButton fill='clear' size='default'>
+                <IonIcon icon={informationCircleOutline} />
+              </IonButton>
+              <IonButton fill='clear' size='default'>
+                <IonIcon icon={mapOutline}></IonIcon>
+              </IonButton>
+            </div>
           </div>
 
           {/* Hide search bar and only display the icons when the screen width is less than 768px */}
@@ -126,21 +132,25 @@ const ModelHeader = (props: ModelHeaderProps) => {
               <IonIcon icon={searchOutline}></IonIcon>
             </IonButton>
             <IonButton fill='clear' size='default'>
+              <IonIcon icon={informationCircleOutline} />
+            </IonButton>
+            <IonButton fill='clear' size='default'>
               <IonIcon icon={mapOutline}></IonIcon>
             </IonButton>
           </div>
 
         </IonToolbar>
-      </IonHeader>
+      </IonHeader >
 
       {/* Display the search results when the user types into the searchbar */}
-      <div className={`item-list ${showSearchResults ? 'overlay' : ''}`}>
+      < div className={`item-list ${showSearchResults ? 'overlay' : ''}`
+      }>
         {showSearchResults && filteredModels.slice(0, 4).map((model: string, index: number) => {
           return (
             <IonItem type='submit' key={index} onClick={() => handleModelListButtonPress(model)} button detail={false} lines='full' color='light'><IonText color='primary'>{model}</IonText></IonItem>
           );
         })}
-      </div>
+      </div >
 
     </>
   )

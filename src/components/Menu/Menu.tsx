@@ -18,11 +18,30 @@ import { AppPage, appPages, labels } from './MenuFunctions';
 
 { /* Styles */ }
 import './Menu.css';
+import { useContext } from '../../my-context';
 
 const Menu: React.FC = () => {
 
   // Hooks
   const location = useLocation();
+  const context = useContext();
+
+  /**
+   * @description This function returns the router link of the app page.
+   * 
+   * @param {AppPage} appPage the app page to get the router link of
+   * @returns {string} the router link of the app page
+   */
+  const getRouterLinkOfMenuItem = (appPage : AppPage) : string => {
+    if(appPage.title === '3D Models') {
+      if(context.model.length <= 0 || !context.model) {
+        return appPage.url + 'select';
+      }
+      return appPage.url + context.model;
+    } else {
+      return appPage.url;
+    }
+  }
 
   return (
     <IonMenu contentId="main" type="overlay" swipeGesture>
@@ -38,7 +57,7 @@ const Menu: React.FC = () => {
           {appPages.map((appPage: AppPage, index: number) => {
             return (
               <IonMenuToggle key={index} autoHide={false}>
-                <IonItem className={location.pathname === appPage.url ? 'selected' : ''} routerLink={appPage.url} routerDirection="none" lines="none" detail={false}>
+                <IonItem className={location.pathname === appPage.url ? 'selected' : ''} routerLink={getRouterLinkOfMenuItem(appPage)} routerDirection="none" lines="none" detail={false}>
                   <IonIcon color={location.pathname === appPage.url ? 'selected' : 'light'} aria-hidden="true" slot="start" ios={appPage.iosIcon} md={appPage.mdIcon} />
                   <IonLabel>{appPage.title}</IonLabel>
                 </IonItem>

@@ -1,6 +1,15 @@
-.model {
-  height : 90vh;
-  width : 75vw;
+@media screen and (max-width: 991px) {
+  .model {
+    height: 90vh;
+    width: 100vw;
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .model {
+    height: 90vh;
+    width: 83vw;
+  }
 }
 
 .select-model {

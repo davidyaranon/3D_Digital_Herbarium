@@ -5,8 +5,8 @@
 
 {/* Ionic / React */ }
 import React from 'react';
-import { IonContent, IonPage, IonText } from '@ionic/react';
-import { RouteComponentProps } from 'react-router-dom';
+import { IonContent, IonPage, IonText, useIonRouter } from '@ionic/react';
+import { RouteComponentProps, useHistory } from 'react-router-dom';
 
 {/* Helpers */ }
 import { listOfModels, speciesName } from '../../assets/data/ListOfModels';
@@ -16,6 +16,7 @@ import ModelHeader from '../../components/Model/ModelHeader';
 
 {/* Styles */ }
 import './model.css';
+import { Preferences } from '@capacitor/preferences';
 
 interface ModelSelectPostParams {
   model: string;
@@ -40,12 +41,11 @@ const adjustString = (modelName: string): string => {
  * @description Checks if the model is in the list of models.
  * 
  * @param {string} model the name of the selected model (or of the last path param of the URL)
- * @returns {boolean} true if the model is not in the list of models, false otherwise
+ * @returns {boolean} true if the model is in the list of models, false otherwise
  */
-const modelInList = (model : string) : boolean => {
+const modelInList = (model: string): boolean => {
   const adjustedModelString = adjustString(model);
-  console.log(adjustedModelString)
-  return !listOfModels.includes(adjustedModelString);
+  return listOfModels.includes(adjustedModelString);
 }
 
 const Model = ({ match }: RouteComponentProps<ModelSelectPostParams>) => {
@@ -54,9 +54,19 @@ const Model = ({ match }: RouteComponentProps<ModelSelectPostParams>) => {
 
   // Hooks
   const context = useContext();
+  const history = useHistory();
 
   // State Variables
   const [loading, setModelLoading] = React.useState<boolean>(true);
+
+  // const handleLoadNewModel = React.useCallback(async () => {
+  //   context.setModel(model);
+  //   await Preferences.set({ key: 'model', value: model });
+  // }, [])
+
+  // React.useEffect(() => {
+  //   handleLoadNewModel();
+  // }, [context, model])
 
   return (
     <IonPage>
@@ -75,7 +85,7 @@ const Model = ({ match }: RouteComponentProps<ModelSelectPostParams>) => {
               </div>
             </>
           ) :
-          (modelInList(model)) ?
+          (!modelInList(model)) ?
             (
               <>
                 <div className="select-model">
