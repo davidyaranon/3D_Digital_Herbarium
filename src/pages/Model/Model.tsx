@@ -5,7 +5,7 @@
 
 {/* Ionic / React */ }
 import React from 'react';
-import { IonContent, IonModal, IonPage, IonText, useIonRouter } from '@ionic/react';
+import { IonContent, IonPage, IonText } from '@ionic/react';
 import { RouteComponentProps, useHistory } from 'react-router-dom';
 
 {/* Helpers */ }
@@ -16,7 +16,6 @@ import ModelHeader from '../../components/Model/ModelHeader';
 
 {/* Styles */ }
 import './model.css';
-import { Preferences } from '@capacitor/preferences';
 
 interface ModelSelectPostParams {
   model: string;
