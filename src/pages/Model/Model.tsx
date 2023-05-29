@@ -6,11 +6,10 @@
 {/* Ionic / React */ }
 import React from 'react';
 import { IonContent, IonPage, IonText } from '@ionic/react';
-import { RouteComponentProps, useHistory } from 'react-router-dom';
+import { RouteComponentProps } from 'react-router-dom';
 
 {/* Helpers */ }
 import { listOfModels, speciesName } from '../../assets/data/ListOfModels';
-import { useContext } from '../../my-context';
 import ModelIframes from '../../components/Model/ModelIframes';
 import ModelHeader from '../../components/Model/ModelHeader';
 
@@ -42,7 +41,7 @@ const adjustString = (modelName: string): string => {
  * @param {string} model the name of the selected model (or of the last path param of the URL)
  * @returns {boolean} true if the model is in the list of models, false otherwise
  */
-const modelInList = (model: string): boolean => {
+const inModelList = (model: string): boolean => {
   const adjustedModelString = adjustString(model);
   return listOfModels.includes(adjustedModelString);
 }
@@ -51,17 +50,8 @@ const Model = ({ match }: RouteComponentProps<ModelSelectPostParams>) => {
 
   const model = match.params.model;
 
-  // Hooks
-  const context = useContext();
-  const history = useHistory();
-
   // State Variables
   const [loading, setModelLoading] = React.useState<boolean>(true);
-  const [showSearchModel, setShowSearchModel] = React.useState<boolean>(false);
-
-  const handleClickOnSearchIcon = () => {
-    setShowSearchModel(true);
-  };
 
   return (
     <IonPage>
@@ -76,15 +66,15 @@ const Model = ({ match }: RouteComponentProps<ModelSelectPostParams>) => {
           (
             <>
               <div className="select-model">
-                <IonText color='primary'><p>Select a model to display</p></IonText>
+                <IonText color='primary'><p className="model-message-text">Select a model to display</p></IonText>
               </div>
             </>
           ) :
-          (!modelInList(model)) ?
+          (!inModelList(model)) ?
             (
               <>
                 <div className="select-model">
-                  <IonText color='primary'><p>No matching model</p></IonText>
+                  <IonText color='primary'><p className="model-message-text">No matching model</p></IonText>
                 </div>
               </>
             ) :

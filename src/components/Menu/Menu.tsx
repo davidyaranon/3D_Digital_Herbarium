@@ -58,7 +58,7 @@ const Menu: React.FC = () => {
             return (
               <IonMenuToggle key={index} autoHide={false}>
                 <IonItem className={location.pathname.includes(appPage.url) ? 'selected' : ''} routerLink={getRouterLinkOfMenuItem(appPage)} routerDirection="none" lines="none" detail={false}>
-                  <IonIcon color={location.pathname === appPage.url ? 'selected' : 'light'} aria-hidden="true" slot="start" ios={appPage.iosIcon} md={appPage.mdIcon} />
+                  <IonIcon color={location.pathname.includes(appPage.url) ? 'selected' : 'light'} aria-hidden="true" slot="start" ios={appPage.iosIcon} md={appPage.mdIcon} />
                   <IonLabel>{appPage.title}</IonLabel>
                 </IonItem>
               </IonMenuToggle>

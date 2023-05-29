@@ -18,3 +18,8 @@
   left: 50%;
   transform: translate(-50%, -25%);
 }
+
+.model-message-text {
+  font-size: 1.25rem;
+  font-weight: 500;
+}

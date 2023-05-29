@@ -9,7 +9,7 @@
 import React from 'react';
 import {
   IonHeader, IonToolbar, IonButtons, IonMenuButton,
-  IonText,IonItem,
+  IonText, IonItem,
 } from '@ionic/react';
 import { useHistory } from 'react-router';
 
@@ -20,10 +20,10 @@ import { Preferences } from '@capacitor/preferences';
 import { listOfModels } from '../../assets/data/ListOfModels';
 import { useContext } from '../../my-context';
 
-{/* Components */}
-import MobileSearchModal from './MobileSearchModal';
-import MobileModelHeader from './MobileModelHeader';
-import DesktopModelHeader from './DesktopModelHeader';
+{/* Components */ }
+import MobileSearchModal from './Mobile/MobileSearchModal';
+import MobileModelHeader from './Mobile/MobileModelHeader';
+import DesktopModelHeader from './Desktop/DesktopModelHeader';
 
 {/* Styles */ }
 import './ModelHeader.css';
@@ -34,7 +34,8 @@ interface ModelHeaderProps {
   setModelLoading: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const ModelHeader = (props: ModelHeaderProps) => {
+const ModelHeader = React.memo((props: ModelHeaderProps) => {
+  console.log('ModelHeader');
 
   // Props
   const setModelLoading = props.setModelLoading;
@@ -57,33 +58,34 @@ const ModelHeader = (props: ModelHeaderProps) => {
   }
 
   /**
-   * @description This function is called when the user presses a key on the searchbar.
-   * 
-   * @param {React.KeyboardEvent<HTMLIonSearchbarElement>} event the event that is triggered when the user presses a key on the searchbar
-   */
-  const handleSearchKeyPress = (event: React.KeyboardEvent<HTMLIonSearchbarElement>) => {
-    if (event.key === 'Enter') {
-      const searchTerm = (event.target as HTMLIonSearchbarElement).value || '';
-      handleModelListButtonPress(searchTerm);
-    }
-  };
-
-  /**
    * @description This function is called when the user clicks on a model in the search results.
    * It should set the model to the model that the user clicked on.
    * 
    * @param {string} model the model that the user wants to view.
    */
-  const handleModelListButtonPress = async (model: string): Promise<void> => {
+  const handleModelListButtonPress = React.useCallback(async (model: string): Promise<void> => {
     setShowSearchResults(false);
-    if (model !== context.model) {
+    if (model.toLocaleLowerCase() !== context.model.toLocaleLowerCase()) {
       console.log('setting context.model to ' + model)
       setModelLoading(true);
       context.setModel(model);
       await Preferences.set({ key: 'model', value: model });
       history.push('/pages/models/' + model)
     }
-  };
+  }, [context, setModelLoading, history]);
+
+
+  /**
+   * @description This function is called when the user presses a key on the searchbar.
+   * 
+   * @param {React.KeyboardEvent<HTMLIonSearchbarElement>} event the event that is triggered when the user presses a key on the searchbar
+   */
+  const handleSearchKeyPress = React.useCallback((event: React.KeyboardEvent<HTMLIonSearchbarElement>) => {
+    if (event.key === 'Enter') {
+      const searchTerm = (event.target as HTMLIonSearchbarElement).value || '';
+      handleModelListButtonPress(searchTerm);
+    }
+  }, [handleModelListButtonPress]);
 
   /**
    * @description This function is called when the user types into the searchbar.
@@ -91,7 +93,7 @@ const ModelHeader = (props: ModelHeaderProps) => {
    * 
    * @param {any} event the event that is triggered when the user types into the searchbar
    */
-  const handleSearch = (event: any): void => {
+  const handleSearch = React.useCallback((event: any): void => {
     if (event && event.target && event.target.value) {
       setShowSearchResults(true);
       const searchValue = event.target.value.toLowerCase();
@@ -103,7 +105,7 @@ const ModelHeader = (props: ModelHeaderProps) => {
       setShowSearchResults(false);
       setFilteredModels(listOfModels);
     };
-  };
+  }, [filteredModels]);
 
   return (
     <>
@@ -148,6 +150,6 @@ const ModelHeader = (props: ModelHeaderProps) => {
 
     </>
   )
-};
+});
 
 export default ModelHeader;

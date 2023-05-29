@@ -5,6 +5,7 @@
  */
 
 {/* Ionic/React */}
+import React from "react";
 import { IonModal, IonHeader, IonToolbar, IonTitle, IonText, IonButtons, IonButton, IonIcon, IonSearchbar, IonContent, IonList, IonItem } from "@ionic/react";
 import { closeOutline } from "ionicons/icons";
 
@@ -12,8 +13,8 @@ import { closeOutline } from "ionicons/icons";
 import { Keyboard } from "@capacitor/keyboard";
 
 {/* Helpers */}
-import { listOfModels } from "../../assets/data/ListOfModels";
-import { timeout } from "../../herbarium";
+import { listOfModels } from "../../../assets/data/ListOfModels";
+import { timeout } from "../../../herbarium";
 
 {/* Styles */}
 import './MobileSearchModal.css'
@@ -29,7 +30,8 @@ interface MobileSearchModalProps {
   handleModelListButtonPress: (model: string) => void;
 }
 
-const MobileSearchModal = (props: MobileSearchModalProps) => {
+const MobileSearchModal = React.memo((props: MobileSearchModalProps) => {
+  console.log('MobileSearchModal');
 
   const setShowSearchModal = props.setShowSearchModal;
   const showSearchModal = props.showSearchModal;
@@ -108,6 +110,6 @@ const MobileSearchModal = (props: MobileSearchModalProps) => {
 
     </IonModal>
   );
-};
+});
 
 export default MobileSearchModal;

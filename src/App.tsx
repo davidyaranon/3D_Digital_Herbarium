@@ -46,7 +46,25 @@ setupIonicReact({
 
 const App: React.FC = () => {
 
+  // Hooks
   const context = useContext();
+
+  /**
+   * @description Runs on app load.
+   * Gets the model from the preferences and sets the context to it.
+   * 
+   * @todo Comment out this useffect for your selected model to NOT persist across app re-loads.
+   */
+  React.useEffect(() => {
+    const getPreferences = async () => {
+      const { value } = await Preferences.get({ key: 'model' });
+      if (value) {
+        console.log('setting context to ' + value)
+        context.setModel(value);
+      }
+    }
+    getPreferences();
+  }, []);
 
   return (
     <IonApp>
@@ -67,6 +85,9 @@ const App: React.FC = () => {
             </Route>
 
             <Route path="/pages/models/:model" exact={true} component={Model} key={context.model} />
+            <Route path="/pages/models" exact={true}>
+              <Redirect to="/pages/models/select" />
+            </Route>
 
             <Route path="/pages/collections" exact={true}>
               <Collections />
@@ -87,7 +108,7 @@ const App: React.FC = () => {
           </IonRouterOutlet>
 
         </IonSplitPane>
-        
+
       </IonReactRouter>
     </IonApp>
   );

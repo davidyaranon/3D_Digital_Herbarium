@@ -4,6 +4,7 @@
  */
 
 {/* Ionic/React */}
+import React from "react";
 import { IonSearchbar, IonButton, IonIcon } from "@ionic/react";
 import { informationCircleOutline, mapOutline } from "ionicons/icons";
 
@@ -14,8 +15,8 @@ interface DesktopModelHeaderProps {
   setShowSearchResults: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const DesktopModelHeader = (props: DesktopModelHeaderProps) => {
-
+const DesktopModelHeader = React.memo((props: DesktopModelHeaderProps) => {
+  console.log('DesktopModelHeader');
   const searchRef = props.searchRef;
   const handleSearch = props.handleSearch;
   const handleSearchKeyPress = props.handleSearchKeyPress;
@@ -46,6 +47,6 @@ const DesktopModelHeader = (props: DesktopModelHeaderProps) => {
       </div>
     </div>
   );
-}
+});
 
 export default DesktopModelHeader;

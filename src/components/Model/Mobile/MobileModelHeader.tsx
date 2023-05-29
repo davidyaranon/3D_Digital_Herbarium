@@ -4,6 +4,7 @@
  */
 
 {/* Ionic / React */ }
+import React from "react";
 import { IonTitle, IonText, IonButtons, IonButton, IonIcon } from "@ionic/react";
 import { searchOutline, informationCircleOutline, mapOutline } from "ionicons/icons";
 
@@ -11,7 +12,8 @@ interface ModelHeaderProps {
   handleClickOnSearchIcon: () => void;
 }
 
-const MobileModelHeader = (props: ModelHeaderProps) => {
+const MobileModelHeader = React.memo((props: ModelHeaderProps) => {
+  console.log('MobileModelHeader');
 
   const handleClickOnSearchIcon = props.handleClickOnSearchIcon;
 
@@ -32,6 +34,6 @@ const MobileModelHeader = (props: ModelHeaderProps) => {
     </div>
 
   );
-}
+});
 
 export default MobileModelHeader;

@@ -19,6 +19,7 @@ interface ModelIframesProps {
 }
 
 const ModelIframes = (props: ModelIframesProps) => {
+  console.log('ModelIframes');
 
   // Props
   const model = props.model;
