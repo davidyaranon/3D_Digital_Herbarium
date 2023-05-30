@@ -1,10 +1,11 @@
 /**
- * 
- *
+ * @file CollectionsInfo.tsx
+ * @fileoverview This file contains the CollectionsInfo component, which is the component that
+ * displays the information for the selected species in the collections page.
  */
 
 import { IonText } from "@ionic/react";
-import { listOfModels, sketchFabLinks } from "../../assets/data/ListOfModels";
+import { listOfModels, sketchFabLinks, speciesName } from "../../assets/data/ListOfModels";
 import { useHistory } from "react-router";
 import { Preferences } from "@capacitor/preferences";
 import { useContext } from "../../my-context";
@@ -35,12 +36,12 @@ const adjustString = (modelName: string): string => {
 /**
  * @description Checks if the model is in the list of models.
  * 
- * @param {string} model the name of the selected model (or of the last path param of the URL)
+ * @param {string} specimen the last path param of the URL
  * @returns {boolean} true if the model is in the list of models, false otherwise
  */
-const inModelList = (model: string): boolean => {
-  const adjustedModelString = adjustString(model);
-  if(listOfModels.includes(adjustedModelString) || adjustedModelString.toLocaleLowerCase() in sketchFabLinks) {
+const inModelList = (specimen: string): boolean => {
+  const adjustedModelString = adjustString(specimen);
+  if (listOfModels.includes(adjustedModelString) || adjustedModelString.toLocaleLowerCase() in sketchFabLinks) {
     return true;
   }
   return false;
@@ -60,17 +61,32 @@ const CollectionsInfo = (props: CollectionsInfoProps) => {
   const history = useHistory();
   const context = useContext();
 
-  const handleRedirectToModelFromCollections = async () : Promise<void> => {
-    await Preferences.set({ key: 'model', value: specimen });
-    context.setModel(specimen);
-    history.push("/pages/models/" + specimen)
+  /**
+   * @description Redirects to the model page for the selected model.
+   * This function checks whether the specimen is the common name or the species name and handles it accordingly.
+   */
+  const handleRedirectToModelFromCollections = async (): Promise<void> => {
+    if (specimen.toLocaleLowerCase() in sketchFabLinks) {
+      console.log(specimen.toLocaleLowerCase() + " in sketchFabLinks")
+      const key = Object.keys(speciesName).find((key) => speciesName[key] === specimen.toLocaleLowerCase());
+      console.log({ key })
+      if (!key) return;
+      await Preferences.set({ key: 'model', value: key });
+      context.setModel(key);
+      history.push("/pages/models/" + key)
+      return;
+    } else {
+      await Preferences.set({ key: 'model', value: specimen });
+      context.setModel(specimen);
+      history.push("/pages/models/" + specimen);
+    }
   };
 
   return (
     <>
       <p><IonText color='primary'>{specimen}</IonText></p>
       {inModelList(adjustString(specimen)) &&
-        <a style={{cursor : 'pointer'}} onClick={handleRedirectToModelFromCollections}><IonText color='primary'>3D Model available for {specimen}</IonText></a>
+        <a style={{ cursor: 'pointer' }} onClick={handleRedirectToModelFromCollections}><IonText color='primary'>3D Model available for {specimen}</IonText></a>
       }
     </>
   )
