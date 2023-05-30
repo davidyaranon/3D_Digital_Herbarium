@@ -26,7 +26,7 @@ import MobileModelHeader from './Mobile/MobileModelHeader';
 import DesktopModelHeader from './Desktop/DesktopModelHeader';
 
 {/* Styles */ }
-import './ModelHeader.css';
+import '../../App.css';
 
 {/* Props definition */ }
 interface ModelHeaderProps {
@@ -35,7 +35,6 @@ interface ModelHeaderProps {
 };
 
 const ModelHeader = React.memo((props: ModelHeaderProps) => {
-  console.log('ModelHeader');
 
   // Props
   const setModelLoading = props.setModelLoading;
@@ -55,7 +54,7 @@ const ModelHeader = React.memo((props: ModelHeaderProps) => {
    */
   const handleClickOnSearchIcon = (): void => {
     setShowSearchModal(true);
-  }
+  };
 
   /**
    * @description This function is called when the user clicks on a model in the search results.

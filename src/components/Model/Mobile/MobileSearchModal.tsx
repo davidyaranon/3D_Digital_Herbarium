@@ -17,7 +17,7 @@ import { listOfModels } from "../../../assets/data/ListOfModels";
 import { timeout } from "../../../herbarium";
 
 {/* Styles */}
-import './MobileSearchModal.css'
+import '../../../App.css'
 
 interface MobileSearchModalProps {
   showSearchModal: boolean;
@@ -31,7 +31,6 @@ interface MobileSearchModalProps {
 }
 
 const MobileSearchModal = React.memo((props: MobileSearchModalProps) => {
-  console.log('MobileSearchModal');
 
   const setShowSearchModal = props.setShowSearchModal;
   const showSearchModal = props.showSearchModal;

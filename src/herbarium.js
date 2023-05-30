@@ -187,8 +187,8 @@ export const getSpeciesImages = async (usageKey) => {
   try {
     // conxsole.log(usageKey)
     const res = await fetch("https://api.gbif.org/v1/occurrence/search?speciesKey=" + usageKey + "&mediaType=StillImage");
-		const data = await res.json();
-		let images = [];
+    const data = await res.json();
+    let images = [];
     images.push(data.results[0].media[0].identifier);
     images.push(data.results[1].media[0].identifier);
     images.push(data.results[2].media[0].identifier);
@@ -254,4 +254,34 @@ export const getWikiInfo = async (species) => {
  */
 export function timeout(delay) {
   return new Promise((res) => setTimeout(res, delay));
+}
+
+
+/**
+ * @description This function is used to get the species autocomplete information from the iNaturalist API
+ * when searching through the Collections page.
+ * 
+ * @param {string} query The query string to search for.
+ * @returns {Promise<string[]>} The species autocomplete information.
+ */
+export const collectionsSearch = async (query) => {
+  try {
+    const response = await fetch("https://api.inaturalist.org/v1/taxa/autocomplete?rank=species&q=" + query);
+    const data = await response.json();
+
+    let arr = [];
+    for (let i = 0; i < data.results.length; i++) {
+      if (arr.length > 15) {
+        break;
+      }
+      if (data.results[i] && "iconic_taxon_id" in data.results[i] && data.results[i].iconic_taxon_id == 47126 && "matched_term" in data.results[i]) {
+        arr.push(data.results[i].matched_term);
+      }
+    }
+    return arr;
+
+  } catch (error) {
+    console.log('Error:', error);
+    throw error; // Rethrow the error to propagate it to the caller
+  }
 }

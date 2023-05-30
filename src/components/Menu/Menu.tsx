@@ -5,20 +5,21 @@
  */
 
 { /* Ionic / React */ }
+import React from 'react';
 import {
   IonContent, IonIcon, IonItem,
   IonLabel, IonList, IonListHeader,
-  IonMenu, IonMenuToggle, IonNote, IonText,
+  IonMenu, IonMenuToggle, IonNote, IonPopover, IonText, IonToggle,
 } from '@ionic/react';
 import { useLocation } from 'react-router-dom';
-import { bookmarkOutline } from 'ionicons/icons';
 
 { /* Helpers */ }
 import { AppPage, appPages, labels } from './MenuFunctions';
 
 { /* Styles */ }
-import './Menu.css';
+import '../../App.css';
 import { useContext } from '../../my-context';
+import { Preferences } from '@capacitor/preferences';
 
 const Menu: React.FC = () => {
 
@@ -26,15 +27,29 @@ const Menu: React.FC = () => {
   const location = useLocation();
   const context = useContext();
 
+  // State Variables
+  const [isLocalSearchChecked, setIsLocalSearchChecked] = React.useState<boolean>(false);
+  const [showLocalSearchPopover, setShowLocalSearchPopover] = React.useState<boolean>(true);
+
+  /**
+   * @description This function is called when the user clicks on the toggle for enabling local search.
+   */
+  const handleEnableLocalSearch = async (event: CustomEvent): Promise<void> => {
+    const isChecked = event.detail.checked;
+    setIsLocalSearchChecked(isChecked);
+    context.setLocalSearchChecked(isChecked);
+    await Preferences.set({ key: 'localSearchChecked', value: isChecked });
+  };
+
   /**
    * @description This function returns the router link of the app page.
    * 
    * @param {AppPage} appPage the app page to get the router link of
    * @returns {string} the router link of the app page
    */
-  const getRouterLinkOfMenuItem = (appPage : AppPage) : string => {
-    if(appPage.title === '3D Models') {
-      if(context.model.length <= 0 || !context.model) {
+  const getRouterLinkOfMenuItem = (appPage: AppPage): string => {
+    if (appPage.title === '3D Models') {
+      if (context.model.length <= 0 || !context.model) {
         return appPage.url + 'select';
       }
       return appPage.url + context.model;
@@ -42,6 +57,31 @@ const Menu: React.FC = () => {
       return appPage.url;
     }
   }
+
+  /**
+   * @description This function checks if the local search toggle is checked or not.
+   * If it is checked, it sets the state variable to true.
+   * If it is not checked, it sets the state variable to false.
+   * It also sets the context variable to the state variable.
+   */
+  const handleCheckLocalSearch = React.useCallback(async () => {
+    const isChecked = await Preferences.get({ key: 'localSearchChecked' });
+    if (isChecked.value === 'true') {
+      setIsLocalSearchChecked(true);
+      context.setLocalSearchChecked(true);
+    } else {
+      setIsLocalSearchChecked(false);
+      context.setLocalSearchChecked(false);
+    }
+  }, []);
+
+  /**
+   * @description This function is called when the page is loaded.
+   * It checks if the local search toggle is checked or not.
+   */
+  React.useEffect(() => {
+    handleCheckLocalSearch();
+  }, [])
 
   return (
     <IonMenu contentId="main" type="overlay" swipeGesture>
@@ -67,16 +107,21 @@ const Menu: React.FC = () => {
 
         </IonList>
 
-        {/* Labels */}
         <IonList id="labels-list">
           <IonListHeader>Parameters</IonListHeader>
-          {labels.map((label: string, index: number) => (
-            <IonItem lines="none" key={index}>
-              <IonIcon aria-hidden="true" slot="start" icon={bookmarkOutline} />
-              <IonLabel>{label}</IonLabel>
-            </IonItem>
-          ))}
+          <IonItem lines="none" id={isLocalSearchChecked ? '' : 'hover-local-search-trigger'}>
+            <IonToggle checked={isLocalSearchChecked} color='selected' labelPlacement="start" onIonChange={handleEnableLocalSearch}>Local Search</IonToggle>
+          </IonItem>
         </IonList>
+
+        {/* Popover for local search toggle */}
+        {showLocalSearchPopover &&
+          <IonPopover onIonPopoverDidDismiss={() => setShowLocalSearchPopover(false)} showBackdrop={false} trigger="hover-local-search-trigger" triggerAction="hover">
+            <IonContent class="ion-padding">
+              <IonText color='primary'>Enable this to limit search queries to local specimen only! To view global data, disable this toggle.</IonText>
+            </IonContent>
+          </IonPopover>
+        }
 
       </IonContent>
     </IonMenu>

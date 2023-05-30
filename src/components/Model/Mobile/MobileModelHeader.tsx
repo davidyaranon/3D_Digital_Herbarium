@@ -7,13 +7,13 @@
 import React from "react";
 import { IonTitle, IonText, IonButtons, IonButton, IonIcon } from "@ionic/react";
 import { searchOutline, informationCircleOutline, mapOutline } from "ionicons/icons";
+import '../../../App.css';
 
 interface ModelHeaderProps {
   handleClickOnSearchIcon: () => void;
 }
 
 const MobileModelHeader = React.memo((props: ModelHeaderProps) => {
-  console.log('MobileModelHeader');
 
   const handleClickOnSearchIcon = props.handleClickOnSearchIcon;
 
@@ -21,13 +21,13 @@ const MobileModelHeader = React.memo((props: ModelHeaderProps) => {
     <div className="search-icon">
       <IonTitle><IonText color='primary'>3D Models</IonText></IonTitle>
       <IonButtons slot='end'>
-        <IonButton onClick={handleClickOnSearchIcon} fill='clear' size='default'>
+        <IonButton onClick={handleClickOnSearchIcon} fill='clear' size='large'>
           <IonIcon icon={searchOutline}></IonIcon>
         </IonButton>
-        <IonButton fill='clear' size='default'>
+        <IonButton fill='clear' size='large'>
           <IonIcon icon={informationCircleOutline} />
         </IonButton>
-        <IonButton fill='clear' size='default'>
+        <IonButton fill='clear' size='large'>
           <IonIcon icon={mapOutline}></IonIcon>
         </IonButton>
       </IonButtons>

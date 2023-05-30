@@ -30,17 +30,17 @@ export const appPages: AppPage[] = [
     mdIcon: cubeSharp
   },
   {
-    title: 'Local Collections',
+    title: 'Collections',
     url: '/pages/collections',
     iosIcon: imageOutline,
     mdIcon: imageSharp,
   },
-  {
-    title: 'Global Collections',
-    url: '/pages/globalCollections',
-    iosIcon: earthOutline,
-    mdIcon: earthSharp,
-  },
+  // {
+  //   title: 'Global Collections',
+  //   url: '/pages/globalCollections',
+  //   iosIcon: earthOutline,
+  //   mdIcon: earthSharp,
+  // },
   {
     title: 'iNaturalist',
     url: '/pages/inat',
@@ -55,4 +55,4 @@ export const appPages: AppPage[] = [
   },
 ];
 
-export const labels = ['TEST1', 'TEST2', 'TEST3'];
+export const labels = ['Local Search'];

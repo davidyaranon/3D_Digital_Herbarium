@@ -9,7 +9,7 @@ import { SketchFabLinksMap, sketchFabLinks } from '../../assets/data/ListOfModel
 import { IonSpinner } from '@ionic/react';
 
 {/* Styles */ }
-import './ModelIframes.css';
+import '../../App.css';
 
 {/* Props definition */ }
 interface ModelIframesProps {
@@ -19,7 +19,6 @@ interface ModelIframesProps {
 }
 
 const ModelIframes = (props: ModelIframesProps) => {
-  console.log('ModelIframes');
 
   // Props
   const model = props.model;

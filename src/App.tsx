@@ -29,12 +29,11 @@ import '@ionic/react/css/display.css';
 import './theme/variables.css';
 
 /* Pages */
-import Home from './pages/Home/Home';
-import Collections from './pages/Collections/Collections';
-import Model from './pages/Model/Model';
-import GlobalCollections from './pages/GlobalCollections/GlobalCollections';
-import Inat from './pages/Inat/Inat';
-import PlantId from './pages/PlantId/PlantId';
+import Home from './pages/Home';
+import Collections from './pages/Collections';
+import Model from './pages/Model';
+import Inat from './pages/Inat';
+import PlantId from './pages/PlantId';
 
 /* Other */
 import { useContext } from './my-context';
@@ -91,10 +90,6 @@ const App: React.FC = () => {
 
             <Route path="/pages/collections" exact={true}>
               <Collections />
-            </Route>
-
-            <Route path="/pages/globalCollections" exact={true}>
-              <GlobalCollections />
             </Route>
 
             <Route path="/pages/inat" exact={true}>

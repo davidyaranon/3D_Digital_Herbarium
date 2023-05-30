@@ -9,12 +9,12 @@ import { IonContent, IonPage, IonText } from '@ionic/react';
 import { RouteComponentProps } from 'react-router-dom';
 
 {/* Helpers */ }
-import { listOfModels, speciesName } from '../../assets/data/ListOfModels';
-import ModelIframes from '../../components/Model/ModelIframes';
-import ModelHeader from '../../components/Model/ModelHeader';
+import { listOfModels, speciesName } from '../assets/data/ListOfModels';
+import ModelIframes from '../components/Model/ModelIframes';
+import ModelHeader from '../components/Model/ModelHeader';
 
 {/* Styles */ }
-import './model.css';
+import '../App.css';
 
 interface ModelSelectPostParams {
   model: string;

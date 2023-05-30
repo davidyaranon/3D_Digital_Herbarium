@@ -9,17 +9,19 @@
 import React from "react";
 import {
   IonPage, IonContent, IonCardTitle, IonSpinner,
-  IonCardContent, IonCardHeader, IonItem, IonLabel, IonList, IonButtons, IonHeader, IonMenuButton, IonTitle, IonToolbar, IonText
+  IonCardHeader, IonText
 } from "@ionic/react"
-import { searchOutline } from "ionicons/icons";
 
 /* Helpers */
-import { getSpeciesClassification, getSpeciesImages, getSpeciesProfile, getWikiInfo } from "../../herbarium";
-import { speciesName } from "../../assets/data/ListOfModels";
-import { useContext } from "../../my-context";
+import { getSpeciesClassification, getSpeciesImages, getSpeciesProfile, getWikiInfo } from "../herbarium";
+import { speciesName } from "../assets/data/ListOfModels";
+import { useContext } from "../my-context";
 import { useToast } from "@agney/ir-toast";
-import './Collections.css';
-import CollectionsHeader from "../../components/Collections/CollectionsHeader";
+
+import CollectionsHeader from "../components/Collections/CollectionsHeader";
+
+/* Styles */
+import '../App.css';
 
 const Collections: React.FC = () => {
 
@@ -76,14 +78,14 @@ const Collections: React.FC = () => {
       toast.present();
     }
     setInfoLoading(false);
-  }, [speciesName, context]);
+  }, [context.model]);
 
   /**
    * @description: This function is called when the page is loaded.
    */
   React.useEffect(() => {
     handlePageLoad();
-  }, [speciesName, context]);
+  }, [context.model]);
 
   return (
     <IonPage>

@@ -13,6 +13,8 @@ export type Props = {
 export type ContextType = {
   model : string;
   setModel : React.Dispatch<React.SetStateAction<string>>;
+  localSearchChecked : boolean;
+  setLocalSearchChecked : React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const Context = React.createContext<ContextType | null>(null);
@@ -20,10 +22,11 @@ export const ContextProvider = ({ children } : Props) => {
 
   /* Name of most recently loaded model */
   const [model, setModel] = React.useState<string>("");
+  const [localSearchChecked, setLocalSearchChecked] = React.useState<boolean>(false);
 
   const memoizedContextValue = React.useMemo(() => ({
-    model, setModel
-  }), [model, setModel]);
+    model, setModel, localSearchChecked, setLocalSearchChecked
+  }), [model, setModel, localSearchChecked, setLocalSearchChecked]);
 
   return(
     <Context.Provider value={memoizedContextValue}> { children } </Context.Provider>
