@@ -1,7 +1,7 @@
 /**
- * @file MobileSearchModal.tsx
- * @fileoverview This file exports the MobileSearchModal component.
- * This component is the search modal that is displayed on mobile devices after clicking the search icon.
+ * @file MobileModelSearchModal.tsx
+ * @fileoverview This file exports the MobileModelSearchModal component.
+ * This component is the search modal that is displayed on mobile devices after clicking the search icon on the 3D Models page.
  */
 
 {/* Ionic/React */}
@@ -19,7 +19,7 @@ import { timeout } from "../../../herbarium";
 {/* Styles */}
 import '../../../App.css'
 
-interface MobileSearchModalProps {
+interface MobileModelSearchModalProps {
   showSearchModal: boolean;
   setShowSearchModal: React.Dispatch<React.SetStateAction<boolean>>;
   filteredModels: string[];
@@ -30,7 +30,7 @@ interface MobileSearchModalProps {
   handleModelListButtonPress: (model: string) => void;
 }
 
-const MobileSearchModal = React.memo((props: MobileSearchModalProps) => {
+const MobileModelSearchModal = React.memo((props: MobileModelSearchModalProps) => {
 
   const setShowSearchModal = props.setShowSearchModal;
   const showSearchModal = props.showSearchModal;
@@ -98,7 +98,7 @@ const MobileSearchModal = React.memo((props: MobileSearchModalProps) => {
       { /* List of models that are filtered by the searchbar */}
       <IonContent style={{ "--background": "white" }}>
         <IonList>
-          {filteredModels.map((model, index) => (
+          {filteredModels.map((model : string, index : number) => (
             <IonItem type='submit' key={index} onClick={() => handleModelListButtonPress(model)}
               button detail={false} lines='full'
               color='light'><IonText color='primary'>{model}</IonText>
@@ -111,4 +111,4 @@ const MobileSearchModal = React.memo((props: MobileSearchModalProps) => {
   );
 });
 
-export default MobileSearchModal;
+export default MobileModelSearchModal;

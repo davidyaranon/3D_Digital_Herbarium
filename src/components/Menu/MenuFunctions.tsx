@@ -31,7 +31,7 @@ export const appPages: AppPage[] = [
   },
   {
     title: 'Collections',
-    url: '/pages/collections',
+    url: '/pages/collections/',
     iosIcon: imageOutline,
     mdIcon: imageSharp,
   },
@@ -43,7 +43,7 @@ export const appPages: AppPage[] = [
   // },
   {
     title: 'iNaturalist',
-    url: '/pages/inat',
+    url: '/pages/inat/',
     iosIcon: leafOutline,
     mdIcon: leafSharp
   },

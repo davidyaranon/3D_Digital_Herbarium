@@ -11,19 +11,27 @@ import {
   IonPage, IonContent, IonCardTitle, IonSpinner,
   IonCardHeader, IonText
 } from "@ionic/react"
+import { RouteComponentProps } from 'react-router-dom';
 
 /* Helpers */
-import { getSpeciesClassification, getSpeciesImages, getSpeciesProfile, getWikiInfo } from "../herbarium";
-import { speciesName } from "../assets/data/ListOfModels";
 import { useContext } from "../my-context";
 import { useToast } from "@agney/ir-toast";
-
+import { speciesName } from "../assets/data/ListOfModels";
+import { getSpeciesClassification, getSpeciesImages, getSpeciesProfile, getWikiInfo } from "../herbarium";
 import CollectionsHeader from "../components/Collections/CollectionsHeader";
+import CollectionsInfo from "../components/Collections/CollectionsInfo";
 
 /* Styles */
 import '../App.css';
 
-const Collections: React.FC = () => {
+interface CollectionsPostParams {
+  specimen: string;
+}
+
+const Collections = ({ match }: RouteComponentProps<CollectionsPostParams>) => {
+
+  const specimen = match.params.specimen;
+  console.log(specimen);
 
   /* Hooks */
   const Toast = useToast();
@@ -32,7 +40,7 @@ const Collections: React.FC = () => {
   /* State Variables */
 
   // Whether loading spinner for info modal is active or not, default is true
-  const [infoLoading, setInfoLoading] = React.useState<boolean>(true);
+  const [specimenLoading, setSpecimenLoading] = React.useState<boolean>(true);
 
   // The profile information for the species, default is empty object
   const [classificationInfo, setClassificationInfo] = React.useState<any>({});
@@ -55,58 +63,48 @@ const Collections: React.FC = () => {
    * If there is an error, it displays a toast message.
    */
   const handlePageLoad = React.useCallback(async () => {
-    if (!context.model) return;
-    setInfoLoading(true);
-    if (context.model in speciesName) {
-      const species: string = speciesName[context.model]
-      console.log(species);
-      const classificationRes = await getSpeciesClassification(species);
-      setClassificationInfo(classificationRes || {});
-      if ("UsageKey" in classificationRes && classificationRes.UsageKey) {
-        const profileRes = await getSpeciesProfile(classificationRes.UsageKey.toString());
-        setProfileInfo(profileRes || {});
-        const imageRes = await getSpeciesImages(classificationRes.UsageKey.toString());
-        setImageInfo(imageRes || []);
-      } else {
-        const toast = Toast.create({ message: "Unable to get profile for " + species, duration: 2500, color: 'danger' });
-        toast.present();
-      }
-      const wikiInfo = await getWikiInfo(species);
-      setWikiInfo(wikiInfo || {});
-    } else {
-      const toast = Toast.create({ message: "Unable to get information for this species", duration: 2500, color: 'danger' });
-      toast.present();
+    if (!context.specimen) return;
+    setSpecimenLoading(true);
+    const classificationRes = await getSpeciesClassification(specimen);
+    setClassificationInfo(classificationRes || {});
+    if ("UsageKey" in classificationRes && classificationRes.UsageKey) {
+      const profileRes = await getSpeciesProfile(classificationRes.UsageKey.toString());
+      setProfileInfo(profileRes || {});
+      const imageRes = await getSpeciesImages(classificationRes.UsageKey.toString());
+      setImageInfo(imageRes || []);
     }
-    setInfoLoading(false);
-  }, [context.model]);
+    const wikiInfo = await getWikiInfo(specimen);
+    setWikiInfo(wikiInfo || {});
+    setSpecimenLoading(false);
+  }, [context.specimen]);
 
   /**
    * @description: This function is called when the page is loaded.
    */
   React.useEffect(() => {
     handlePageLoad();
-  }, [context.model]);
+  }, [context.specimen]);
 
   return (
     <IonPage>
 
       {/* Collections Header */}
-      <CollectionsHeader />
+      <CollectionsHeader specimenLoading={specimenLoading} setSpecimenLoading={setSpecimenLoading} />
 
       {/* Collections Main Content */}
-      <IonContent style={{"--background" : "#FFFFFF"}}>
+      <IonContent style={{ "--background": "#FFFFFF" }}>
 
-        <IonCardHeader>
-          <IonCardTitle style={{ color: "black" }}>Collections</IonCardTitle>
-        </IonCardHeader>
-
-        {infoLoading ?
-          <IonSpinner class='full-center'/>
-          :
+        {specimen === 'select' ?
           <>
-            <p><IonText color='dark'>{context.model}</IonText></p>
-
+            <div className="select-collections">
+              <IonText color='primary'><p className="collections-message-text">Search for a specimen to view its information</p></IonText>
+            </div>
           </>
+          :
+          <CollectionsInfo
+            classificationInfo={classificationInfo} profileInfo={profileInfo}
+            imageInfo={imageInfo} wikiInfo={wikiInfo} specimen={specimen}
+          />
         }
 
 

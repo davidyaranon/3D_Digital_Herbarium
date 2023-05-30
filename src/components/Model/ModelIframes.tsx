@@ -18,14 +18,12 @@ interface ModelIframesProps {
   setModelLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const ModelIframes = (props: ModelIframesProps) => {
+const ModelIframes = React.memo((props: ModelIframesProps) => {
 
   // Props
   const model = props.model;
   const loading = props.loading;
   const setModelLoading = props.setModelLoading;
-
-  console.log(model);
 
   /**
    * @description This function is called when the iframe loads.
@@ -51,6 +49,6 @@ const ModelIframes = (props: ModelIframesProps) => {
       
     </>
   );
-};
+});
 
 export default React.memo(ModelIframes);

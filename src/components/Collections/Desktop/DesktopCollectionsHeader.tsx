@@ -1,6 +1,6 @@
 /**
- * @file DesktopModelHeader.tsx
- * @fileoverview This file exports the DesktopModelHeader component which is used to display the header of the 3D model page on desktop.
+ * @file DesktopCollectionsHeader.tsx
+ * @fileoverview This file exports the DesktopCollectionsHeader component which is used to display the header of the Collections page on desktop.
  */
 
 {/* Ionic/React */ }
@@ -9,14 +9,14 @@ import { IonSearchbar, IonButton, IonIcon, IonButtons } from "@ionic/react";
 import { desktopOutline, informationCircleOutline, mapOutline } from "ionicons/icons";
 import '../../../App.css';
 
-interface ModelDesktopHeaderProps {
+interface DesktopCollectionsHeaderProps {
   searchRef: React.RefObject<HTMLIonSearchbarElement>;
   handleSearch: (event: CustomEvent) => void;
   handleSearchKeyPress: (event: React.KeyboardEvent<HTMLIonSearchbarElement>) => void;
   setShowSearchResults: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const DesktopModelHeader = React.memo((props: ModelDesktopHeaderProps) => {
+const DesktopCollectionsHeader = React.memo((props: DesktopCollectionsHeaderProps) => {
 
   const searchRef = props.searchRef;
   const handleSearch = props.handleSearch;
@@ -35,7 +35,7 @@ const DesktopModelHeader = React.memo((props: ModelDesktopHeaderProps) => {
   return (
     <div className="search-bar-container" >
       <IonSearchbar animated color='light' ref={searchRef} onKeyPress={handleSearchKeyPress}
-        onIonInput={handleSearch} onIonFocus={handleClickOnSearchbar} placeholder='Search 3D Models...'
+        onIonInput={handleSearch} onIonFocus={handleClickOnSearchbar} placeholder='Search Flora...'
         enterkeyhint='search' style={{ paddingTop : "10px", width : "50%" }}
       />
       <IonButtons slot='end' className='desktop-header-buttons'>
@@ -53,4 +53,4 @@ const DesktopModelHeader = React.memo((props: ModelDesktopHeaderProps) => {
   );
 });
 
-export default DesktopModelHeader;
+export default DesktopCollectionsHeader;

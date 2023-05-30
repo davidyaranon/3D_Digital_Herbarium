@@ -9,7 +9,7 @@
 
 /* Hide the search bar when the screen width is less than 768px */
 @media screen and (max-width: 991px) {
-  .search-bar {
+  .search-bar-container {
     display: none;
   }
 
@@ -27,7 +27,7 @@
 
 /* Display the search bar when the screen width is greater than or equal to 768px */
 @media screen and (min-width: 992px) {
-  .search-bar {
+  .search-bar-container {
     display: flex;
     justify-content: left;
     align-items: center;
@@ -40,7 +40,7 @@
 
   .item-list {
     position: relative;
-    width: 49.9%;
+    width: 50%;
     align-items: center;
     align-self: left;
     padding: 15px;
@@ -52,9 +52,9 @@
 
   .overlay {
     position: absolute;
-    top: 10%;
+    top: 67.5px;
     left: 0;
-    width: 49.9%;
+    width: 50%;
     z-index: 1;
     background-color: rgba(0, 0, 0, 0.0);
     border-radius: 10px;
@@ -92,6 +92,13 @@
   }
 }
 
+.desktop-header-buttons {
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  width: 50%;
+}
+
 .select-model {
   position: fixed;
   top: 50%;
@@ -112,6 +119,18 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -25%);
+}
+
+.select-collections {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -25%);
+}
+
+.collections-message-text {
+  font-size: 1.25rem;
+  font-weight: 500;
 }
 
 /****** MENU COMPONENT *****/

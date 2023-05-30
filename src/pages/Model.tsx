@@ -47,7 +47,6 @@ const inModelList = (model: string): boolean => {
 }
 
 const Model = ({ match }: RouteComponentProps<ModelSelectPostParams>) => {
-
   const model = match.params.model;
 
   // State Variables

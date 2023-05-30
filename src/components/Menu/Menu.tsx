@@ -53,7 +53,14 @@ const Menu: React.FC = () => {
         return appPage.url + 'select';
       }
       return appPage.url + context.model;
-    } else {
+    }
+    else if (appPage.title === "Collections") {
+      if (context.specimen.length <= 0 || !context.specimen) {
+        return appPage.url + 'select';
+      }
+      return appPage.url + context.specimen;
+    }
+    else {
       return appPage.url;
     }
   }

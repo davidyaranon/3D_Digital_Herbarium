@@ -6,21 +6,53 @@
 
 {/* Ionic / React */ }
 import React from 'react';
-import { IonHeader, IonToolbar, IonButtons, IonMenuButton, IonSearchbar, IonIcon, IonButton, IonItem, IonText, IonSkeletonText } from '@ionic/react';
-import { mapOutline, notificationsCircleOutline, searchOutline } from 'ionicons/icons';
+import { IonHeader, IonToolbar, IonButtons, IonMenuButton, IonItem, IonText, IonSkeletonText } from '@ionic/react';
+
+{/* Capacitor */ }
+import { Preferences } from '@capacitor/preferences';
+
+{/* Helpers */ }
+import { useContext } from '../../my-context';
+import { collectionsSearch, timeout } from '../../herbarium';
+import MobileCollectionsHeader from './Mobile/MobileCollectionsHeader';
+import MobileCollectionsSearchModal from './Mobile/MobileCollectionsSearchModal';
+import DesktopCollectionsHeader from './Desktop/DesktopCollectionsHeader';
 
 {/* Styles */ }
 import '../../App.css';
-import { collectionsSearch, timeout } from '../../herbarium';
+import { useHistory } from 'react-router';
 
 const loadingSearchItems = ['', '', '', '', ''];
 
-const CollectionsHeader = () => {
+{/* Props definition */ }
+interface CollectionsHeaderProps {
+  specimenLoading: boolean;
+  setSpecimenLoading: React.Dispatch<React.SetStateAction<boolean>>;
+};
 
+const CollectionsHeader = React.memo((props: CollectionsHeaderProps) => {
+
+  // Props
+  const specimenLoading = props.specimenLoading;
+  const setSpecimenLoading = props.setSpecimenLoading;
+
+  // Hooks
+  const context = useContext();
+  const history = useHistory();
+
+  // State Variables
   const searchRef = React.useRef<HTMLIonSearchbarElement>(null);
   const [showSearchResults, setShowSearchResults] = React.useState<boolean>(false);
   const [showSearchResultsLoading, setShowSearchResultsLoading] = React.useState<boolean>(false);
+  const [showSearchModal, setShowSearchModal] = React.useState<boolean>(false);
   const [filteredSpecimen, setFilteredSpecimen] = React.useState<string[]>([]);
+
+  /**
+   * @description This function is called when the user clicks on the search icon.
+   */
+  const handleClickOnSearchIcon = (): void => {
+    setShowSearchModal(true);
+  };
 
   /**
   * @description This function is called when the user types into the searchbar.
@@ -44,32 +76,52 @@ const CollectionsHeader = () => {
     }
   };
 
+  /**
+   * @description This function is called when the user clicks on a specimen in the search results.
+   * It should set the speicmen to the specimen that the user clicked on.
+   * 
+   * @param {string} specimen the specimen that the user wants to view.
+   */
+  const handleSpecimenListButtonPress = React.useCallback(async (specimen: string): Promise<void> => {
+    setShowSearchResults(false);
+    if (specimen.toLocaleLowerCase() !== context.specimen.toLocaleLowerCase()) {
+      console.log('setting context.specimen to ' + specimen)
+      setSpecimenLoading(true);
+      context.setSpecimen(specimen);
+      await Preferences.set({ key: 'specimen', value: specimen });
+      history.push('/pages/collections/' + specimen)
+    }
+  }, [context.specimen, context.setSpecimen, setSpecimenLoading, history]);
+
+
+  /**
+   * @description This function is called when the user presses a key on the searchbar.
+   * 
+   * @param {React.KeyboardEvent<HTMLIonSearchbarElement>} event the event that is triggered when the user presses a key on the searchbar
+   */
+  const handleSearchKeyPress = React.useCallback((event: React.KeyboardEvent<HTMLIonSearchbarElement>) => {
+    if (event.key === 'Enter') {
+      const searchTerm = (event.target as HTMLIonSearchbarElement).value || '';
+      handleSpecimenListButtonPress(searchTerm);
+    }
+  }, [handleSpecimenListButtonPress]);
+
   return (
     <>
       <IonHeader className='ion-no-border' style={{ padding: "5px" }} translucent>
         <IonToolbar style={{ display: 'flex', alignItems: 'center' }}>
 
+          {/* Hamburger button that appears when the screen width is smaller than 768px */}
           <IonButtons slot="start">
-            <IonMenuButton style={{ marginTop: "40%" }}></IonMenuButton>
+            <IonMenuButton style={{ marginTop: "15%" }}></IonMenuButton>
           </IonButtons>
 
           {/* Only display the search bar when the screen width is greater than or equal to 768px */}
-          <div className="search-bar" >
-            <IonSearchbar color='light' animated debounce={250} onIonInput={handleSearch} ref={searchRef} placeholder='Search Flora...' enterkeyhint='search' style={{ width: "50%", padding: '10px' }}></IonSearchbar>
-          </div>
+          <DesktopCollectionsHeader searchRef={searchRef} handleSearch={handleSearch} handleSearchKeyPress={handleSearchKeyPress} setShowSearchResults={setShowSearchResults} />
 
-          {/* Only display the search icon when the screen width is less than 768px */}
-          <div className="search-icon">
-            <IonButton fill='clear' size='default'>
-              <IonIcon icon={searchOutline}></IonIcon>
-            </IonButton>
-            <IonButton fill='clear' size='default'>
-              <IonIcon icon={notificationsCircleOutline}></IonIcon>
-            </IonButton>
-            <IonButton fill='clear' size='default'>
-              <IonIcon icon={mapOutline}></IonIcon>
-            </IonButton>
-          </div>
+          {/* Hide search bar and only display the icons when the screen width is less than 768px */}
+          <MobileCollectionsHeader handleClickOnSearchIcon={handleClickOnSearchIcon} />
+
         </IonToolbar>
       </IonHeader>
 
@@ -87,7 +139,7 @@ const CollectionsHeader = () => {
         }
         {showSearchResults && !showSearchResultsLoading && filteredSpecimen.slice(0, 4).map((specimen: string, index: number) => {
           return (
-            <IonItem type='submit' key={index} onClick={() => { }}
+            <IonItem type='submit' key={index} onClick={() => handleSpecimenListButtonPress(specimen)}
               button detail={false} lines='full'
               color='light'>
               <IonText color='primary'>{specimen}</IonText>
@@ -96,8 +148,18 @@ const CollectionsHeader = () => {
         })}
       </div>
 
+      { /* Slide up modal that displays the search results when the user clicks on the search icon */}
+      <MobileCollectionsSearchModal
+        showSearchModal={showSearchModal} setShowSearchModal={setShowSearchModal}
+        filteredSpecimen={filteredSpecimen} setFilteredSpecimen={setFilteredSpecimen}
+        handleSpecimenListButtonPress={handleSpecimenListButtonPress}
+        handleSearchKeyPress={handleSearchKeyPress}
+        handleSearch={handleSearch}
+        searchRef={searchRef}
+      />
+
     </>
   )
-};
+});
 
 export default CollectionsHeader;

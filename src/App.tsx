@@ -50,16 +50,21 @@ const App: React.FC = () => {
 
   /**
    * @description Runs on app load.
-   * Gets the model from the preferences and sets the context to it.
+   * Gets the info from the preferences and sets the context to it.
    * 
    * @todo Comment out this useffect for your selected model to NOT persist across app re-loads.
    */
   React.useEffect(() => {
     const getPreferences = async () => {
-      const { value } = await Preferences.get({ key: 'model' });
-      if (value) {
-        console.log('setting context to ' + value)
-        context.setModel(value);
+      const modelPreferences = await Preferences.get({ key: 'model' });
+      const specimenPreferences = await Preferences.get({ key: 'specimen' });
+      if (modelPreferences.value) {
+        console.log('setting model context to ' + modelPreferences.value)
+        context.setModel(modelPreferences.value);
+      }
+      if(specimenPreferences.value) {
+        console.log('setting specimen context to ' + specimenPreferences.value)
+        context.setSpecimen(specimenPreferences.value);
       }
     }
     getPreferences();
@@ -88,8 +93,9 @@ const App: React.FC = () => {
               <Redirect to="/pages/models/select" />
             </Route>
 
+            <Route path="/pages/collections/:specimen" exact={true} component={Collections} key={context.specimen}/>
             <Route path="/pages/collections" exact={true}>
-              <Collections />
+              <Redirect to="/pages/collections/select" />
             </Route>
 
             <Route path="/pages/inat" exact={true}>

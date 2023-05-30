@@ -1,6 +1,6 @@
 /**
- * @file MobileModelHeader.tsx
- * @fileoverview This file exports the MobileModelHeader component which is used to display the header of the 3D model page on mobile.
+ * @file MobileCollectionsHeader.tsx
+ * @fileoverview This file exports the MobileCollectionsHeader component which is used to display the header of the Collections page on mobile.
  */
 
 {/* Ionic / React */ }
@@ -9,17 +9,17 @@ import { IonTitle, IonText, IonButtons, IonButton, IonIcon } from "@ionic/react"
 import { searchOutline, informationCircleOutline, mapOutline } from "ionicons/icons";
 import '../../../App.css';
 
-interface ModelDesktopHeaderProps {
+interface CollectionsDesktopHeaderProps {
   handleClickOnSearchIcon: () => void;
 }
 
-const MobileModelHeader = React.memo((props: ModelDesktopHeaderProps) => {
+const MobileCollectionsHeader = React.memo((props: CollectionsDesktopHeaderProps) => {
 
   const handleClickOnSearchIcon = props.handleClickOnSearchIcon;
 
   return (
     <div className="search-icon">
-      <IonTitle><IonText color='primary'>3D Models</IonText></IonTitle>
+      <IonTitle><IonText color='primary'>Collections</IonText></IonTitle>
       <IonButtons slot='end'>
         <IonButton onClick={handleClickOnSearchIcon} fill='clear' size='large'>
           <IonIcon icon={searchOutline}></IonIcon>
@@ -36,4 +36,4 @@ const MobileModelHeader = React.memo((props: ModelDesktopHeaderProps) => {
   );
 });
 
-export default MobileModelHeader;
+export default MobileCollectionsHeader;

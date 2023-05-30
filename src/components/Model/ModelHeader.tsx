@@ -21,7 +21,7 @@ import { listOfModels } from '../../assets/data/ListOfModels';
 import { useContext } from '../../my-context';
 
 {/* Components */ }
-import MobileSearchModal from './Mobile/MobileSearchModal';
+import MobileModelSearchModal from './Mobile/MobileModelSearchModal';
 import MobileModelHeader from './Mobile/MobileModelHeader';
 import DesktopModelHeader from './Desktop/DesktopModelHeader';
 
@@ -71,7 +71,7 @@ const ModelHeader = React.memo((props: ModelHeaderProps) => {
       await Preferences.set({ key: 'model', value: model });
       history.push('/pages/models/' + model)
     }
-  }, [context, setModelLoading, history]);
+  }, [context.model, context.setModel, setModelLoading, history]);
 
 
   /**
@@ -138,7 +138,7 @@ const ModelHeader = React.memo((props: ModelHeaderProps) => {
       </div>
 
       { /* Slide up modal that displays the search results when the user clicks on the search icon */}
-      <MobileSearchModal
+      <MobileModelSearchModal
         showSearchModal={showSearchModal} setShowSearchModal={setShowSearchModal}
         filteredModels={filteredModels} setFilteredModels={setFilteredModels}
         handleModelListButtonPress={handleModelListButtonPress}
