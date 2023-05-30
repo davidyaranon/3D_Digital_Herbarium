@@ -9,11 +9,11 @@ import { IonTitle, IonText, IonButtons, IonButton, IonIcon } from "@ionic/react"
 import { searchOutline, informationCircleOutline, mapOutline } from "ionicons/icons";
 import '../../../App.css';
 
-interface CollectionsDesktopHeaderProps {
+interface CollectionsMobileHeaderProps {
   handleClickOnSearchIcon: () => void;
 }
 
-const MobileCollectionsHeader = React.memo((props: CollectionsDesktopHeaderProps) => {
+const MobileCollectionsHeader = React.memo((props: CollectionsMobileHeaderProps) => {
 
   const handleClickOnSearchIcon = props.handleClickOnSearchIcon;
 

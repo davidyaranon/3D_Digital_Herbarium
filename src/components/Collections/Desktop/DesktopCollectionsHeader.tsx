@@ -14,6 +14,7 @@ interface DesktopCollectionsHeaderProps {
   handleSearch: (event: CustomEvent) => void;
   handleSearchKeyPress: (event: React.KeyboardEvent<HTMLIonSearchbarElement>) => void;
   setShowSearchResults: React.Dispatch<React.SetStateAction<boolean>>;
+  localSearchEnabled : boolean;
 }
 
 const DesktopCollectionsHeader = React.memo((props: DesktopCollectionsHeaderProps) => {
@@ -22,6 +23,7 @@ const DesktopCollectionsHeader = React.memo((props: DesktopCollectionsHeaderProp
   const handleSearch = props.handleSearch;
   const handleSearchKeyPress = props.handleSearchKeyPress;
   const setShowSearchResults = props.setShowSearchResults;
+  const localSearchEnabled = props.localSearchEnabled;
 
   /**
    * @description This function is called when the user clicks on the searchbar.
@@ -35,7 +37,7 @@ const DesktopCollectionsHeader = React.memo((props: DesktopCollectionsHeaderProp
   return (
     <div className="search-bar-container" >
       <IonSearchbar animated color='light' ref={searchRef} onKeyPress={handleSearchKeyPress}
-        onIonInput={handleSearch} onIonFocus={handleClickOnSearchbar} placeholder='Search Flora...'
+        onIonInput={handleSearch} onIonFocus={handleClickOnSearchbar} placeholder={localSearchEnabled ? 'Search Local Flora...' : 'Search Flora...'}
         enterkeyhint='search' style={{ paddingTop : "10px", width : "50%" }}
       />
       <IonButtons slot='end' className='desktop-header-buttons'>

@@ -27,6 +27,7 @@ interface MobileCollectionsSearchModalProps {
   handleSearch: (event: CustomEvent) => void;
   handleSearchKeyPress: (event: React.KeyboardEvent<HTMLIonSearchbarElement>) => void;
   handleSpecimenListButtonPress: (specimen : string) => void;
+  localSearchEnabled : boolean;
 }
 
 const MobileCollectionsSearchModal = React.memo((props: MobileCollectionsSearchModalProps) => {
@@ -39,6 +40,7 @@ const MobileCollectionsSearchModal = React.memo((props: MobileCollectionsSearchM
   const handleSearch = props.handleSearch;
   const handleSearchKeyPress = props.handleSearchKeyPress;
   const handleSpecimenListButtonPress = props.handleSpecimenListButtonPress;
+  const localSearchEnabled = props.localSearchEnabled;
 
   /**
    * @description: This function ensures the modal cannot be dismissed by swiping down.
@@ -87,7 +89,7 @@ const MobileCollectionsSearchModal = React.memo((props: MobileCollectionsSearchM
           </IonToolbar>
           <IonToolbar>
             <IonSearchbar color='light' animated onKeyPress={handleSearchKeyPress}
-              onIonInput={handleSearch} ref={searchRef} placeholder='Search...'
+              onIonInput={handleSearch} ref={searchRef} placeholder={localSearchEnabled ? 'Search Local Flora...' : 'Search Flora...'}
               enterkeyhint='search' class="overlay"
             />
           </IonToolbar>

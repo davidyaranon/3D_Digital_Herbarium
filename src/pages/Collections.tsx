@@ -8,15 +8,13 @@
 /* React / Ionic */
 import React from "react";
 import {
-  IonPage, IonContent, IonCardTitle, IonSpinner,
-  IonCardHeader, IonText
+  IonPage, IonContent, IonText
 } from "@ionic/react"
 import { RouteComponentProps } from 'react-router-dom';
 
 /* Helpers */
 import { useContext } from "../my-context";
 import { useToast } from "@agney/ir-toast";
-import { speciesName } from "../assets/data/ListOfModels";
 import { getSpeciesClassification, getSpeciesImages, getSpeciesProfile, getWikiInfo } from "../herbarium";
 import CollectionsHeader from "../components/Collections/CollectionsHeader";
 import CollectionsInfo from "../components/Collections/CollectionsInfo";
@@ -31,7 +29,6 @@ interface CollectionsPostParams {
 const Collections = ({ match }: RouteComponentProps<CollectionsPostParams>) => {
 
   const specimen = match.params.specimen;
-  console.log(specimen);
 
   /* Hooks */
   const Toast = useToast();
@@ -106,7 +103,6 @@ const Collections = ({ match }: RouteComponentProps<CollectionsPostParams>) => {
             imageInfo={imageInfo} wikiInfo={wikiInfo} specimen={specimen}
           />
         }
-
 
       </IonContent>
 

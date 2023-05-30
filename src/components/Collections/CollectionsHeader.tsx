@@ -117,7 +117,7 @@ const CollectionsHeader = React.memo((props: CollectionsHeaderProps) => {
           </IonButtons>
 
           {/* Only display the search bar when the screen width is greater than or equal to 768px */}
-          <DesktopCollectionsHeader searchRef={searchRef} handleSearch={handleSearch} handleSearchKeyPress={handleSearchKeyPress} setShowSearchResults={setShowSearchResults} />
+          <DesktopCollectionsHeader localSearchEnabled={context.localSearchChecked} searchRef={searchRef} handleSearch={handleSearch} handleSearchKeyPress={handleSearchKeyPress} setShowSearchResults={setShowSearchResults} />
 
           {/* Hide search bar and only display the icons when the screen width is less than 768px */}
           <MobileCollectionsHeader handleClickOnSearchIcon={handleClickOnSearchIcon} />
@@ -153,9 +153,8 @@ const CollectionsHeader = React.memo((props: CollectionsHeaderProps) => {
         showSearchModal={showSearchModal} setShowSearchModal={setShowSearchModal}
         filteredSpecimen={filteredSpecimen} setFilteredSpecimen={setFilteredSpecimen}
         handleSpecimenListButtonPress={handleSpecimenListButtonPress}
-        handleSearchKeyPress={handleSearchKeyPress}
-        handleSearch={handleSearch}
-        searchRef={searchRef}
+        handleSearchKeyPress={handleSearchKeyPress} handleSearch={handleSearch}
+        searchRef={searchRef} localSearchEnabled={context.localSearchChecked}
       />
 
     </>
