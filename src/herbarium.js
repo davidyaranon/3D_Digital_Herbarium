@@ -259,12 +259,12 @@ export function timeout(delay) {
 
 /**
  * @description This function is used to get the species autocomplete information from the iNaturalist API
- * when searching through the Collections page.
+ * when searching through the iNAT / Collections pages.
  * 
  * @param {string} query The query string to search for.
  * @returns {Promise<string[]>} The species autocomplete information.
  */
-export const collectionsSearch = async (query) => {
+export const autocompleteSearch = async (query) => {
   try {
     const response = await fetch("https://api.inaturalist.org/v1/taxa/autocomplete?rank=species&q=" + query);
     const data = await response.json();

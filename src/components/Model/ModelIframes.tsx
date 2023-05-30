@@ -41,7 +41,7 @@ const ModelIframes = React.memo((props: ModelIframesProps) => {
         </div>
       }
 
-      <iframe title={model + " Model (Sketchfab)"} frameBorder="0" height='100%' width='100%' allowFullScreen
+      <iframe title={model + " Model (Sketchfab)"} frameBorder="0" height='99%' width='100%' allowFullScreen
         allow="autoplay; fullscreen; xr-spatial-tracking" id="model-viewer"
         src={sketchFabLinks[model as keyof SketchFabLinksMap]}
         onLoad={handleIframeLoad}

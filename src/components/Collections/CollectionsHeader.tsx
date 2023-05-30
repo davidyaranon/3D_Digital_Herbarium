@@ -13,7 +13,7 @@ import { Preferences } from '@capacitor/preferences';
 
 {/* Helpers */ }
 import { useContext } from '../../my-context';
-import { collectionsSearch, timeout } from '../../herbarium';
+import { autocompleteSearch, timeout } from '../../herbarium';
 import MobileCollectionsHeader from './Mobile/MobileCollectionsHeader';
 import MobileCollectionsSearchModal from './Mobile/MobileCollectionsSearchModal';
 import DesktopCollectionsHeader from './Desktop/DesktopCollectionsHeader';
@@ -65,7 +65,7 @@ const CollectionsHeader = React.memo((props: CollectionsHeaderProps) => {
       setShowSearchResultsLoading(true);
       setShowSearchResults(true);
       const searchValue = event.target.value.toLowerCase();
-      const autocompleteResults = await collectionsSearch(searchValue);
+      const autocompleteResults = await autocompleteSearch(searchValue);
       await timeout(500);
       setFilteredSpecimen(autocompleteResults);
       setShowSearchResultsLoading(false);
