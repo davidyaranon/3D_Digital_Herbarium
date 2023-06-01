@@ -5,7 +5,7 @@
  */
 
 import { IonText } from "@ionic/react";
-import { listOfModels, sketchFabLinks, speciesName } from "../../assets/data/ListOfModels";
+import { listOfModels, sketchFabLinks, speciesName } from "../../herbarium";
 import { useHistory } from "react-router";
 import { Preferences } from "@capacitor/preferences";
 import { useContext } from "../../my-context";
@@ -68,7 +68,7 @@ const CollectionsInfo = (props: CollectionsInfoProps) => {
   const handleRedirectToModelFromCollections = async (): Promise<void> => {
     if (specimen.toLocaleLowerCase() in sketchFabLinks) {
       console.log(specimen.toLocaleLowerCase() + " in sketchFabLinks")
-      const key = Object.keys(speciesName).find((key) => speciesName[key] === specimen.toLocaleLowerCase());
+      const key = Object.keys(speciesName).find((key) => speciesName[key as keyof typeof speciesName] === specimen.toLocaleLowerCase());
       console.log({ key })
       if (!key) return;
       await Preferences.set({ key: 'model', value: key });

@@ -17,7 +17,7 @@ import { useHistory } from 'react-router';
 import { Preferences } from '@capacitor/preferences';
 
 {/* Helpers */ }
-import { listOfModels } from '../../assets/data/ListOfModels';
+import { listOfModels } from '../../herbarium';
 import { useContext } from '../../my-context';
 
 {/* Components */ }
@@ -96,7 +96,7 @@ const ModelHeader = React.memo((props: ModelHeaderProps) => {
     if (event && event.target && event.target.value) {
       setShowSearchResults(true);
       const searchValue = event.target.value.toLowerCase();
-      const filtered = listOfModels.filter((model) => {
+      const filtered = listOfModels.filter((model : string) => {
         return model.toLowerCase().includes(searchValue);
       });
       setFilteredModels(filtered);

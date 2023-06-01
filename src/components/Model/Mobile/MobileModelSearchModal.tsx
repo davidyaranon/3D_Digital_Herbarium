@@ -13,7 +13,7 @@ import { closeOutline } from "ionicons/icons";
 import { Keyboard } from "@capacitor/keyboard";
 
 {/* Helpers */}
-import { listOfModels } from "../../../assets/data/ListOfModels";
+import { listOfModels } from "../../../herbarium";
 import { timeout } from "../../../herbarium";
 
 {/* Styles */}

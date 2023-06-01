@@ -9,12 +9,13 @@ import { IonContent, IonPage, IonText } from '@ionic/react';
 import { RouteComponentProps } from 'react-router-dom';
 
 {/* Helpers */ }
-import { listOfModels, speciesName } from '../assets/data/ListOfModels';
+import { listOfModels, speciesName } from '../herbarium';
 import ModelIframes from '../components/Model/ModelIframes';
 import ModelHeader from '../components/Model/ModelHeader';
 
 {/* Styles */ }
 import '../App.css';
+import { Preferences } from '@capacitor/preferences';
 
 interface ModelSelectPostParams {
   model: string;
@@ -52,6 +53,14 @@ const Model = ({ match }: RouteComponentProps<ModelSelectPostParams>) => {
   // State Variables
   const [loading, setModelLoading] = React.useState<boolean>(true);
 
+  const handleNewModelSelected = React.useCallback( async () => {
+    await Preferences.set({ key: 'model', value: model });
+  }, [])
+
+  React.useEffect(() => {
+    handleNewModelSelected();
+  }, [model])
+
   return (
     <IonPage>
 
@@ -79,7 +88,7 @@ const Model = ({ match }: RouteComponentProps<ModelSelectPostParams>) => {
             ) :
             (
               <div className="model">
-                <ModelIframes loading={loading} setModelLoading={setModelLoading} model={speciesName[adjustString(model)]} />
+                <ModelIframes loading={loading} setModelLoading={setModelLoading} model={speciesName[adjustString(model) as keyof typeof speciesName]} />
               </div>
             )
         }

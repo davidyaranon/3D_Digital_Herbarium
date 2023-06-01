@@ -15,12 +15,13 @@ import { RouteComponentProps } from 'react-router-dom';
 /* Helpers */
 import { useContext } from "../my-context";
 import { useToast } from "@agney/ir-toast";
-import { getSpeciesClassification, getSpeciesImages, getSpeciesProfile, getWikiInfo } from "../herbarium";
+import { getSearchTermClassification, getSpeciesImages, getSpeciesProfile, getWikiInfo } from "../herbarium";
 import CollectionsHeader from "../components/Collections/CollectionsHeader";
 import CollectionsInfo from "../components/Collections/CollectionsInfo";
 
 /* Styles */
 import '../App.css';
+import { Preferences } from "@capacitor/preferences";
 
 interface CollectionsPostParams {
   specimen: string;
@@ -60,27 +61,34 @@ const Collections = ({ match }: RouteComponentProps<CollectionsPostParams>) => {
    * If there is an error, it displays a toast message.
    */
   const handlePageLoad = React.useCallback(async () => {
-    if (!context.specimen) return;
+    if (!context.specimen || !specimen || context.specimen.trim() != specimen.trim()) return;
     setSpecimenLoading(true);
-    const classificationRes = await getSpeciesClassification(specimen);
+    const classificationRes = await getSearchTermClassification(specimen, context.localSearchChecked);
     setClassificationInfo(classificationRes || {});
-    if ("UsageKey" in classificationRes && classificationRes.UsageKey) {
+    console.log("classificationRes", classificationRes)
+    if (classificationRes && "rank" in classificationRes && classificationRes.rank === "") {
+      console.log("DISPLAYING COMMON NAME LIST orrrr automatically showing the first match if local");
+    }
+    if (classificationRes && "UsageKey" in classificationRes && classificationRes.UsageKey) {
       const profileRes = await getSpeciesProfile(classificationRes.UsageKey.toString());
       setProfileInfo(profileRes || {});
+      console.log("profileRes", profileRes)
       const imageRes = await getSpeciesImages(classificationRes.UsageKey.toString());
       setImageInfo(imageRes || []);
+      console.log("imageRes", imageRes)
     }
     const wikiInfo = await getWikiInfo(specimen);
     setWikiInfo(wikiInfo || {});
+    console.log("wikiInfo", wikiInfo)
     setSpecimenLoading(false);
-  }, [context.specimen]);
+  }, [context.specimen, specimen]);
 
   /**
    * @description: This function is called when the page is loaded.
    */
   React.useEffect(() => {
     handlePageLoad();
-  }, [context.specimen]);
+  }, [context.specimen, specimen]);
 
   return (
     <IonPage>

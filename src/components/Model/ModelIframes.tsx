@@ -5,7 +5,7 @@
 
 {/* Ionic / React */ }
 import React from 'react';
-import { SketchFabLinksMap, sketchFabLinks } from '../../assets/data/ListOfModels';
+import { sketchFabLinks } from '../../herbarium';
 import { IonSpinner } from '@ionic/react';
 
 {/* Styles */ }
@@ -43,7 +43,7 @@ const ModelIframes = React.memo((props: ModelIframesProps) => {
 
       <iframe title={model + " Model (Sketchfab)"} frameBorder="0" height='99%' width='100%' allowFullScreen
         allow="autoplay; fullscreen; xr-spatial-tracking" id="model-viewer"
-        src={sketchFabLinks[model as keyof SketchFabLinksMap]}
+        src={sketchFabLinks[model as keyof typeof sketchFabLinks]}
         onLoad={handleIframeLoad}
       />
       

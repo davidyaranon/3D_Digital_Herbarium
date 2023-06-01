@@ -51,7 +51,9 @@ const App: React.FC = () => {
    * @description Runs on app load.
    * Gets the info from the preferences and sets the context to it.
    * 
-   * @todo Comment out this useffect for your selected model to NOT persist across app re-loads.
+   * @note Comment out this useffect for your selected model to NOT persist across app re-loads.
+   * 
+   * @todo as of now, editing the URL of the current page will not change the model or specimen. FIX THIS.
    */
   React.useEffect(() => {
     const getPreferences = async () => {
