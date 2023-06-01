@@ -80,8 +80,10 @@ const commonNameSpeciesMap = {
 };
 
 /**
- * @description gets the species object from the iNaturalist API.
+ * @function commonNameHandlerSpecies
  * @author Adapted from code written by Aj Bealum for CPHHA project. Adapted by David Y.
+ * 
+ * @description gets the species object from the iNaturalist API.
  * 
  * @param {string} searchTerm the species name to search for
  * @returns {Promise<any>} the species object from the iNaturalist API
@@ -96,8 +98,9 @@ const commonNameHandlerSpecies = async (searchTerm) => {
 
 /**
  * @function commonNameHandlerGenus
- * @description gets the genus object from the iNaturalist API.
  * @author Adapted from code written by Aj Bealum for CPHHA project. Adapted by David Y.
+ * 
+ * @description gets the genus object from the iNaturalist API.
  * 
  * @param {string} searchTerm the genus name to search for
  * @returns {object} the genus object from the iNaturalist API
@@ -112,9 +115,10 @@ async function commonNameHandlerGenus(searchTerm) {
 
 /**
  * @function getSpeciesListFromCommonName
+ * @author David Y
+ * 
  * @description gets a list of potential species based off a common name.
  * Used to display in a "Did you mean..." type window.
- * @author David Y
  * 
  * @param {object} res 
  * @returns {object[]} a list of species and their information.
@@ -148,6 +152,7 @@ const getSpeciesListFromCommonName = (res) => {
 /**
  * @function getListOfSpecies
  * @author Adapted from code written by Aj Bealum for CPHHA project. Adapted by David Y.
+ * 
  * @description gets a list of species names for a given genus.
  * The iNaturalist API is used using the /taxa endpoint if local search is not enabled. Otherwise, the list is pulled from genusSpeciesMap.
  * 
@@ -312,7 +317,7 @@ export const handleGenus = async (genusName, isLocal) => {
  * 
  * @param {string} searchTerm - The term entered into the search bar
  * @param {boolean} isLocal - Whether or not the local search toggle is on.
- * @returns {[object] | undefined} - The species information.
+ * @returns {specimenClassificationInfo | undefined} - The species information.
  * 
  * @example
  * getSearchTermClassification("nymphaea lotus");
@@ -609,59 +614,61 @@ const hasMultipleSpaces = (str) => {
  * @returns {Promise<string[]>} The species autocomplete information.
  */
 export const autocompleteSearch = async (query, isLocal = false) => {
-  try {
-    if (isLocal) {
-
-      // filter based on local genus data
-      var filteredGenera = localGenera.filter(function (genus) {
-        return genus.toLowerCase().startsWith(val);
-      });
-
-      // filter based on local species data
-      var filteredSpecies = localSpecies.filter(function (species) {
-        return species.toLowerCase().startsWith(val);
-      });
-
-      // filter based on local common name data
-      var filteredCommonNames = localCommonNames.filter(function (commonName) {
-        return commonName.toLowerCase().startsWith(val);
-      });
-
-      // combine the filtered arrays and sort them alphabetically
-      var results = filteredGenera.concat(filteredSpecies, filteredCommonNames);
-      results.sort();
-
-      // call hasMultipleSpaces on each item and remove if the function returns true
-      results = results.filter(function (result) {
-        return !hasMultipleSpaces(result);
-      });
-
-      // display only the top 15 results that start with the input value
-      var arr = results.filter(function (result) {
-        return result.toLowerCase().startsWith(val);
-      }).slice(0, 15);
-
-      if (arr.length <= 0) { arr = results; }
-
-      return arr;
-    }
-
-    const response = await fetch("https://api.inaturalist.org/v1/taxa/autocomplete?rank=species&q=" + query);
-    const data = await response.json();
-
+  if (isLocal) {
     let arr = [];
-    for (let i = 0; i < data.results.length; i++) {
-      if (arr.length > 15) {
-        break;
-      }
-      if (data.results[i] && "iconic_taxon_id" in data.results[i] && data.results[i].iconic_taxon_id == 47126 && "matched_term" in data.results[i]) {
-        arr.push(data.results[i].matched_term);
-      }
-    }
-    return arr;
+    // filter based on local genus data
+    var filteredGenera = localGenera.filter(function (genus) {
+      return genus.toLowerCase().startsWith(query);
+    });
 
-  } catch (error) {
-    console.log('Error:', error);
-    throw error;
+    // filter based on local species data
+    var filteredSpecies = localSpecies.filter(function (species) {
+      return species.toLowerCase().startsWith(query);
+    });
+
+    // filter based on local common name data
+    var filteredCommonNames = localCommonNames.filter(function (commonName) {
+      return commonName.toLowerCase().startsWith(query);
+    });
+
+    // combine the filtered arrays and sort them alphabetically
+    var results = filteredGenera.concat(filteredSpecies, filteredCommonNames);
+    results.sort();
+
+    // call hasMultipleSpaces on each item and remove if the function returns true
+    results = results.filter(function (result) {
+      return !hasMultipleSpaces(result);
+    });
+
+    // display only the top 15 results that start with the input query
+    arr = results.filter(function (result) {
+      return result.toLowerCase().startsWith(query);
+    }).slice(0, 15);
+
+    if (arr.length <= 0) { arr = results; }
+
+    return arr;
+  }
+  else {
+    try {
+      let arr = [];
+
+      const response = await fetch("https://api.inaturalist.org/v1/taxa/autocomplete?rank=species&q=" + query);
+      const data = await response.json();
+
+      for (let i = 0; i < data.results.length; i++) {
+        if (arr.length > 15) {
+          break;
+        }
+        if (data.results[i] && "iconic_taxon_id" in data.results[i] && data.results[i].iconic_taxon_id == 47126 && "matched_term" in data.results[i]) {
+          arr.push(data.results[i].matched_term);
+        }
+      }
+      return arr;
+
+    } catch (error) {
+      console.log('Error:', error);
+      throw error;
+    }
   }
 }

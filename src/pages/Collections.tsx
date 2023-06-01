@@ -21,11 +21,24 @@ import CollectionsInfo from "../components/Collections/CollectionsInfo";
 
 /* Styles */
 import '../App.css';
-import { Preferences } from "@capacitor/preferences";
 
 interface CollectionsPostParams {
   specimen: string;
-}
+};
+
+type SpecimenClassificationInfo = {
+  message: string | undefined;
+  name: string | undefined;
+  rank: string | undefined;
+  Kingdom: string | undefined;
+  Phylum: string | undefined;
+  Class: string | undefined;
+  Order: string | undefined;
+  Family: string | undefined;
+  UsageKey: string | undefined;
+  speciesList?: string[] | undefined;
+  listOfCommonNameSpecies?: string[] | undefined;
+};
 
 const Collections = ({ match }: RouteComponentProps<CollectionsPostParams>) => {
 
@@ -41,7 +54,7 @@ const Collections = ({ match }: RouteComponentProps<CollectionsPostParams>) => {
   const [specimenLoading, setSpecimenLoading] = React.useState<boolean>(true);
 
   // The profile information for the species, default is empty object
-  const [classificationInfo, setClassificationInfo] = React.useState<any>({});
+  const [classificationInfo, setClassificationInfo] = React.useState<SpecimenClassificationInfo>();
 
   // The classification information for the species, default is empty object
   const [profileInfo, setProfileInfo] = React.useState<any>({});
@@ -58,27 +71,23 @@ const Collections = ({ match }: RouteComponentProps<CollectionsPostParams>) => {
    * It gets the classification and profile information for the species.
    * It also gets the wikipedia information for the species.
    * It then sets the state variables to the information.
-   * If there is an error, it displays a toast message.
    */
   const handlePageLoad = React.useCallback(async () => {
     if (!context.specimen || !specimen || context.specimen.trim() != specimen.trim()) return;
     setSpecimenLoading(true);
-    const classificationRes = await getSearchTermClassification(specimen, context.localSearchChecked);
-    setClassificationInfo(classificationRes || {});
-    console.log("classificationRes", classificationRes)
-    if (classificationRes && "rank" in classificationRes && classificationRes.rank === "") {
-      console.log("DISPLAYING COMMON NAME LIST orrrr automatically showing the first match if local");
-    }
-    if (classificationRes && "UsageKey" in classificationRes && classificationRes.UsageKey) {
+    const classificationRes: SpecimenClassificationInfo = await getSearchTermClassification(specimen, context.localSearchChecked);
+    setClassificationInfo(classificationRes);
+    console.log("classificationRes", classificationRes);
+    if (classificationRes.UsageKey) {
       const profileRes = await getSpeciesProfile(classificationRes.UsageKey.toString());
-      setProfileInfo(profileRes || {});
+      setProfileInfo(profileRes);
       console.log("profileRes", profileRes)
       const imageRes = await getSpeciesImages(classificationRes.UsageKey.toString());
-      setImageInfo(imageRes || []);
+      setImageInfo(imageRes);
       console.log("imageRes", imageRes)
     }
-    const wikiInfo = await getWikiInfo(specimen);
-    setWikiInfo(wikiInfo || {});
+    const wikiInfo = await getWikiInfo(classificationRes.name || specimen);
+    setWikiInfo(wikiInfo);
     console.log("wikiInfo", wikiInfo)
     setSpecimenLoading(false);
   }, [context.specimen, specimen]);

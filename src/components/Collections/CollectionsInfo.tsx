@@ -84,10 +84,20 @@ const CollectionsInfo = (props: CollectionsInfoProps) => {
 
   return (
     <>
-      <p><IonText color='primary'>{specimen}</IonText></p>
-      {inModelList(adjustString(specimen)) &&
-        <a style={{ cursor: 'pointer' }} onClick={handleRedirectToModelFromCollections}><IonText color='primary'>3D Model available for {specimen}</IonText></a>
-      }
+      <div>
+        <p><IonText color='primary'>{specimen}</IonText></p>
+        {inModelList(adjustString(specimen)) &&
+          <a style={{ cursor: 'pointer' }} onClick={handleRedirectToModelFromCollections}><IonText color='primary'>3D Model available for {specimen}</IonText></a>
+        }
+        <p>HI</p>
+        {classificationInfo && classificationInfo.name === undefined ?
+          <p><IonText color='primary'>{classificationInfo.message}</IonText></p>
+          : classificationInfo && classificationInfo.name ?
+            <p><IonText color='primary'>{classificationInfo.name}</IonText></p>
+            :
+            <></>
+        }
+      </div>
     </>
   )
 };

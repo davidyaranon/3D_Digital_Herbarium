@@ -65,7 +65,7 @@ const CollectionsHeader = React.memo((props: CollectionsHeaderProps) => {
       setShowSearchResultsLoading(true);
       setShowSearchResults(true);
       const searchValue = event.target.value.toLowerCase();
-      const autocompleteResults = await autocompleteSearch(searchValue);
+      const autocompleteResults = await autocompleteSearch(searchValue, context.localSearchChecked);
       await timeout(500);
       setFilteredSpecimen(autocompleteResults);
       setShowSearchResultsLoading(false);
