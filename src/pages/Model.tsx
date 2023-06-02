@@ -49,6 +49,7 @@ const inModelList = (model: string): boolean => {
 
 const Model = ({ match }: RouteComponentProps<ModelSelectPostParams>) => {
   const model = match.params.model;
+  console.log("Model page");
 
   // State Variables
   const [loading, setModelLoading] = React.useState<boolean>(true);
@@ -99,4 +100,4 @@ const Model = ({ match }: RouteComponentProps<ModelSelectPostParams>) => {
   )
 };
 
-export default Model;
+export default React.memo(Model);

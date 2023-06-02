@@ -19,7 +19,7 @@ interface ModelIframesProps {
 }
 
 const ModelIframes = React.memo((props: ModelIframesProps) => {
-
+  console.log("ModelIframes");
   // Props
   const model = props.model;
   const loading = props.loading;

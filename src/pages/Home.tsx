@@ -3,7 +3,7 @@ import React from 'react';
 import HomeHeader from '../components/Home/HomeHeader';
 
 const Home: React.FC = () => {
-
+  console.log("Home Page");
 
   return (
     <IonPage>

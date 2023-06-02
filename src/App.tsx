@@ -69,6 +69,7 @@ const App: React.FC = () => {
       }
     }
     getPreferences();
+    console.log('App.tsx useEffect');
   }, []);
 
   return (

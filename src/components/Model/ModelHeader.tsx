@@ -35,7 +35,7 @@ interface ModelHeaderProps {
 };
 
 const ModelHeader = React.memo((props: ModelHeaderProps) => {
-
+  console.log("ModelHeader");
   // Props
   const setModelLoading = props.setModelLoading;
 

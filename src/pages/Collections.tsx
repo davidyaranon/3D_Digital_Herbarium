@@ -43,6 +43,7 @@ type SpecimenClassificationInfo = {
 const Collections = ({ match }: RouteComponentProps<CollectionsPostParams>) => {
 
   const specimen = match.params.specimen;
+  console.log("collections page")
 
   /* Hooks */
   const Toast = useToast();
@@ -127,4 +128,4 @@ const Collections = ({ match }: RouteComponentProps<CollectionsPostParams>) => {
   );
 };
 
-export default Collections;
+export default React.memo(Collections);

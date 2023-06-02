@@ -18,7 +18,7 @@ interface DesktopCollectionsHeaderProps {
 }
 
 const DesktopCollectionsHeader = React.memo((props: DesktopCollectionsHeaderProps) => {
-
+  console.log("DesktopCollectionsHeader");
   const searchRef = props.searchRef;
   const handleSearch = props.handleSearch;
   const handleSearchKeyPress = props.handleSearchKeyPress;

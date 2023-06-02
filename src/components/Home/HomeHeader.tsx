@@ -1,7 +1,7 @@
 import { IonHeader, IonToolbar, IonButtons, IonMenuButton } from "@ionic/react";
 
 const HomeHeader = () => {
-
+  console.log("Home Header");
   return (
     <IonHeader className='ion-no-border' style={{ padding: "5px" }} translucent>
       <IonToolbar style={{ display: 'flex', alignItems: 'center' }}>

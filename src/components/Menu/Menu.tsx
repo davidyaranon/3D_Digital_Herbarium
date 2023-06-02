@@ -22,7 +22,7 @@ import { useContext } from '../../my-context';
 import { Preferences } from '@capacitor/preferences';
 
 const Menu: React.FC = () => {
-
+  console.log("Menu")
   // Hooks
   const location = useLocation();
   const context = useContext();

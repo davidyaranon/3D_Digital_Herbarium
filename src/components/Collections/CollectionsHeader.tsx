@@ -31,7 +31,7 @@ interface CollectionsHeaderProps {
 };
 
 const CollectionsHeader = React.memo((props: CollectionsHeaderProps) => {
-
+  console.log("CollectionsHeader");
   // Props
   const specimenLoading = props.specimenLoading;
   const setSpecimenLoading = props.setSpecimenLoading;

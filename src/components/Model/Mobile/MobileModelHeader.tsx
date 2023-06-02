@@ -14,7 +14,7 @@ interface ModelDesktopHeaderProps {
 }
 
 const MobileModelHeader = React.memo((props: ModelDesktopHeaderProps) => {
-
+  console.log("MobileModelHeader");
   const handleClickOnSearchIcon = props.handleClickOnSearchIcon;
 
   return (

@@ -17,7 +17,7 @@ interface ModelDesktopHeaderProps {
 }
 
 const DesktopModelHeader = React.memo((props: ModelDesktopHeaderProps) => {
-
+  console.log("DesktopModelHeader");
   const searchRef = props.searchRef;
   const handleSearch = props.handleSearch;
   const handleSearchKeyPress = props.handleSearchKeyPress;

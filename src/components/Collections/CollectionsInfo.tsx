@@ -49,7 +49,7 @@ const inModelList = (specimen: string): boolean => {
 
 
 const CollectionsInfo = (props: CollectionsInfoProps) => {
-
+  console.log("CollectionsInfo");
   // Props
   const specimen = props.specimen;
   const classificationInfo = props.classificationInfo;
@@ -89,7 +89,6 @@ const CollectionsInfo = (props: CollectionsInfoProps) => {
         {inModelList(adjustString(specimen)) &&
           <a style={{ cursor: 'pointer' }} onClick={handleRedirectToModelFromCollections}><IonText color='primary'>3D Model available for {specimen}</IonText></a>
         }
-        <p>HI</p>
         {classificationInfo && classificationInfo.name === undefined ?
           <p><IonText color='primary'>{classificationInfo.message}</IonText></p>
           : classificationInfo && classificationInfo.name ?

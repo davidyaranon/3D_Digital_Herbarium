@@ -31,7 +31,7 @@ interface MobileCollectionsSearchModalProps {
 }
 
 const MobileCollectionsSearchModal = React.memo((props: MobileCollectionsSearchModalProps) => {
-
+  console.log("MobileCollectionsSearchModal");
   const setShowSearchModal = props.setShowSearchModal;
   const showSearchModal = props.showSearchModal;
   const filteredSpecimen = props.filteredSpecimen;

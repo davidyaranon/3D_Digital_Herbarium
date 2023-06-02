@@ -1,6 +1,7 @@
 import { IonContent, IonPage, IonText } from "@ionic/react"
 
 const PlantId = () => {
+  console.log("Plant ID page");
   return (
     <IonPage>
       <IonContent>

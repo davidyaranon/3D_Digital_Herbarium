@@ -1,7 +1,8 @@
+import React from "react";
 import { IonContent, IonPage, IonText } from "@ionic/react";
 
 const Inat = () => {
-
+  console.log("Inat page");
   return (
     <IonPage>
       <IonContent>
@@ -12,4 +13,4 @@ const Inat = () => {
 
 }
 
-export default Inat;
+export default React.memo(Inat);
