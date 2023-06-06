@@ -22,7 +22,7 @@ import { useContext } from '../../my-context';
 import { Preferences } from '@capacitor/preferences';
 
 const Menu: React.FC = () => {
-  console.log("Menu")
+
   // Hooks
   const location = useLocation();
   const context = useContext();
@@ -91,7 +91,7 @@ const Menu: React.FC = () => {
   }, [])
 
   return (
-    <IonMenu contentId="main" type="overlay" swipeGesture>
+    <IonMenu contentId="main" type="overlay" swipeGesture={false}>
       <IonContent>
 
         {/* Page nav links */}

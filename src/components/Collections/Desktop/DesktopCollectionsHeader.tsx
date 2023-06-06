@@ -6,7 +6,7 @@
 {/* Ionic/React */ }
 import React from "react";
 import { IonSearchbar, IonButton, IonIcon, IonButtons } from "@ionic/react";
-import { desktopOutline, informationCircleOutline, mapOutline } from "ionicons/icons";
+import { informationCircleOutline, mapOutline } from "ionicons/icons";
 import '../../../App.css';
 
 interface DesktopCollectionsHeaderProps {
@@ -18,7 +18,6 @@ interface DesktopCollectionsHeaderProps {
 }
 
 const DesktopCollectionsHeader = React.memo((props: DesktopCollectionsHeaderProps) => {
-  console.log("DesktopCollectionsHeader");
   const searchRef = props.searchRef;
   const handleSearch = props.handleSearch;
   const handleSearchKeyPress = props.handleSearchKeyPress;
@@ -41,14 +40,11 @@ const DesktopCollectionsHeader = React.memo((props: DesktopCollectionsHeaderProp
         enterkeyhint='search' style={{ paddingTop : "10px", width : "50%" }}
       />
       <IonButtons slot='end' className='desktop-header-buttons'>
-        <IonButton fill='clear' size='large'>
+        <IonButton onClick={()=> {}} fill='clear' size='large'>
           <IonIcon icon={informationCircleOutline} />
         </IonButton>
         <IonButton fill='clear' size='large'>
           <IonIcon icon={mapOutline}></IonIcon>
-        </IonButton>
-        <IonButton fill='clear' size='large'>
-          <IonIcon icon={desktopOutline}></IonIcon>
         </IonButton>
       </IonButtons>
     </div>

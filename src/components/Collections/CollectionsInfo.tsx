@@ -9,6 +9,7 @@ import { listOfModels, sketchFabLinks, speciesName } from "../../herbarium";
 import { useHistory } from "react-router";
 import { Preferences } from "@capacitor/preferences";
 import { useContext } from "../../my-context";
+import FadeIn from "react-fade-in/lib/FadeIn";
 
 interface CollectionsInfoProps {
   specimen: string;
@@ -49,7 +50,6 @@ const inModelList = (specimen: string): boolean => {
 
 
 const CollectionsInfo = (props: CollectionsInfoProps) => {
-  console.log("CollectionsInfo");
   // Props
   const specimen = props.specimen;
   const classificationInfo = props.classificationInfo;
@@ -85,14 +85,20 @@ const CollectionsInfo = (props: CollectionsInfoProps) => {
   return (
     <>
       <div>
-        <p><IonText color='primary'>{specimen}</IonText></p>
+        <FadeIn>
+          <p><IonText color='primary'>{specimen}</IonText></p>
+        </FadeIn>
         {inModelList(adjustString(specimen)) &&
           <a style={{ cursor: 'pointer' }} onClick={handleRedirectToModelFromCollections}><IonText color='primary'>3D Model available for {specimen}</IonText></a>
         }
         {classificationInfo && classificationInfo.name === undefined ?
-          <p><IonText color='primary'>{classificationInfo.message}</IonText></p>
+          <FadeIn>
+            <p><IonText color='primary'>{classificationInfo.message}</IonText></p>
+          </FadeIn>
           : classificationInfo && classificationInfo.name ?
-            <p><IonText color='primary'>{classificationInfo.name}</IonText></p>
+            <FadeIn>
+              <p><IonText color='primary'>{classificationInfo.name}</IonText></p>
+            </FadeIn>
             :
             <></>
         }

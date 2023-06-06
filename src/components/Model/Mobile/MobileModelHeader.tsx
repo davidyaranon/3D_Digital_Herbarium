@@ -11,12 +11,12 @@ import '../../../App.css';
 
 interface ModelDesktopHeaderProps {
   handleClickOnSearchIcon: () => void;
+  handleClickOnInfoIcon: () => void;
 }
 
 const MobileModelHeader = React.memo((props: ModelDesktopHeaderProps) => {
-  console.log("MobileModelHeader");
   const handleClickOnSearchIcon = props.handleClickOnSearchIcon;
-
+  const handleClickOnInfoIcon = props.handleClickOnInfoIcon;
   return (
     <div className="search-icon">
       <IonTitle><IonText color='primary'>3D Models</IonText></IonTitle>
@@ -24,7 +24,7 @@ const MobileModelHeader = React.memo((props: ModelDesktopHeaderProps) => {
         <IonButton onClick={handleClickOnSearchIcon} fill='clear' size='large'>
           <IonIcon icon={searchOutline}></IonIcon>
         </IonButton>
-        <IonButton fill='clear' size='large'>
+        <IonButton onClick={handleClickOnInfoIcon} fill='clear' size='large'>
           <IonIcon icon={informationCircleOutline} />
         </IonButton>
         <IonButton fill='clear' size='large'>

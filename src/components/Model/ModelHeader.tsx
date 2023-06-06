@@ -27,17 +27,19 @@ import DesktopModelHeader from './Desktop/DesktopModelHeader';
 
 {/* Styles */ }
 import '../../App.css';
+import ModelInfoModal from './ModelInfoModal';
 
 {/* Props definition */ }
 interface ModelHeaderProps {
-  loading: boolean;
-  setModelLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  model : string;
+  handleSetModelLoading : (loading: boolean) => void;
 };
 
 const ModelHeader = React.memo((props: ModelHeaderProps) => {
-  console.log("ModelHeader");
+
   // Props
-  const setModelLoading = props.setModelLoading;
+  const model = props.model;
+  const setModelLoading = props.handleSetModelLoading;
 
   // Hooks
   const context = useContext();
@@ -46,6 +48,7 @@ const ModelHeader = React.memo((props: ModelHeaderProps) => {
   // State Variables
   const searchRef = React.useRef<HTMLIonSearchbarElement>(null);
   const [showSearchResults, setShowSearchResults] = React.useState<boolean>(false);
+  const [showInfoModal, setShowInfoModal] = React.useState<boolean>(false);
   const [filteredModels, setFilteredModels] = React.useState<string[]>(listOfModels);
   const [showSearchModal, setShowSearchModal] = React.useState<boolean>(false);
 
@@ -54,6 +57,13 @@ const ModelHeader = React.memo((props: ModelHeaderProps) => {
    */
   const handleClickOnSearchIcon = (): void => {
     setShowSearchModal(true);
+  };
+
+  /**
+   * @description This function is called when the user clicks on the info icon.
+   */
+  const handleClickOnInfoIcon = (): void => {
+    setShowInfoModal(true);
   };
 
   /**
@@ -117,10 +127,10 @@ const ModelHeader = React.memo((props: ModelHeaderProps) => {
           </IonButtons>
 
           {/* Only display the search bar when the screen width is greater than or equal to 768px */}
-          <DesktopModelHeader searchRef={searchRef} handleSearch={handleSearch} handleSearchKeyPress={handleSearchKeyPress} setShowSearchResults={setShowSearchResults} />
+          <DesktopModelHeader searchRef={searchRef} handleSearch={handleSearch} handleSearchKeyPress={handleSearchKeyPress} setShowSearchResults={setShowSearchResults} handleClickOnInfoIcon={handleClickOnInfoIcon}/>
 
           {/* Hide search bar and only display the icons when the screen width is less than 768px */}
-          <MobileModelHeader handleClickOnSearchIcon={handleClickOnSearchIcon} />
+          <MobileModelHeader handleClickOnSearchIcon={handleClickOnSearchIcon} handleClickOnInfoIcon={handleClickOnInfoIcon} />
 
         </IonToolbar>
       </IonHeader >
@@ -146,6 +156,9 @@ const ModelHeader = React.memo((props: ModelHeaderProps) => {
         handleSearch={handleSearch}
         searchRef={searchRef}
       />
+
+      { /* Slide up modal that displays the info of the current model species when the user clicks on the info icon */}
+      <ModelInfoModal showInfoModal={showInfoModal} setShowInfoModal={setShowInfoModal} model={model} />
 
     </>
   )

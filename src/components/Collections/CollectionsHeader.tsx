@@ -21,6 +21,7 @@ import DesktopCollectionsHeader from './Desktop/DesktopCollectionsHeader';
 {/* Styles */ }
 import '../../App.css';
 import { useHistory } from 'react-router';
+import CollectionsInfoModal from './CollectionsInfoModal';
 
 const loadingSearchItems = ['', '', '', '', ''];
 
@@ -31,7 +32,6 @@ interface CollectionsHeaderProps {
 };
 
 const CollectionsHeader = React.memo((props: CollectionsHeaderProps) => {
-  console.log("CollectionsHeader");
   // Props
   const specimenLoading = props.specimenLoading;
   const setSpecimenLoading = props.setSpecimenLoading;
@@ -45,13 +45,21 @@ const CollectionsHeader = React.memo((props: CollectionsHeaderProps) => {
   const [showSearchResults, setShowSearchResults] = React.useState<boolean>(false);
   const [showSearchResultsLoading, setShowSearchResultsLoading] = React.useState<boolean>(false);
   const [showSearchModal, setShowSearchModal] = React.useState<boolean>(false);
+  const [showInfoModal, setShowInfoModal] = React.useState<boolean>(false);
   const [filteredSpecimen, setFilteredSpecimen] = React.useState<string[]>([]);
 
   /**
    * @description This function is called when the user clicks on the search icon.
    */
-  const handleClickOnSearchIcon = (): void => {
+  const handleClickOnSearchIcon = React.useCallback((): void => {
     setShowSearchModal(true);
+  }, []);
+
+  /**
+   * @description This function is called when the user clicks on the info icon.
+   */
+  const handleClickOnInfoIcon = (): void => {
+    setShowInfoModal(true);
   };
 
   /**
@@ -120,7 +128,7 @@ const CollectionsHeader = React.memo((props: CollectionsHeaderProps) => {
           <DesktopCollectionsHeader localSearchEnabled={context.localSearchChecked} searchRef={searchRef} handleSearch={handleSearch} handleSearchKeyPress={handleSearchKeyPress} setShowSearchResults={setShowSearchResults} />
 
           {/* Hide search bar and only display the icons when the screen width is less than 768px */}
-          <MobileCollectionsHeader handleClickOnSearchIcon={handleClickOnSearchIcon} />
+          <MobileCollectionsHeader handleClickOnSearchIcon={handleClickOnSearchIcon} handleClickOnInfoIcon={handleClickOnInfoIcon} />
 
         </IonToolbar>
       </IonHeader>
@@ -155,7 +163,11 @@ const CollectionsHeader = React.memo((props: CollectionsHeaderProps) => {
         handleSpecimenListButtonPress={handleSpecimenListButtonPress}
         handleSearchKeyPress={handleSearchKeyPress} handleSearch={handleSearch}
         searchRef={searchRef} localSearchEnabled={context.localSearchChecked}
+        showSearchResultsLoading={showSearchResultsLoading}
       />
+
+      { /* Slide up modal that displays the information for the selected specimen */ }
+      <CollectionsInfoModal showInfoModal={showInfoModal} setShowInfoModal={setShowInfoModal}/>
 
     </>
   )

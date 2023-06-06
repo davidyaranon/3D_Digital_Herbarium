@@ -4,19 +4,20 @@
  * This component is the search modal that is displayed on mobile devices after clicking the search icon on the 3D Models page.
  */
 
-{/* Ionic/React */}
+{/* Ionic/React */ }
 import React from "react";
 import { IonModal, IonHeader, IonToolbar, IonTitle, IonText, IonButtons, IonButton, IonIcon, IonSearchbar, IonContent, IonList, IonItem } from "@ionic/react";
 import { closeOutline } from "ionicons/icons";
+import FadeIn from "react-fade-in/lib/FadeIn";
 
-{/* Capacitor */}
+{/* Capacitor */ }
 import { Keyboard } from "@capacitor/keyboard";
 
-{/* Helpers */}
+{/* Helpers */ }
 import { listOfModels } from "../../../herbarium";
 import { timeout } from "../../../herbarium";
 
-{/* Styles */}
+{/* Styles */ }
 import '../../../App.css'
 
 interface MobileModelSearchModalProps {
@@ -31,7 +32,6 @@ interface MobileModelSearchModalProps {
 }
 
 const MobileModelSearchModal = React.memo((props: MobileModelSearchModalProps) => {
-  console.log("MobileModelSearchModal");
   const setShowSearchModal = props.setShowSearchModal;
   const showSearchModal = props.showSearchModal;
   const filteredModels = props.filteredModels;
@@ -76,35 +76,39 @@ const MobileModelSearchModal = React.memo((props: MobileModelSearchModalProps) =
     >
 
       { /* Header with title, searchbar and close button */}
-      <div style={{ width: "100%" }}>
-        <IonHeader>
-          <IonToolbar>
-            <IonTitle><IonText color='primary'>3D Model Search</IonText></IonTitle>
-            <IonButtons style={{ marginLeft: "-2.5%" }}>
-              <IonButton onClick={() => { closeModal() }}>
-                <IonIcon color='primary' icon={closeOutline} />
-              </IonButton>
-            </IonButtons>
-          </IonToolbar>
-          <IonToolbar>
-            <IonSearchbar color='light' animated onKeyPress={handleSearchKeyPress}
-              onIonInput={handleSearch} ref={searchRef} placeholder='Search...'
-              enterkeyhint='search' class="overlay"
-            />
-          </IonToolbar>
-        </IonHeader>
-      </div>
+      <FadeIn delay={250}>
+        <div style={{ width: "100%" }}>
+          <IonHeader>
+            <IonToolbar>
+              <IonTitle><IonText color='primary'>3D Model Search</IonText></IonTitle>
+              <IonButtons style={{ marginLeft: "-2.5%" }}>
+                <IonButton onClick={() => { closeModal() }}>
+                  <IonIcon color='primary' icon={closeOutline} />
+                </IonButton>
+              </IonButtons>
+            </IonToolbar>
+            <IonToolbar>
+              <IonSearchbar color='light' animated onKeyPress={handleSearchKeyPress}
+                onIonInput={handleSearch} ref={searchRef} placeholder='Search...'
+                enterkeyhint='search' class="overlay"
+              />
+            </IonToolbar>
+          </IonHeader>
+        </div>
+      </FadeIn>
 
       { /* List of models that are filtered by the searchbar */}
       <IonContent style={{ "--background": "white" }}>
-        <IonList>
-          {filteredModels.map((model : string, index : number) => (
-            <IonItem type='submit' key={index} onClick={() => handleModelListButtonPress(model)}
-              button detail={false} lines='full'
-              color='light'><IonText color='primary'>{model}</IonText>
-            </IonItem>
-          ))}
-        </IonList>
+        <FadeIn delay={500}>
+          <IonList>
+            {filteredModels.map((model: string, index: number) => (
+              <IonItem type='submit' key={index} onClick={() => handleModelListButtonPress(model)}
+                button detail={false} lines='full'
+                color='light'><IonText color='primary'>{model}</IonText>
+              </IonItem>
+            ))}
+          </IonList>
+        </FadeIn>
       </IonContent>
 
     </IonModal>

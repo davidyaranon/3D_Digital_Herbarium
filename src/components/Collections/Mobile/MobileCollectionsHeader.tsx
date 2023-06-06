@@ -11,11 +11,12 @@ import '../../../App.css';
 
 interface CollectionsMobileHeaderProps {
   handleClickOnSearchIcon: () => void;
+  handleClickOnInfoIcon: () => void;
 }
 
 const MobileCollectionsHeader = React.memo((props: CollectionsMobileHeaderProps) => {
-  console.log("MobileCollectionsHeader");
   const handleClickOnSearchIcon = props.handleClickOnSearchIcon;
+  const handleClickOnInfoIcon = props.handleClickOnInfoIcon;
 
   return (
     <div className="search-icon">
@@ -24,7 +25,7 @@ const MobileCollectionsHeader = React.memo((props: CollectionsMobileHeaderProps)
         <IonButton onClick={handleClickOnSearchIcon} fill='clear' size='large'>
           <IonIcon icon={searchOutline}></IonIcon>
         </IonButton>
-        <IonButton fill='clear' size='large'>
+        <IonButton onClick={handleClickOnInfoIcon} fill='clear' size='large'>
           <IonIcon icon={informationCircleOutline} />
         </IonButton>
         <IonButton fill='clear' size='large'>

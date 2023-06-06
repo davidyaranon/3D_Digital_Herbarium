@@ -4,19 +4,22 @@
  * This component is the search modal that is displayed on mobile devices after clicking the search icon on the Collections page.
  */
 
-{/* Ionic/React */}
+{/* Ionic/React */ }
 import React from "react";
-import { IonModal, IonHeader, IonToolbar, IonTitle, IonText, IonButtons, IonButton, IonIcon, IonSearchbar, IonContent, IonList, IonItem } from "@ionic/react";
+import { IonModal, IonHeader, IonToolbar, IonTitle, IonText, IonButtons, IonButton, IonIcon, IonSearchbar, IonContent, IonList, IonItem, IonSkeletonText } from "@ionic/react";
 import { closeOutline } from "ionicons/icons";
 
-{/* Capacitor */}
+{/* Capacitor */ }
 import { Keyboard } from "@capacitor/keyboard";
 
-{/* Helpers */}
+{/* Helpers */ }
 import { timeout } from "../../../herbarium";
 
-{/* Styles */}
+{/* Styles */ }
 import '../../../App.css'
+import FadeIn from "react-fade-in/lib/FadeIn";
+
+const loadingSearchItems = ['', '', '', '', ''];
 
 interface MobileCollectionsSearchModalProps {
   showSearchModal: boolean;
@@ -26,12 +29,12 @@ interface MobileCollectionsSearchModalProps {
   searchRef: React.RefObject<HTMLIonSearchbarElement>;
   handleSearch: (event: CustomEvent) => void;
   handleSearchKeyPress: (event: React.KeyboardEvent<HTMLIonSearchbarElement>) => void;
-  handleSpecimenListButtonPress: (specimen : string) => void;
-  localSearchEnabled : boolean;
+  handleSpecimenListButtonPress: (specimen: string) => void;
+  localSearchEnabled: boolean;
+  showSearchResultsLoading: boolean;
 }
 
 const MobileCollectionsSearchModal = React.memo((props: MobileCollectionsSearchModalProps) => {
-  console.log("MobileCollectionsSearchModal");
   const setShowSearchModal = props.setShowSearchModal;
   const showSearchModal = props.showSearchModal;
   const filteredSpecimen = props.filteredSpecimen;
@@ -41,6 +44,7 @@ const MobileCollectionsSearchModal = React.memo((props: MobileCollectionsSearchM
   const handleSearchKeyPress = props.handleSearchKeyPress;
   const handleSpecimenListButtonPress = props.handleSpecimenListButtonPress;
   const localSearchEnabled = props.localSearchEnabled;
+  const showSearchResultsLoading = props.showSearchResultsLoading;
 
   /**
    * @description: This function ensures the modal cannot be dismissed by swiping down.
@@ -77,29 +81,41 @@ const MobileCollectionsSearchModal = React.memo((props: MobileCollectionsSearchM
     >
 
       { /* Header with title, searchbar and close button */}
-      <div style={{ width: "100%" }}>
-        <IonHeader>
-          <IonToolbar>
-            <IonTitle><IonText color='primary'>Collections Search</IonText></IonTitle>
-            <IonButtons style={{ marginLeft: "-2.5%" }}>
-              <IonButton onClick={() => { closeModal() }}>
-                <IonIcon color='primary' icon={closeOutline} />
-              </IonButton>
-            </IonButtons>
-          </IonToolbar>
-          <IonToolbar>
-            <IonSearchbar color='light' animated onKeyPress={handleSearchKeyPress}
-              onIonInput={handleSearch} ref={searchRef} placeholder={localSearchEnabled ? 'Search Local Flora...' : 'Search Flora...'}
-              enterkeyhint='search' class="overlay"
-            />
-          </IonToolbar>
-        </IonHeader>
-      </div>
+      <FadeIn delay={250}>
+        <div style={{ width: "100%" }}>
+          <IonHeader>
+            <IonToolbar>
+              <IonTitle><IonText color='primary'>Collections Search</IonText></IonTitle>
+              <IonButtons style={{ marginLeft: "-2.5%" }}>
+                <IonButton onClick={() => { closeModal() }}>
+                  <IonIcon color='primary' icon={closeOutline} />
+                </IonButton>
+              </IonButtons>
+            </IonToolbar>
+            <IonToolbar>
+              <IonSearchbar color='light' animated onKeyPress={handleSearchKeyPress}
+                onIonInput={handleSearch} ref={searchRef} placeholder={localSearchEnabled ? 'Search Local Flora...' : 'Search Flora...'}
+                enterkeyhint='search' class="overlay"
+              />
+            </IonToolbar>
+          </IonHeader>
+        </div>
+      </FadeIn>
 
       { /* List of specimen that are filtered by the searchbar */}
       <IonContent style={{ "--background": "white" }}>
         <IonList>
-          {filteredSpecimen.map((specimen : string, index : number) => (
+          {showSearchResultsLoading && loadingSearchItems.map((item: string, index: number) => {
+            return (
+              <IonItem key={index} type='submit' onClick={() => { }}
+                button detail={false} lines='full'
+                color='light'>
+                <IonSkeletonText animated style={{ width: '100%', "--background-rgb": "103, 103, 103" }} />
+              </IonItem>
+            );
+          })
+          }
+          {!showSearchResultsLoading && filteredSpecimen.map((specimen: string, index: number) => (
             <IonItem type='submit' key={index} onClick={() => handleSpecimenListButtonPress(specimen)}
               button detail={false} lines='full'
               color='light'><IonText color='primary'>{specimen}</IonText>

@@ -13,15 +13,18 @@ interface ModelDesktopHeaderProps {
   searchRef: React.RefObject<HTMLIonSearchbarElement>;
   handleSearch: (event: CustomEvent) => void;
   handleSearchKeyPress: (event: React.KeyboardEvent<HTMLIonSearchbarElement>) => void;
+  handleClickOnInfoIcon: () => void;
   setShowSearchResults: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const DesktopModelHeader = React.memo((props: ModelDesktopHeaderProps) => {
-  console.log("DesktopModelHeader");
+
+  // Props
   const searchRef = props.searchRef;
   const handleSearch = props.handleSearch;
   const handleSearchKeyPress = props.handleSearchKeyPress;
   const setShowSearchResults = props.setShowSearchResults;
+  const handleClickOnInfoIcon = props.handleClickOnInfoIcon;
 
   /**
    * @description This function is called when the user clicks on the searchbar.
@@ -39,14 +42,11 @@ const DesktopModelHeader = React.memo((props: ModelDesktopHeaderProps) => {
         enterkeyhint='search' style={{ paddingTop : "10px", width : "50%" }}
       />
       <IonButtons slot='end' className='desktop-header-buttons'>
-        <IonButton fill='clear' size='large'>
+        <IonButton onClick={handleClickOnInfoIcon} fill='clear' size='large'>
           <IonIcon icon={informationCircleOutline} />
         </IonButton>
         <IonButton fill='clear' size='large'>
           <IonIcon icon={mapOutline}></IonIcon>
-        </IonButton>
-        <IonButton fill='clear' size='large'>
-          <IonIcon icon={desktopOutline}></IonIcon>
         </IonButton>
       </IonButtons>
     </div>

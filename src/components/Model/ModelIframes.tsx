@@ -15,7 +15,7 @@ import '../../App.css';
 interface ModelIframesProps {
   model: string;
   loading: boolean;
-  setModelLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  handleSetModelLoading: (loading: boolean) => void;
 }
 
 const ModelIframes = React.memo((props: ModelIframesProps) => {
@@ -23,7 +23,7 @@ const ModelIframes = React.memo((props: ModelIframesProps) => {
   // Props
   const model = props.model;
   const loading = props.loading;
-  const setModelLoading = props.setModelLoading;
+  const setModelLoading = props.handleSetModelLoading;
 
   /**
    * @description This function is called when the iframe loads.
@@ -41,12 +41,14 @@ const ModelIframes = React.memo((props: ModelIframesProps) => {
         </div>
       }
 
-      <iframe title={model + " Model (Sketchfab)"} frameBorder="0" height='99%' width='100%' allowFullScreen
-        allow="autoplay; fullscreen; xr-spatial-tracking" id="model-viewer"
-        src={sketchFabLinks[model as keyof typeof sketchFabLinks]}
-        onLoad={handleIframeLoad}
-      />
-      
+      <div className='iframe-wrapper'>
+        <iframe title={model + " Model (Sketchfab)"} frameBorder="0" height='100%' width='100%' allowFullScreen
+          allow="autoplay; fullscreen; xr-spatial-tracking" id="model-viewer"
+          src={sketchFabLinks[model as keyof typeof sketchFabLinks]}
+          onLoad={handleIframeLoad}
+        />
+      </div>
+
     </>
   );
 });
