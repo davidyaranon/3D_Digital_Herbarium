@@ -35,16 +35,8 @@ interface MobileCollectionsSearchModalProps {
 }
 
 const MobileCollectionsSearchModal = React.memo((props: MobileCollectionsSearchModalProps) => {
-  const setShowSearchModal = props.setShowSearchModal;
-  const showSearchModal = props.showSearchModal;
-  const filteredSpecimen = props.filteredSpecimen;
-  const setFilteredSpecimen = props.setFilteredSpecimen;
-  const searchRef = props.searchRef;
-  const handleSearch = props.handleSearch;
-  const handleSearchKeyPress = props.handleSearchKeyPress;
-  const handleSpecimenListButtonPress = props.handleSpecimenListButtonPress;
-  const localSearchEnabled = props.localSearchEnabled;
-  const showSearchResultsLoading = props.showSearchResultsLoading;
+
+  const { showSearchResultsLoading, setShowSearchModal, showSearchModal, filteredSpecimen, setFilteredSpecimen, searchRef, handleSearch, handleSearchKeyPress, handleSpecimenListButtonPress, localSearchEnabled } = props;
 
   /**
    * @description: This function ensures the modal cannot be dismissed by swiping down.

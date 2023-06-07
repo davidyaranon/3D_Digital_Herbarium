@@ -5,8 +5,8 @@
 
 import {
   homeOutline, homeSharp, leafOutline, leafSharp,
-  fingerPrintOutline, fingerPrintSharp, earthOutline, earthSharp, 
-  imageOutline, imageSharp, cubeOutline, cubeSharp
+  fingerPrintOutline, fingerPrintSharp, imageOutline, 
+  imageSharp, cubeOutline, cubeSharp
 } from 'ionicons/icons';
 
 export interface AppPage {
@@ -14,7 +14,7 @@ export interface AppPage {
   url: string;
   iosIcon: string;
   mdIcon: string;
-}
+};
 
 export const appPages: AppPage[] = [
   {
@@ -35,12 +35,6 @@ export const appPages: AppPage[] = [
     iosIcon: imageOutline,
     mdIcon: imageSharp,
   },
-  // {
-  //   title: 'Global Collections',
-  //   url: '/pages/globalCollections',
-  //   iosIcon: earthOutline,
-  //   mdIcon: earthSharp,
-  // },
   {
     title: 'iNaturalist',
     url: '/pages/inat/',

@@ -38,8 +38,7 @@ interface ModelHeaderProps {
 const ModelHeader = React.memo((props: ModelHeaderProps) => {
 
   // Props
-  const model = props.model;
-  const setModelLoading = props.handleSetModelLoading;
+  const { model, handleSetModelLoading } = props;
 
   // Hooks
   const context = useContext();
@@ -76,12 +75,12 @@ const ModelHeader = React.memo((props: ModelHeaderProps) => {
     setShowSearchResults(false);
     if (model.toLocaleLowerCase() !== context.model.toLocaleLowerCase()) {
       console.log('setting context.model to ' + model)
-      setModelLoading(true);
+      handleSetModelLoading(true);
       context.setModel(model);
       await Preferences.set({ key: 'model', value: model });
       history.push('/pages/models/' + model)
     }
-  }, [context.model, context.setModel, setModelLoading, history]);
+  }, [context.model, context.setModel, handleSetModelLoading, history]);
 
 
   /**

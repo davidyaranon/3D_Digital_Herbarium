@@ -14,7 +14,7 @@ import {
 import { useLocation } from 'react-router-dom';
 
 { /* Helpers */ }
-import { AppPage, appPages, labels } from './MenuFunctions';
+import { AppPage, appPages } from './MenuFunctions';
 
 { /* Styles */ }
 import '../../App.css';

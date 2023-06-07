@@ -19,12 +19,7 @@ interface ModelDesktopHeaderProps {
 
 const DesktopModelHeader = React.memo((props: ModelDesktopHeaderProps) => {
 
-  // Props
-  const searchRef = props.searchRef;
-  const handleSearch = props.handleSearch;
-  const handleSearchKeyPress = props.handleSearchKeyPress;
-  const setShowSearchResults = props.setShowSearchResults;
-  const handleClickOnInfoIcon = props.handleClickOnInfoIcon;
+  const { searchRef, handleSearch, handleSearchKeyPress, setShowSearchResults, handleClickOnInfoIcon } = props;
 
   /**
    * @description This function is called when the user clicks on the searchbar.

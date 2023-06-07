@@ -92,7 +92,10 @@ const CollectionsHeader = React.memo((props: CollectionsHeaderProps) => {
    */
   const handleSpecimenListButtonPress = React.useCallback(async (specimen: string): Promise<void> => {
     setShowSearchResults(false);
-    if (specimen.toLocaleLowerCase() !== context.specimen.toLocaleLowerCase()) {
+    const path = window.location.pathname;
+    const parts = path.split('/');
+    const lastPart = parts[parts.length - 1];
+    if (specimen.toLocaleLowerCase() !== context.specimen.toLocaleLowerCase() || lastPart.toLocaleLowerCase() !== specimen.toLocaleLowerCase()) {
       console.log('setting context.specimen to ' + specimen)
       setSpecimenLoading(true);
       context.setSpecimen(specimen);
@@ -166,8 +169,8 @@ const CollectionsHeader = React.memo((props: CollectionsHeaderProps) => {
         showSearchResultsLoading={showSearchResultsLoading}
       />
 
-      { /* Slide up modal that displays the information for the selected specimen */ }
-      <CollectionsInfoModal showInfoModal={showInfoModal} setShowInfoModal={setShowInfoModal}/>
+      { /* Slide up modal that displays the information for the selected specimen */}
+      <CollectionsInfoModal showInfoModal={showInfoModal} setShowInfoModal={setShowInfoModal} />
 
     </>
   )

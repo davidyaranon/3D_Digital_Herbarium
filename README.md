@@ -1,8 +1,7 @@
 ├── src
+│   ├── App.css
 │   ├── App.tsx
 │   ├── assets
-│   │   ├── data
-│   │   │   └── ListOfModels.tsx
 │   │   └── fonts
 │   │       ├── RobotoSlab-Black.ttf
 │   │       ├── RobotoSlab-Bold.ttf
@@ -15,49 +14,41 @@
 │   │       └── RobotoSlab-Thin.ttf
 │   ├── components
 │   │   ├── Collections
-│   │   │   ├── CollectionsHeader.css
-│   │   │   └── CollectionsHeader.tsx
-│   │   ├── GlobalCollections
+│   │   │   ├── CollectionsHeader.tsx
+│   │   │   ├── CollectionsInfo.tsx
+│   │   │   ├── CollectionsInfoModal.tsx
+│   │   │   ├── Desktop
+│   │   │   │   └── DesktopCollectionsHeader.tsx
+│   │   │   └── Mobile
+│   │   │       ├── MobileCollectionsHeader.tsx
+│   │   │       └── MobileCollectionsSearchModal.tsx
 │   │   ├── Home
+│   │   │   ├── Desktop
+│   │   │   └── HomeHeader.tsx
 │   │   ├── Inat
 │   │   ├── Menu
-│   │   │   ├── Menu.css
 │   │   │   ├── Menu.tsx
 │   │   │   └── MenuFunctions.tsx
 │   │   ├── Model
-│   │   │   ├── DesktopModelHeader.css
-│   │   │   ├── DesktopModelHeader.tsx
-│   │   │   ├── MobileModelHeader.css
-│   │   │   ├── MobileModelHeader.tsx
-│   │   │   ├── MobileSearchModal.css
-│   │   │   ├── MobileSearchModal.tsx
-│   │   │   ├── ModelHeader.css
+│   │   │   ├── Desktop
+│   │   │   │   └── DesktopModelHeader.tsx
+│   │   │   ├── Mobile
+│   │   │   │   ├── MobileModelHeader.tsx
+│   │   │   │   └── MobileModelSearchModal.tsx
 │   │   │   ├── ModelHeader.tsx
-│   │   │   ├── ModelIframes.css
-│   │   │   └── ModelIframes.tsx
+│   │   │   ├── ModelIframes.tsx
+│   │   │   └── ModelInfoModal.tsx
 │   │   └── PlantId
+│   │       └── PlantIdHeader.tsx
 │   ├── herbarium.js
 │   ├── main.tsx
 │   ├── my-context.tsx
 │   ├── pages
-│   │   ├── Collections
-│   │   │   ├── Collections.css
-│   │   │   └── Collections.tsx
-│   │   ├── GlobalCollections
-│   │   │   ├── GlobalCollections.css
-│   │   │   └── GlobalCollections.tsx
-│   │   ├── Home
-│   │   │   ├── Home.css
-│   │   │   └── Home.tsx
-│   │   ├── Inat
-│   │   │   ├── Inat.css
-│   │   │   └── Inat.tsx
-│   │   ├── Model
-│   │   │   ├── Model.css
-│   │   │   └── Model.tsx
-│   │   └── PlantId
-│   │       ├── PlantId.css
-│   │       └── PlantId.tsx
+│   │   ├── Collections.tsx
+│   │   ├── Home.tsx
+│   │   ├── Inat.tsx
+│   │   ├── Model.tsx
+│   │   └── PlantId.tsx
 │   ├── theme
 │   │   └── variables.css
 │   └── vite-env.d.ts

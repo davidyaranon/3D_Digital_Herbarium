@@ -19,17 +19,14 @@ interface ModelIframesProps {
 }
 
 const ModelIframes = React.memo((props: ModelIframesProps) => {
-  console.log("ModelIframes");
-  // Props
-  const model = props.model;
-  const loading = props.loading;
-  const setModelLoading = props.handleSetModelLoading;
+
+  const { model, loading, handleSetModelLoading } = props;
 
   /**
    * @description This function is called when the iframe loads.
    */
   const handleIframeLoad = () => {
-    setModelLoading(false);
+    handleSetModelLoading(false);
   };
 
   return (

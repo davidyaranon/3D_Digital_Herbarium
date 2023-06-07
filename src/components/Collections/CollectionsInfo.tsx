@@ -50,12 +50,8 @@ const inModelList = (specimen: string): boolean => {
 
 
 const CollectionsInfo = (props: CollectionsInfoProps) => {
-  // Props
-  const specimen = props.specimen;
-  const classificationInfo = props.classificationInfo;
-  const profileInfo = props.profileInfo;
-  const imageInfo = props.imageInfo;
-  const wikiInfo = props.wikiInfo;
+ 
+  const { specimen, classificationInfo, profileInfo, imageInfo, wikiInfo } = props;
 
   // Hooks
   const history = useHistory();

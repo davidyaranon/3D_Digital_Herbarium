@@ -85,7 +85,7 @@ const commonNameSpeciesMap = {
 
 /**
  * @function adjustString
- * @author David Y 
+ * @author Written for CPHHA Project, by David Y.
  * 
  * @description Ensures each word in the string starts with a capital letter.
  * 
@@ -103,7 +103,7 @@ export const adjustString = (modelName) => {
 
 /**
  * @function inModelList
- * @author David Y
+ * @author Written for CPPHA Project, by David Y.
  * 
  * @description Checks if the model is in the list of models.
  * 
@@ -151,7 +151,7 @@ async function commonNameHandlerGenus(searchTerm) {
 
 /**
  * @function getSpeciesListFromCommonName
- * @author David Y
+ * @author Written for CPHHA Project, by David Y.
  * 
  * @description gets a list of potential species based off a common name.
  * Used to display in a "Did you mean..." type window.
@@ -637,7 +637,7 @@ export const getWikiInfo = async (species) => {
 
 /**
  * @function timeout
- * @author David Y
+ * @author Written for CPHHA Project, by David Y.
  * 
  * @description This function is used to delay the execution of a function.
  * 
@@ -650,7 +650,7 @@ export function timeout(delay) {
 
 /**
  * @function hasMultipleSpaces
- * @author David Y
+ * @author Github Copilot (lol)
  * 
  * @description determines if species name has more than one space.
  * If so, do not diplay the species name in the list of species corresponding to a genus.
@@ -775,70 +775,4 @@ export const handlePlantIdSubmit = async (userImages) => {
 
   return json;
 
-
-  // let json = {
-  //   images: [
-  //     {
-  //       url: "file:///Users/admin/Downloads/29D2F85D-DA5E-42B6-8E55-BA0012C81490.jpg"
-  //     }
-  //   ],
-  //   is_plant_probability: 0.85,
-  //   suggestions: [
-  //     {
-  //       plant_details: {
-  //         common_names: ["Rose"],
-  //         scientific_name: "Rosa",
-  //         propagation_methods: ["Cuttings"],
-  //         edible_parts: ["Fruit"],
-  //         wiki_description: {
-  //           value: "Rosa is a genus of flowering plants in the Rosaceae family."
-  //         },
-  //         structured_name: {
-  //           genus: "Rosa"
-  //         },
-  //         url: "https://en.wikipedia.org/wiki/Rosa"
-  //       },
-  //       probability: 0.92,
-  //       similar_images: [
-  //         {
-  //           url: "https://www.redwoodcoastrv.com/sites/redwoodcoastrv.com/files/meadows-10.-cathedral-grove.jpg",
-  //           similarity: 0.86
-  //         },
-  //         {
-  //           url: "https://www.redwoodcoastrv.com/sites/redwoodcoastrv.com/files/meadows-10.-cathedral-grove.jpg",
-  //           similarity: 0.76
-  //         }
-  //       ]
-  //     },
-  //     {
-  //       plant_details: {
-  //         common_names: ["Daisy"],
-  //         scientific_name: "Bellis perennis",
-  //         propagation_methods: ["Seeds"],
-  //         edible_parts: ["Flower"],
-  //         wiki_description: {
-  //           value: "Bellis perennis, commonly known as the common daisy, lawn daisy, English daisy, or wild daisy,Bellis perennis, commonly known as the common daisy, lawn daisy, English daisy, or wild daisy,Bellis perennis, commonly known as the common daisy, lawn daisy, English daisy, or wild daisy,Bellis perennis, commonly known as the common daisy, lawn daisy, English daisy, or wild daisy,Bellis perennis, commonly known as the common daisy, lawn daisy, English daisy, or wild daisy,Bellis perennis, commonly known as the common daisy, lawn daisy, English daisy, or wild daisy,Bellis perennis, commonly known as the common daisy, lawn daisy, English daisy, or wild daisy,Bellis perennis, commonly known as the common daisy, lawn daisy, English daisy, or wild daisy,Bellis perennis, commonly known as the common daisy, lawn daisy, English daisy, or wild daisy,Bellis perennis, commonly known as the common daisy, lawn daisy, English daisy, or wild daisy,Bellis perennis, commonly known as the common daisy, lawn daisy, English daisy, or wild daisy,Bellis perennis, commonly known as the common daisy, lawn daisy, English daisy, or wild daisy,Bellis perennis, commonly known as the common daisy, lawn daisy, English daisy, or wild daisy,Bellis perennis, commonly known as the common daisy, lawn daisy, English daisy, or wild daisy,Bellis perennis, commonly known as the common daisy, lawn daisy, English daisy, or wild daisy,Bellis perennis, commonly known as the common daisy, lawn daisy, English daisy, or wild daisy,Bellis perennis, commonly known as the common daisy, lawn daisy, English daisy, or wild daisy,Bellis perennis, commonly known as the common daisy, lawn daisy, English daisy, or wild daisy,Bellis perennis, commonly known as the common daisy, lawn daisy, English daisy, or wild daisy,Bellis perennis, commonly known as the common daisy, lawn daisy, English daisy, or wild daisy,Bellis perennis, commonly known as the common daisy, lawn daisy, English daisy, or wild daisy,Bellis perennis, commonly known as the common daisy, lawn daisy, English daisy, or wild daisy,Bellis perennis, commonly known as the common daisy, lawn daisy, English daisy, or wild daisy, is a flowering plant in the family Asteraceae."
-  //         },
-  //         structured_name: {
-  //           genus: "Bellis",
-  //           species: "perennis"
-  //         },
-  //         url: "https://en.wikipedia.org/wiki/Bellis_perennis"
-  //       },
-  //       probability: 0.82,
-  //       similar_images: [
-  //         {
-  //           url: "https://www.redwoodcoastrv.com/sites/redwoodcoastrv.com/files/meadows-10.-cathedral-grove.jpg",
-  //           similarity: 0.86
-  //         },
-  //         {
-  //           url: "https://www.redwoodcoastrv.com/sites/redwoodcoastrv.com/files/meadows-10.-cathedral-grove.jpg",
-  //           similarity: 0.76
-  //         }
-  //       ]
-  //     }
-  //   ]
-  // };
-
-  // return json;
 }

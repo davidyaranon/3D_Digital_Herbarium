@@ -13,15 +13,12 @@ interface ModelInfoModalProps {
 
 const ModelInfoModal = (props: ModelInfoModalProps) => {
 
-  // Props
-  const model = props.model;
-  const showInfoModal = props.showInfoModal;
-  const setShowInfoModal = props.setShowInfoModal;
+  const { model, showInfoModal, setShowInfoModal } = props;
 
   /**
-  * @description: This function is called when the user presses the close button on the search modal.
-  * It hides the keyboard and closes the modal entirely.
-  */
+   * @description: This function is called when the user presses the close button on the search modal.
+   * It hides the keyboard and closes the modal entirely.
+   */
   const closeModal = (): void => {
     Keyboard.hide().then(() => {
       setTimeout(() => setShowInfoModal(false), 100);
@@ -42,7 +39,7 @@ const ModelInfoModal = (props: ModelInfoModalProps) => {
   }
 
   return (
-    <IonModal style={{'--width': '95vw', '--background' : 'var(--ion-color-light)'}} animated isOpen={showInfoModal} canDismiss={canDismiss} backdropDismiss={false} handle={false} breakpoints={[0, 1]} initialBreakpoint={1}>
+    <IonModal style={{ '--width': '95vw', '--background': 'var(--ion-color-light)' }} animated isOpen={showInfoModal} canDismiss={canDismiss} backdropDismiss={false} handle={false} breakpoints={[0, 1]} initialBreakpoint={1}>
       { /* Header with title, searchbar and close button */}
       <div style={{ width: "100%" }}>
         <IonHeader>
@@ -56,8 +53,8 @@ const ModelInfoModal = (props: ModelInfoModalProps) => {
           </IonToolbar>
         </IonHeader>
       </div>
-      <IonContent style={{'--background' : 'white'}}>
-        <p style={{padding : "10px"}}><IonText color='primary'>HI MODAL</IonText></p>
+      <IonContent style={{ '--background': 'white' }}>
+        <p style={{ padding: "10px" }}><IonText color='primary'>HI MODAL</IonText></p>
       </IonContent>
     </IonModal>
   )

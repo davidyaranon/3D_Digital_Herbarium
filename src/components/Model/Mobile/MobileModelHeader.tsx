@@ -15,8 +15,10 @@ interface ModelDesktopHeaderProps {
 }
 
 const MobileModelHeader = React.memo((props: ModelDesktopHeaderProps) => {
+
   const handleClickOnSearchIcon = props.handleClickOnSearchIcon;
   const handleClickOnInfoIcon = props.handleClickOnInfoIcon;
+  
   return (
     <div className="search-icon">
       <IonTitle><IonText color='primary'>3D Models</IonText></IonTitle>

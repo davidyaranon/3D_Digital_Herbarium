@@ -43,7 +43,6 @@ type SpecimenClassificationInfo = {
 const Collections = ({ match }: RouteComponentProps<CollectionsPostParams>) => {
 
   const specimen = match.params.specimen;
-  console.log("collections page")
 
   /* Hooks */
   const Toast = useToast();
@@ -74,7 +73,7 @@ const Collections = ({ match }: RouteComponentProps<CollectionsPostParams>) => {
    * It then sets the state variables to the information.
    */
   const handlePageLoad = React.useCallback(async () => {
-    if (!context.specimen || !specimen || context.specimen.trim() != specimen.trim()) return;
+    if (!specimen) return;
     setSpecimenLoading(true);
     const classificationRes: SpecimenClassificationInfo = await getSearchTermClassification(specimen, context.localSearchChecked);
     setClassificationInfo(classificationRes);

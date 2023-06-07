@@ -15,6 +15,7 @@ interface CollectionsMobileHeaderProps {
 }
 
 const MobileCollectionsHeader = React.memo((props: CollectionsMobileHeaderProps) => {
+  
   const handleClickOnSearchIcon = props.handleClickOnSearchIcon;
   const handleClickOnInfoIcon = props.handleClickOnInfoIcon;
 

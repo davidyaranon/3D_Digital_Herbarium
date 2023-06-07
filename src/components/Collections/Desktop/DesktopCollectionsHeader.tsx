@@ -18,11 +18,8 @@ interface DesktopCollectionsHeaderProps {
 }
 
 const DesktopCollectionsHeader = React.memo((props: DesktopCollectionsHeaderProps) => {
-  const searchRef = props.searchRef;
-  const handleSearch = props.handleSearch;
-  const handleSearchKeyPress = props.handleSearchKeyPress;
-  const setShowSearchResults = props.setShowSearchResults;
-  const localSearchEnabled = props.localSearchEnabled;
+
+  const { searchRef, handleSearch, handleSearchKeyPress, setShowSearchResults, localSearchEnabled } = props;
 
   /**
    * @description This function is called when the user clicks on the searchbar.
