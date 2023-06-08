@@ -36,11 +36,11 @@ const Model = ({ match }: RouteComponentProps<ModelSelectPostParams>) => {
   const [imageInfo, setImageInfo] = React.useState<any>(null);
   const [wikiInfo, setWikiInfo] = React.useState<any>(null);
 
-  const handleNewModelSelected = React.useCallback(async () => {
+  const handleNewModelSelected = React.useCallback(async (): Promise<void> => {
     await Preferences.set({ key: 'model', value: model });
   }, []);
 
-  const handleLoadModelSpeciesInfo = React.useCallback(async () => {
+  const handleLoadModelSpeciesInfo = React.useCallback(async (): Promise<void> => {
     const specimen: string | undefined | null = modelSpeciesName[model as keyof typeof modelSpeciesName];
     if (!specimen || model === 'select') return;
     setInfoLoading(true);

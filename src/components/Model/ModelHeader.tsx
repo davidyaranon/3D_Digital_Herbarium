@@ -17,7 +17,7 @@ import { useHistory } from 'react-router';
 import { Preferences } from '@capacitor/preferences';
 
 {/* Helpers */ }
-import { listOfModels, modelSpeciesName } from '../../herbarium';
+import { listOfModels } from '../../herbarium';
 import { useContext } from '../../my-context';
 
 {/* Components */ }
@@ -92,7 +92,7 @@ const ModelHeader = React.memo((props: ModelHeaderProps) => {
    * 
    * @param {React.KeyboardEvent<HTMLIonSearchbarElement>} event the event that is triggered when the user presses a key on the searchbar
    */
-  const handleSearchKeyPress = React.useCallback((event: React.KeyboardEvent<HTMLIonSearchbarElement>) => {
+  const handleSearchKeyPress = React.useCallback((event: React.KeyboardEvent<HTMLIonSearchbarElement>) : void =>  {
     if (event.key === 'Enter') {
       const searchTerm = (event.target as HTMLIonSearchbarElement).value || '';
       handleModelListButtonPress(searchTerm);

@@ -72,7 +72,7 @@ const Collections = ({ match }: RouteComponentProps<CollectionsPostParams>) => {
    * It also gets the wikipedia information for the species.
    * It then sets the state variables to the information.
    */
-  const handlePageLoad = React.useCallback(async () => {
+  const handlePageLoad = React.useCallback(async (): Promise<void> => {
     if (!specimen) return;
     setSpecimenLoading(true);
     const classificationRes: SpecimenClassificationInfo = await getSearchTermClassification(specimen, context.localSearchChecked);

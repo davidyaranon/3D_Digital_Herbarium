@@ -18,7 +18,7 @@ const PlantId = () => {
   const [selectedPhoto, setSelectedPhoto] = React.useState<GalleryPhoto>();
   const [loading, setLoading] = React.useState<boolean>(false);
 
-  const handlePlantIdSubmitWithTimeout = async (base64Strings: string[]) => {
+  const handlePlantIdSubmitWithTimeout = async (base64Strings: string[]): Promise<void> => {
     try {
       const plantIdPromise = handlePlantIdSubmit(base64Strings);
       const timeoutPromise = new Promise((resolve) => setTimeout(resolve, 15000));
@@ -39,7 +39,7 @@ const PlantId = () => {
     }
   };
 
-  const takePicture = async () => {
+  const takePicture = async () : Promise<void> => {
     try {
       const images: GalleryPhotos = await Camera.pickImages({
         quality: 50,

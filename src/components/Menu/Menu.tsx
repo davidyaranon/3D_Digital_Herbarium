@@ -71,7 +71,7 @@ const Menu: React.FC = () => {
    * If it is not checked, it sets the state variable to false.
    * It also sets the context variable to the state variable.
    */
-  const handleCheckLocalSearch = React.useCallback(async () => {
+  const handleCheckLocalSearch = React.useCallback(async () : Promise<void> => {
     const isChecked = await Preferences.get({ key: 'localSearchChecked' });
     if (isChecked.value === 'true') {
       setIsLocalSearchChecked(true);

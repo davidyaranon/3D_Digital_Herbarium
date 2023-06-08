@@ -110,7 +110,7 @@ const CollectionsHeader = React.memo((props: CollectionsHeaderProps) => {
    * 
    * @param {React.KeyboardEvent<HTMLIonSearchbarElement>} event the event that is triggered when the user presses a key on the searchbar
    */
-  const handleSearchKeyPress = React.useCallback((event: React.KeyboardEvent<HTMLIonSearchbarElement>) => {
+  const handleSearchKeyPress = React.useCallback((event: React.KeyboardEvent<HTMLIonSearchbarElement>) : void => {
     if (event.key === 'Enter') {
       const searchTerm = (event.target as HTMLIonSearchbarElement).value || '';
       handleSpecimenListButtonPress(searchTerm);

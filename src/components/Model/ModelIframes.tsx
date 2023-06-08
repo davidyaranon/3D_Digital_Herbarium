@@ -25,7 +25,7 @@ const ModelIframes = React.memo((props: ModelIframesProps) => {
   /**
    * @description This function is called when the iframe loads.
    */
-  const handleIframeLoad = () => {
+  const handleIframeLoad = () : void => {
     handleSetModelLoading(false);
   };
 

@@ -43,9 +43,9 @@ const MobileCollectionsSearchModal = React.memo((props: MobileCollectionsSearchM
    * 
    * @param {any} data the data that is being passed to the modal
    * @param {string} role the kind of dismissal that is being attempted
-   * @returns {boolean} whether the modal can be dismissed
+   * @returns {Promise<boolean>} whether the modal can be dismissed
    */
-  async function canDismiss(data?: any, role?: string) {
+  async function canDismiss(data?: any, role?: string) : Promise<boolean> {
     return role !== 'gesture';
   }
 
