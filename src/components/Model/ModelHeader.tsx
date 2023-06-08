@@ -17,7 +17,7 @@ import { useHistory } from 'react-router';
 import { Preferences } from '@capacitor/preferences';
 
 {/* Helpers */ }
-import { listOfModels } from '../../herbarium';
+import { listOfModels, modelSpeciesName } from '../../herbarium';
 import { useContext } from '../../my-context';
 
 {/* Components */ }
@@ -31,14 +31,15 @@ import ModelInfoModal from './ModelInfoModal';
 
 {/* Props definition */ }
 interface ModelHeaderProps {
-  model : string;
-  handleSetModelLoading : (loading: boolean) => void;
+  model: string;
+  infoLoading: boolean;
+  handleSetModelLoading: (loading: boolean) => void;
 };
 
 const ModelHeader = React.memo((props: ModelHeaderProps) => {
 
   // Props
-  const { model, handleSetModelLoading } = props;
+  const { model, infoLoading, handleSetModelLoading } = props;
 
   // Hooks
   const context = useContext();
@@ -73,13 +74,16 @@ const ModelHeader = React.memo((props: ModelHeaderProps) => {
    */
   const handleModelListButtonPress = React.useCallback(async (model: string): Promise<void> => {
     setShowSearchResults(false);
-    if (model.toLocaleLowerCase() !== context.model.toLocaleLowerCase()) {
-      console.log('setting context.model to ' + model)
-      handleSetModelLoading(true);
-      context.setModel(model);
-      await Preferences.set({ key: 'model', value: model });
-      history.push('/pages/models/' + model)
-    }
+    const url = window.location.pathname;
+    const decodedUrl = decodeURIComponent(url);
+    if (decodedUrl.toLocaleLowerCase().trim().includes(model.toLocaleLowerCase().trim())) return;
+    // if (model.toLocaleLowerCase() !== context.model.toLocaleLowerCase()) {
+    console.log('setting context.model to ' + model)
+    handleSetModelLoading(true);
+    context.setModel(model);
+    await Preferences.set({ key: 'model', value: model });
+    history.push('/pages/models/' + model)
+    // }
   }, [context.model, context.setModel, handleSetModelLoading, history]);
 
 
@@ -105,7 +109,7 @@ const ModelHeader = React.memo((props: ModelHeaderProps) => {
     if (event && event.target && event.target.value) {
       setShowSearchResults(true);
       const searchValue = event.target.value.toLowerCase();
-      const filtered = listOfModels.filter((model : string) => {
+      const filtered = listOfModels.filter((model: string) => {
         return model.toLowerCase().includes(searchValue);
       });
       setFilteredModels(filtered);
@@ -126,7 +130,7 @@ const ModelHeader = React.memo((props: ModelHeaderProps) => {
           </IonButtons>
 
           {/* Only display the search bar when the screen width is greater than or equal to 768px */}
-          <DesktopModelHeader searchRef={searchRef} handleSearch={handleSearch} handleSearchKeyPress={handleSearchKeyPress} setShowSearchResults={setShowSearchResults} handleClickOnInfoIcon={handleClickOnInfoIcon}/>
+          <DesktopModelHeader searchRef={searchRef} handleSearch={handleSearch} handleSearchKeyPress={handleSearchKeyPress} setShowSearchResults={setShowSearchResults} handleClickOnInfoIcon={handleClickOnInfoIcon} />
 
           {/* Hide search bar and only display the icons when the screen width is less than 768px */}
           <MobileModelHeader handleClickOnSearchIcon={handleClickOnSearchIcon} handleClickOnInfoIcon={handleClickOnInfoIcon} />
@@ -157,7 +161,7 @@ const ModelHeader = React.memo((props: ModelHeaderProps) => {
       />
 
       { /* Slide up modal that displays the info of the current model species when the user clicks on the info icon */}
-      <ModelInfoModal showInfoModal={showInfoModal} setShowInfoModal={setShowInfoModal} model={model} />
+      <ModelInfoModal infoLoading={infoLoading} showInfoModal={showInfoModal} setShowInfoModal={setShowInfoModal} model={model} />
 
     </>
   )

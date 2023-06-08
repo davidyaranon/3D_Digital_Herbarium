@@ -9,30 +9,59 @@ import { IonContent, IonPage, IonText } from '@ionic/react';
 import { RouteComponentProps } from 'react-router-dom';
 
 {/* Helpers */ }
-import { adjustString, inModelList, speciesName } from '../herbarium';
+import { adjustString, getSearchTermClassification, getSpeciesImages, getSpeciesProfile, getWikiInfo, inModelList, modelSpeciesName } from '../herbarium';
 import ModelIframes from '../components/Model/ModelIframes';
 import ModelHeader from '../components/Model/ModelHeader';
 
 {/* Styles */ }
 import '../App.css';
 import { Preferences } from '@capacitor/preferences';
+import { useContext } from '../my-context';
 
 interface ModelSelectPostParams {
   model: string;
 }
 
 const Model = ({ match }: RouteComponentProps<ModelSelectPostParams>) => {
-  
+
   const model = match.params.model;
+
+  const context = useContext();
 
   // State Variables
   const [loading, setModelLoading] = React.useState<boolean>(true);
+  const [infoLoading, setInfoLoading] = React.useState<boolean>(false);
+  const [classificationInfo, setClassificationInfo] = React.useState<any>(null);
+  const [profileInfo, setProfileInfo] = React.useState<any>(null);
+  const [imageInfo, setImageInfo] = React.useState<any>(null);
+  const [wikiInfo, setWikiInfo] = React.useState<any>(null);
 
-  const handleNewModelSelected = React.useCallback( async () => {
+  const handleNewModelSelected = React.useCallback(async () => {
     await Preferences.set({ key: 'model', value: model });
-  }, [])
+  }, []);
 
-  const handleSetModelLoading = (loading : boolean) : void => {
+  const handleLoadModelSpeciesInfo = React.useCallback(async () => {
+    const specimen: string | undefined | null = modelSpeciesName[model as keyof typeof modelSpeciesName];
+    if (!specimen || model === 'select') return;
+    setInfoLoading(true);
+    const classificationRes = await getSearchTermClassification(specimen, context.localSearchChecked);
+    setClassificationInfo(classificationRes);
+    console.log("classificationRes", classificationRes);
+    if (classificationRes.UsageKey) {
+      const profileRes = await getSpeciesProfile(classificationRes.UsageKey.toString());
+      setProfileInfo(profileRes);
+      console.log("profileRes", profileRes)
+      const imageRes = await getSpeciesImages(classificationRes.UsageKey.toString());
+      setImageInfo(imageRes);
+      console.log("imageRes", imageRes)
+    }
+    const wikiInfo = await getWikiInfo(classificationRes.name || specimen);
+    setWikiInfo(wikiInfo);
+    console.log("wikiInfo", wikiInfo)
+    setInfoLoading(false);
+  }, [model]);
+
+  const handleSetModelLoading = (loading: boolean): void => {
     setModelLoading(loading);
   };
 
@@ -40,11 +69,15 @@ const Model = ({ match }: RouteComponentProps<ModelSelectPostParams>) => {
     handleNewModelSelected();
   }, [model]);
 
+  React.useEffect(() => {
+    handleLoadModelSpeciesInfo();
+  }, [model]);
+
   return (
     <IonPage>
 
       {/* Header */}
-      <ModelHeader handleSetModelLoading={setModelLoading} model={model} />
+      <ModelHeader infoLoading={infoLoading} handleSetModelLoading={setModelLoading} model={model} />
 
       <IonContent>
 
@@ -67,7 +100,7 @@ const Model = ({ match }: RouteComponentProps<ModelSelectPostParams>) => {
             ) :
             (
               <div className="model">
-                <ModelIframes loading={loading} handleSetModelLoading={handleSetModelLoading} model={speciesName[adjustString(model) as keyof typeof speciesName]} />
+                <ModelIframes loading={loading} handleSetModelLoading={handleSetModelLoading} model={modelSpeciesName[adjustString(model) as keyof typeof modelSpeciesName]} />
               </div>
             )
         }

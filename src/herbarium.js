@@ -25,7 +25,7 @@ export const listOfModels = [
 ];
 
 // Maps common model name to species name
-export const speciesName = {
+export const modelSpeciesName = {
   "Redwood": "sequoia sempervirens",
   "Lotus": "nymphaea lotus",
   "Orca": "orcinus orca",
@@ -113,7 +113,7 @@ export const adjustString = (modelName) => {
 export const inModelList = (model) => {
   const adjustedModelString = adjustString(model);
   return listOfModels.includes(adjustedModelString);
-}
+};
 
 /**
  * @function commonNameHandlerSpecies
@@ -656,7 +656,7 @@ export function timeout(delay) {
  * If so, do not diplay the species name in the list of species corresponding to a genus.
  * 
  * @param {string} str
- * @returns {boolean} true if the speciesName has more than one space in it, false otherwise
+ * @returns {boolean} true if the species name has more than one space in it, false otherwise
  */
 const hasMultipleSpaces = (str) => {
   return str.split(' ').length > 2;
@@ -740,7 +740,7 @@ export const autocompleteSearch = async (query, isLocal = false) => {
  * @function handlePlantIdSubmit
  * @author Adapted from code written by Aj Bealum for CPHHA project. Adapted by David Y.
  * 
- * @description Runs the PlantID API to determine 
+ * @description Runs the PlantID API to run the plant identification process.
  * 
  * @param {*} userImages 
  * @returns {*}

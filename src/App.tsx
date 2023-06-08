@@ -1,5 +1,11 @@
 /**
- * @fileoverview App.tsx is the main file for the app. It contains the routes for the pages and the menu.
+ * @file: App.tsx
+ * @fileoverview This file contains the main App component, which is the root component of the app.
+ * It contains the routing for the app, and the side menu bar.
+ * 
+ * @see https://react.dev/ to read more about the React JavaScript framework.
+ * @see https://ionicframework.com/docs to read more about the Ionic React components used in this project.
+ * @see https://capacitorjs.com/ to read more about the Capacitor framework used to turn the webapp into a native iOS app.
  */
 
 import React from 'react';

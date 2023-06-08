@@ -1,5 +1,5 @@
 import React from "react";
-import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonModal, IonText, IonTitle, IonToolbar } from "@ionic/react";
+import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonModal, IonSpinner, IonText, IonTitle, IonToolbar } from "@ionic/react";
 import '../../App.css';
 import { closeOutline } from "ionicons/icons";
 import { Keyboard } from "@capacitor/keyboard";
@@ -7,13 +7,14 @@ import { inModelList } from "../../herbarium";
 
 interface ModelInfoModalProps {
   model: string;
+  infoLoading: boolean;
   showInfoModal: boolean;
   setShowInfoModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const ModelInfoModal = (props: ModelInfoModalProps) => {
 
-  const { model, showInfoModal, setShowInfoModal } = props;
+  const { model, infoLoading, showInfoModal, setShowInfoModal } = props;
 
   /**
    * @description: This function is called when the user presses the close button on the search modal.
@@ -54,7 +55,13 @@ const ModelInfoModal = (props: ModelInfoModalProps) => {
         </IonHeader>
       </div>
       <IonContent style={{ '--background': 'white' }}>
-        <p style={{ padding: "10px" }}><IonText color='primary'>HI MODAL</IonText></p>
+
+        {infoLoading ?
+          <IonSpinner color="primary" className='full-center' />
+          :
+          <p style={{ padding: "10px" }}><IonText color='primary'>HI MODAL</IonText></p>
+        }
+
       </IonContent>
     </IonModal>
   )
