@@ -74,9 +74,10 @@ const ModelHeader = React.memo((props: ModelHeaderProps) => {
    */
   const handleModelListButtonPress = React.useCallback(async (model: string): Promise<void> => {
     setShowSearchResults(false);
-    const url = window.location.pathname;
-    const decodedUrl = decodeURIComponent(url);
-    if (decodedUrl.toLocaleLowerCase().trim().includes(model.toLocaleLowerCase().trim())) return;
+    const path = window.location.pathname;
+    const parts = path.split('/');
+    const lastPart = parts[parts.length - 1];
+    if (lastPart.toLocaleLowerCase().trim() === model.toLocaleLowerCase().trim()) return;
     // if (model.toLocaleLowerCase() !== context.model.toLocaleLowerCase()) {
     console.log('setting context.model to ' + model)
     handleSetModelLoading(true);

@@ -5,6 +5,10 @@ import { handlePlantIdSubmit } from "../herbarium";
 import { Camera, GalleryPhoto, GalleryPhotos } from "@capacitor/camera";
 import { cameraSharp } from "ionicons/icons";
 import PlantIdHeader from "../components/PlantId/PlantIdHeader";
+import { useContext } from "../my-context";
+import { Preferences } from "@capacitor/preferences";
+import { useHistory } from "react-router";
+import FadeIn from "react-fade-in/lib/FadeIn";
 
 const trimString = (string: string, length: number): string => {
   return string.length > length ? string.substring(0, length - 3) + "..." : string;
@@ -14,9 +18,19 @@ const PLANT_ID_IMAGE_LIMIT: number = 1;
 
 const PlantId = () => {
 
+  const context = useContext();
+  const history = useHistory();
+
   const [plantIdResults, setPlantIdResults] = React.useState<any>();
   const [selectedPhoto, setSelectedPhoto] = React.useState<GalleryPhoto>();
   const [loading, setLoading] = React.useState<boolean>(false);
+
+  const handleCollectionsPageRedirect = async (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, speciesName: string): Promise<void> => {
+    e.preventDefault();
+    await Preferences.set({ key: 'specimen', value: speciesName });
+    context.setSpecimen(speciesName);
+    history.push("/pages/collections/" + speciesName);
+  };
 
   const handlePlantIdSubmitWithTimeout = async (base64Strings: string[]): Promise<void> => {
     try {
@@ -39,7 +53,7 @@ const PlantId = () => {
     }
   };
 
-  const takePicture = async () : Promise<void> => {
+  const takePicture = async (): Promise<void> => {
     try {
       const images: GalleryPhotos = await Camera.pickImages({
         quality: 50,
@@ -93,9 +107,9 @@ const PlantId = () => {
           </div>
         }
 
-        {plantIdResults ?
-          <div className='loaded-image-square' onClick={takePicture} style={{ backgroundImage: `url(${selectedPhoto?.webPath})` }}>
-            <div id="hoverText" className="hover-text">Identify another image</div>
+        {!loading && plantIdResults ?
+          <div className='loaded-image-square' style={{ backgroundImage: `url(${selectedPhoto?.webPath})` }}>
+            <IonButton onClick={takePicture} fill="clear" id="hoverText" className="hover-text">Identify another image</IonButton>
           </div>
           :
           <div className='init-image-square'>
@@ -110,36 +124,44 @@ const PlantId = () => {
         <div style={{ height: "5%" }} />
 
         <IonList>
-          {plantIdResults && plantIdResults.suggestions.map((suggestion: any, index: number) => {
+          {!loading && plantIdResults && plantIdResults.suggestions.map((suggestion: any, index: number) => {
             return (
-              <IonItem key={index} lines='full'>
-                <IonText color='light'>
-                  <div className="percentage-container">
-                    <p>{(suggestion.probability * 100).toString().slice(0, 5)}%</p>
-                  </div>
-                  <div className="verticalLine"></div>
-                  <IonRow>
-                    <div className="square" style={{ backgroundImage: `url(${suggestion.similar_images[0].url})` }}></div>
-                    <div style={{ width: "1vw" }} />
-                    <div className="square" style={{ backgroundImage: `url(${suggestion.similar_images[1].url})` }}></div>
-                  </IonRow>
-                  <div>
-                    <h3
-                      className="plantIdSpecies"
-                      onClick={() => { }}
-                    >
-                      {suggestion.plant_details.scientific_name} ({"species" in suggestion.plant_details.structured_name ? "Species" : "Genus"})
-                    </h3>
-                    <p className="plantIdCommonNames">{suggestion.plant_details.common_names ? suggestion.plant_details.common_names.join(", ") : ''}</p>
-                    <p className="plantIdWikiDesc">{suggestion.plant_details.wiki_description && "value" in suggestion.plant_details.wiki_description ? trimString(suggestion.plant_details.wiki_description.value, 375) : ''}</p>
-                    <p className="plantIdWikiUrl">
-                      <a href={suggestion.plant_details.url} target="_blank" rel="noopener noreferrer">
-                        Learn More
-                      </a>
-                    </p>
-                  </div>
-                </IonText>
-              </IonItem>
+              <FadeIn key={index}>
+                <IonItem lines='full' style={{ '--background': '#5BEC65', }}>
+                  <IonText color='dark'>
+                    <div className="percentage-container">
+                      <p>{(suggestion.probability * 100).toString().slice(0, 5)}%</p>
+                    </div>
+                    <div className="verticalLine"></div>
+                    <IonRow>
+                      <div className="square" style={{ backgroundImage: `url(${suggestion.similar_images[0].url})` }}></div>
+                      <div style={{ width: "1vw" }} />
+                      <div className="square" style={{ backgroundImage: `url(${suggestion.similar_images[1].url})` }}></div>
+                    </IonRow>
+                    <div>
+                      <h3 className="plantIdSpecies">
+                        <a
+                          href="#"
+                          onClick={(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+                            handleCollectionsPageRedirect(e, suggestion.plant_details.scientific_name);
+                          }}
+                        >
+                          {suggestion.plant_details.scientific_name}
+                        </a>
+                        {" "}
+                        ({"species" in suggestion.plant_details.structured_name ? "Species" : "Genus"})
+                      </h3>
+                      <p className="plantIdCommonNames">{suggestion.plant_details.common_names ? suggestion.plant_details.common_names.join(", ") : ''}</p>
+                      <p className="plantIdWikiDesc">{suggestion.plant_details.wiki_description && "value" in suggestion.plant_details.wiki_description ? trimString(suggestion.plant_details.wiki_description.value, 375) : ''}</p>
+                      <p className="plantIdWikiUrl">
+                        <a href={suggestion.plant_details.url} target="_blank" rel="noopener noreferrer">
+                          Learn More
+                        </a>
+                      </p>
+                    </div>
+                  </IonText>
+                </IonItem>
+              </FadeIn>
             )
           })}
         </IonList>

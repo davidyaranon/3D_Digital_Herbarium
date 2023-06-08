@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": " GENERATE_SOURCEMAP=false tsc && vite build",
-    "preview": "GENERATE_SOURCEMAP=false vite preview",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
     "test.e2e": "cypress run",
     "test.unit": "vitest",
     "lint": "eslint"
@@ -29,7 +29,8 @@
     "react-dom": "^18.2.0",
     "react-fade-in": "^2.0.1",
     "react-router": "^5.3.4",
-    "react-router-dom": "^5.3.4"
+    "react-router-dom": "^5.3.4",
+    "terser": "^5.17.7"
   },
   "devDependencies": {
     "@capacitor/cli": "5.0.3",

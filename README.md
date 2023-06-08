@@ -9,6 +9,10 @@ React - https://react.dev/
 Capacitor - https://capacitorjs.com/
 
 
+TO BUILD:
+ionic build
+
+
 ├── src
 │   ├── App.css
 │   ├── App.tsx
