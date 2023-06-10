@@ -122,6 +122,16 @@
   border: 5px solid var(--ion-color-light);
 }
 
+.overlay-annotations {
+  position: absolute;
+  top: 5%; /* Adjust the top value to add some space from the top */
+  left: 5%; /* Adjust the left value to add some space from the left */
+  right: 5%; /* Adjust the right value to add some space from the right */
+  bottom: 5%; /* Adjust the bottom value to add some space from the bottom */
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 10px;
+}
+
 
 /****************** COLLECTIONS PAGE ******************/
 

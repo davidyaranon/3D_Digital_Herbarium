@@ -1,4 +1,4 @@
-import { IonHeader, IonToolbar, IonButtons, IonMenuButton } from "@ionic/react";
+import { IonHeader, IonToolbar, IonButtons, IonMenuButton, IonText, IonTitle } from "@ionic/react";
 
 const HomeHeader = () => {
 
@@ -10,6 +10,11 @@ const HomeHeader = () => {
         <IonButtons slot="start">
           <IonMenuButton style={{ marginTop: "15%" }}></IonMenuButton>
         </IonButtons>
+
+        { /* Only show the title if the screen width is greater than 768px */}
+        <div className="search-icon">
+          <IonTitle><IonText color='primary'>Home</IonText></IonTitle>
+        </div>
 
       </IonToolbar>
     </IonHeader>

@@ -8,6 +8,8 @@
 
 const PLANT_ID_API_KEY = 'hlBL87ZjwFG5U7cegIbdE2mtJl7La5XATUL6hQk0l4gETxhtWc';
 
+const sketchFabSize = 586; // px
+
 
 // List of models based on common name
 // Used for displaying of models in the popup
@@ -40,17 +42,29 @@ export const modelSpeciesName = {
 
 // Maps species to sketchfab link
 export const sketchFabLinks = {
-  'sequoia sempervirens': "https://sketchfab.com/models/0115aa9368f74da8b9d2b1889f898fe5/embed",
-  'nymphaea lotus': "https://sketchfab.com/models/9e7321596cd74adba98e7f410fb65990/embed",
-  'orcinus orca': "https://sketchfab.com/models/d9034d9c8c51471aa8abbeaa72808f41/embed",
-  'poa pratensis': "https://sketchfab.com/models/07d38555cae844f7abdeace9d19c4777/embed",
-  'aloe vera': "https://sketchfab.com/models/2c7779b7b9f1498cab4c17c5994b25f6/embed",
-  'sisyrinchium bellum': "https://sketchfab.com/models/a8649632c78f478e9c4ce826a012873f/embed",
-  'crassula ovata': "https://sketchfab.com/models/4d00a2d7792f4a89aa227ea9c217bcdf/embed",
-  'acer macrophyllum': "https://sketchfab.com/models/6a7b87e2ff98433daa34b3da43092f86/embed",
-  'gaultheria shallon': "https://sketchfab.com/models/709cd4b1e7c54157b0c1ebe25eb37f22/embed",
-  'alnus rubra': "https://sketchfab.com/models/ca37de74282f4eb7af25e3ab81e761ff/embed"
+  'sequoia sempervirens': "0115aa9368f74da8b9d2b1889f898fe5",
+  'nymphaea lotus': "9e7321596cd74adba98e7f410fb65990",
+  'orcinus orca': "d9034d9c8c51471aa8abbeaa72808f41",
+  'poa pratensis': "07d38555cae844f7abdeace9d19c4777",
+  'aloe vera': "2c7779b7b9f1498cab4c17c5994b25f6",
+  'sisyrinchium bellum': "a8649632c78f478e9c4ce826a012873f",
+  'crassula ovata': "4d00a2d7792f4a89aa227ea9c217bcdf",
+  'acer macrophyllum': "6a7b87e2ff98433daa34b3da43092f86",
+  'gaultheria shallon': "709cd4b1e7c54157b0c1ebe25eb37f22",
+  'alnus rubra': "ca37de74282f4eb7af25e3ab81e761ff"
 };
+
+export const annotations = {
+  "Redwood": {
+    images: ["<img class='annoImg' src='../../images/cph_sign_nobg.png' width='50%' height='65%'>",
+      "<img class='annoImg' src='https://www.nps.gov/redw/learn/nature/images/sectionaltree.jpg?maxwidth=1300&maxheight=1300&autorotate=false' width='50%' height='65%'",
+      "<iframe class='fde' width='100%' height='85%' src='https://www.youtube.com/embed/zxNDzZ8-ako' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share' allowfullscreen></iframe>"],
+
+    text: ["<p class = 'annoP'>You are now viewing the custom application that is mentioned in the annotation in the 3D Model. Welcome to the Cal Poly Humboldt 3D Digital Herbarium!</p>",
+      "<p class = 'annoP'>This would be the annotation authored by our botany assistant on significant and/or remarkable aspects of the bark of a redwood tree.</p>",
+      ""]
+  }
+}
 
 // The local genera, species, and common names with multimedia images. 
 // Used for autocomplete.
@@ -770,7 +784,7 @@ export const handlePlantIdSubmit = async (userImages) => {
     },
     body: JSON.stringify(data),
   });
-  
+
   const json = await res.json();
 
   return json;

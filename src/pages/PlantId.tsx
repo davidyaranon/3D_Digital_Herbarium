@@ -127,7 +127,7 @@ const PlantId = () => {
           {!loading && plantIdResults && plantIdResults.suggestions.map((suggestion: any, index: number) => {
             return (
               <FadeIn key={index}>
-                <IonItem lines='full' style={{ '--background': '#5BEC65', }}>
+                <IonItem lines='full' style={{ '--background': 'white', }}>
                   <IonText color='dark'>
                     <div className="percentage-container">
                       <p>{(suggestion.probability * 100).toString().slice(0, 5)}%</p>
