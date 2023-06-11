@@ -74,6 +74,7 @@ const Collections = ({ match }: RouteComponentProps<CollectionsPostParams>) => {
    */
   const handlePageLoad = React.useCallback(async (): Promise<void> => {
     if (!specimen) return;
+    context.setSpecimen(specimen);
     setSpecimenLoading(true);
     const classificationRes: SpecimenClassificationInfo = await getSearchTermClassification(specimen, context.localSearchChecked);
     setClassificationInfo(classificationRes);
@@ -91,14 +92,14 @@ const Collections = ({ match }: RouteComponentProps<CollectionsPostParams>) => {
     setWikiInfo(wikiInfo);
     console.log("wikiInfo", wikiInfo)
     setSpecimenLoading(false);
-  }, [context.specimen, specimen]);
+  }, []);
 
   /**
    * @description: This function is called when the page is loaded.
    */
   React.useEffect(() => {
     handlePageLoad();
-  }, [context.specimen, specimen]);
+  }, [specimen]);
 
   return (
     <IonPage>
