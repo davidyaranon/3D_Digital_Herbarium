@@ -131,7 +131,7 @@ const CollectionsHeader = React.memo((props: CollectionsHeaderProps) => {
           <DesktopCollectionsHeader localSearchEnabled={context.localSearchChecked} searchRef={searchRef} handleSearch={handleSearch} handleSearchKeyPress={handleSearchKeyPress} setShowSearchResults={setShowSearchResults} />
 
           {/* Hide search bar and only display the icons when the screen width is less than 768px */}
-          <MobileCollectionsHeader handleClickOnSearchIcon={handleClickOnSearchIcon} handleClickOnInfoIcon={handleClickOnInfoIcon} />
+          <MobileCollectionsHeader handleClickOnSearchIcon={handleClickOnSearchIcon}/>
 
         </IonToolbar>
       </IonHeader>

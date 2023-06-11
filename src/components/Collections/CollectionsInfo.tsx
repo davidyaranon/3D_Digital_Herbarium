@@ -161,7 +161,7 @@ const CollectionsInfo = (props: CollectionsInfoProps) => {
                   <br />
                   <IonList lines="full" text-center style={{ borderRadius: "10px" }}>
                     {Object.keys(classificationInfo).map((keyName: string, i: number) => {
-                      if (keyName === "UsageKey" || keyName === "message" || keyName === "rank" || keyName === "name") {
+                      if (keyName === "UsageKey" || keyName === "message" || keyName === "rank" || keyName === "name" || keyName === "speciesList" || keyName === "wikiName") {
                         return null;
                       }
                       console.log(keyName, classificationInfo[keyName]);

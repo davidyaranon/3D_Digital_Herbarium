@@ -86,7 +86,8 @@ const Collections = ({ match }: RouteComponentProps<CollectionsPostParams>) => {
       setImageInfo(imageRes);
       console.log("imageRes", imageRes)
     }
-    const wikiInfo = await getWikiInfo(classificationRes.name || specimen);
+    const wikiName = "wikiName" in classificationRes && classificationRes.wikiName ? classificationRes.wikiName as string : undefined;
+    const wikiInfo = await getWikiInfo(classificationRes.name || specimen, wikiName);
     setWikiInfo(wikiInfo);
     console.log("wikiInfo", wikiInfo)
     setSpecimenLoading(false);

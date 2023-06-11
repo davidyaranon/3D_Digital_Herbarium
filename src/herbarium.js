@@ -164,7 +164,6 @@ const commonNameHandlerSpecies = async (searchTerm) => {
 async function commonNameHandlerGenus(searchTerm) {
   var match = await fetch("https://api.inaturalist.org/v1/taxa?rank=genus&q=" + searchTerm.toLowerCase())
   var json = await match.json();
-
   if (json.results.length > 0) { return json.results[0] }
   else { return false; }
 }
@@ -371,10 +370,15 @@ export const handleGenus = async (genusName, isLocal) => {
     }
     else {
       const speciesList = await getListOfSpecies(genusName, isLocal);
+      let wikiName = null;
+      if ("wikipedia_url" in searchRes && searchRes["wikipedia_url"] != null) {
+        wikiName = searchRes["wikipedia_url"].split("/").pop();
+      }
       return {
         message: "Species List",
         name: genusName,
-        speciesList: speciesList
+        speciesList: speciesList,
+        wikiName: wikiName
       };
     }
   }
@@ -427,6 +431,7 @@ export const getSearchTermClassification = async (searchTerm, isLocal = false, i
         searchRes = await handleGenus(searchTerm, isLocal);
         rank = "GENUS";
         results.speciesList = searchRes.speciesList || [];
+        results.wikiName = searchRes.wikiName || null;
       }
       else {
         console.log("Search term is not a genus or species!");
@@ -636,8 +641,9 @@ export const getSpeciesImages = async (usageKey) => {
  * }
  * 
  */
-export const getWikiInfo = async (species) => {
+export const getWikiInfo = async (species, wikiName) => {
   try {
+    if(wikiName) { species = wikiName; }
     const res = await fetch("https://en.wikipedia.org/api/rest_v1/page/summary/" + species);
     const data = await res.json();
     let summaryExtract = "";
