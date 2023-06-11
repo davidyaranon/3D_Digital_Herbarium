@@ -7,6 +7,7 @@
 {/* Ionic / React */ }
 import React from 'react';
 import { IonHeader, IonToolbar, IonButtons, IonMenuButton, IonItem, IonText, IonSkeletonText } from '@ionic/react';
+import { useHistory } from 'react-router';
 
 {/* Capacitor */ }
 import { Preferences } from '@capacitor/preferences';
@@ -20,8 +21,6 @@ import DesktopCollectionsHeader from './Desktop/DesktopCollectionsHeader';
 
 {/* Styles */ }
 import '../../App.css';
-import { useHistory } from 'react-router';
-import CollectionsInfoModal from './CollectionsInfoModal';
 
 const loadingSearchItems = ['', '', '', '', ''];
 
@@ -110,7 +109,7 @@ const CollectionsHeader = React.memo((props: CollectionsHeaderProps) => {
    * 
    * @param {React.KeyboardEvent<HTMLIonSearchbarElement>} event the event that is triggered when the user presses a key on the searchbar
    */
-  const handleSearchKeyPress = React.useCallback((event: React.KeyboardEvent<HTMLIonSearchbarElement>) : void => {
+  const handleSearchKeyPress = React.useCallback((event: React.KeyboardEvent<HTMLIonSearchbarElement>): void => {
     if (event.key === 'Enter') {
       const searchTerm = (event.target as HTMLIonSearchbarElement).value || '';
       handleSpecimenListButtonPress(searchTerm);
@@ -131,7 +130,7 @@ const CollectionsHeader = React.memo((props: CollectionsHeaderProps) => {
           <DesktopCollectionsHeader localSearchEnabled={context.localSearchChecked} searchRef={searchRef} handleSearch={handleSearch} handleSearchKeyPress={handleSearchKeyPress} setShowSearchResults={setShowSearchResults} />
 
           {/* Hide search bar and only display the icons when the screen width is less than 768px */}
-          <MobileCollectionsHeader handleClickOnSearchIcon={handleClickOnSearchIcon}/>
+          <MobileCollectionsHeader handleClickOnSearchIcon={handleClickOnSearchIcon} />
 
         </IonToolbar>
       </IonHeader>
@@ -168,9 +167,6 @@ const CollectionsHeader = React.memo((props: CollectionsHeaderProps) => {
         searchRef={searchRef} localSearchEnabled={context.localSearchChecked}
         showSearchResultsLoading={showSearchResultsLoading}
       />
-
-      { /* Slide up modal that displays the information for the selected specimen */}
-      <CollectionsInfoModal showInfoModal={showInfoModal} setShowInfoModal={setShowInfoModal} />
 
     </>
   )

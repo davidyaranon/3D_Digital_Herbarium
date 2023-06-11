@@ -79,14 +79,14 @@ const Collections = ({ match }: RouteComponentProps<CollectionsPostParams>) => {
     context.setSpecimen(specimen);
     await Preferences.set({key : 'specimen', value : specimen});
     setSpecimenLoading(true);
-    const localSearchChecked = await Preferences.get({key : 'localSearchChecked'});
+    const localSearchChecked = await Preferences.get({key : 'localSearchChecked'});2
     let isLocal = false;
     if(localSearchChecked.value === 'true') {
       isLocal = true;
     }
     const classificationRes: SpecimenClassificationInfo = await getSearchTermClassification(specimen, isLocal);
     setClassificationInfo(classificationRes);
-    if(context.localSearchChecked &&"rank" in classificationRes && classificationRes.rank === "Common Name" && "name" in classificationRes && classificationRes.name) {
+    if(localSearchChecked && "rank" in classificationRes && classificationRes.rank === "Common Name" && "name" in classificationRes && classificationRes.name && (!("listOfCommonNameSpecies" in classificationRes) || classificationRes.listOfCommonNameSpecies === undefined ||classificationRes.listOfCommonNameSpecies.length === 0 ) ) {
       await Preferences.set({key : 'specimen', value : classificationRes.name});
       context.setSpecimen(classificationRes.name);
       history.push(`/pages/collections/${classificationRes.name}`);

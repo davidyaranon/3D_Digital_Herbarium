@@ -5,9 +5,8 @@
  * used to fetch data from external APIs and to handle data entered on the frontend.
  */
 
-
+// GLOBAL VARIABLES
 const PLANT_ID_API_KEY = 'hlBL87ZjwFG5U7cegIbdE2mtJl7La5XATUL6hQk0l4gETxhtWc';
-
 
 // List of models based on common name
 // Used for displaying of models in the popup
@@ -209,29 +208,29 @@ const getSpeciesListFromCommonName = (res) => {
  * @author Adapted from code written by Aj Bealum for CPHHA project. Adapted by David Y.
  * 
  * @description gets a list of species names for a given genus.
- * The iNaturalist API is used using the /taxa endpoint if local search is not enabled. Otherwise, the list is pulled from genusSpeciesMap.
+ * The iNaturalist API is used using the /taxa endpoint if local search is not enabled. 
+ * Otherwise, the list is pulled from genusSpeciesMap.
  * 
  * @param {string} genus the genus to search for species of
- * @returns {Promise<string[]>} an array of species names, up to length 100
+ * @returns an array of species names, up to length 100
  */
 export const getListOfSpecies = async (genusName, isLocal) => {
   let speciesList = [];
-  if (isLocal && genusName.toLowerCase() in genusSpeciesMap) {
+  let globalSpeciesList = [];
+  if (genusName.toLowerCase() in genusSpeciesMap) {
     speciesList = Object.keys(genusSpeciesMap[genusName.toLowerCase()]) || [];
   }
-  else {
-    var match = await fetch("https://api.inaturalist.org/v1/taxa?rank=species&q=" + genusName)
-    var json = await match.json();
-    if (json.results.length > 0) {
-      let length = json.results.length > 100 ? 100 : json.results.length;
-      for (let i = 0; i < length; i++) {
-        if (json.results[i].iconic_taxon_id === 47126) {
-          speciesList.push(json.results[i].name);
-        }
+  var match = await fetch("https://api.inaturalist.org/v1/taxa?rank=species&q=" + genusName)
+  var json = await match.json();
+  if (json.results.length > 0) {
+    let length = json.results.length > 100 ? 100 : json.results.length;
+    for (let i = 0; i < length; i++) {
+      if (json.results[i].iconic_taxon_id === 47126) {
+        globalSpeciesList.push(json.results[i].name);
       }
     }
   }
-  return speciesList;
+  return { speciesList, globalSpeciesList };
 };
 
 /**
@@ -369,7 +368,10 @@ export const handleGenus = async (genusName, isLocal) => {
       };
     }
     else {
-      const speciesList = await getListOfSpecies(genusName, isLocal);
+      const { speciesList, globalSpeciesList } = await getListOfSpecies(genusName, isLocal);
+      console.log('\n\n\n\n\n');
+      console.log(speciesList);
+      console.log(globalSpeciesList);
       let wikiName = null;
       if ("wikipedia_url" in searchRes && searchRes["wikipedia_url"] != null) {
         wikiName = searchRes["wikipedia_url"].split("/").pop();
@@ -378,6 +380,7 @@ export const handleGenus = async (genusName, isLocal) => {
         message: "Species List",
         name: genusName,
         speciesList: speciesList,
+        globalSpeciesList: globalSpeciesList,
         wikiName: wikiName
       };
     }
@@ -394,7 +397,7 @@ export const handleGenus = async (genusName, isLocal) => {
  * 
  * @param {string} searchTerm - The term entered into the search bar
  * @param {boolean} isLocal - Whether or not the local search toggle is on.
- * @returns {specimenClassificationInfo | undefined} - The species information.
+ * @returns {Promise<specimenClassificationInfo | undefined>} - The species information.
  * 
  * @example
  * getSearchTermClassification("nymphaea lotus");
@@ -434,6 +437,7 @@ export const getSearchTermClassification = async (searchTerm, isLocal, is3dModel
         searchRes = await handleGenus(searchTerm, isLocal);
         rank = "GENUS";
         results.speciesList = searchRes.speciesList || [];
+        results.globalSpeciesList = searchRes.globalSpeciesList || [];
         results.wikiName = searchRes.wikiName || null;
       }
       else {
@@ -479,7 +483,7 @@ export const getSearchTermClassification = async (searchTerm, isLocal, is3dModel
  * @see https://www.gbif.org/developer/species
  * 
  * @param {string} usageKey - The usage key for the species returned from the GBIF match endpoint.
- * @returns {[object]} - The species profile information.
+ * @returns {Promise<any>} - The species profile information.
  * 
  * @example
  * getSpeciesProfile('2882429');
@@ -630,7 +634,7 @@ export const getSpeciesImages = async (usageKey) => {
  * @see https://www.mediawiki.org/wiki/API:Main_page
  * 
  * @param {string} species - The species name.
- * @returns {object} - The species summary extract and wiki link.
+ * @returns {Promise<object>} - The species summary extract and wiki link.
  * 
  * @example
  * getWikiInfo("nymphaea lotus");
@@ -646,7 +650,7 @@ export const getSpeciesImages = async (usageKey) => {
  */
 export const getWikiInfo = async (species, wikiName) => {
   try {
-    if(wikiName) { species = wikiName; }
+    if (wikiName) { species = wikiName; }
     const res = await fetch("https://en.wikipedia.org/api/rest_v1/page/summary/" + species);
     const data = await res.json();
     let summaryExtract = "";
@@ -774,7 +778,7 @@ export const autocompleteSearch = async (query, isLocal = false) => {
  * @description Runs the PlantID API to run the plant identification process.
  * 
  * @param {*} userImages 
- * @returns {*}
+ * @returns json
  */
 export const handlePlantIdSubmit = async (userImages) => {
 
@@ -794,6 +798,8 @@ export const handlePlantIdSubmit = async (userImages) => {
       ],
   };
 
+  let json = {};
+
   const res = await fetch('https://api.plant.id/v2/identify', {
     method: 'POST',
     headers: {
@@ -802,7 +808,7 @@ export const handlePlantIdSubmit = async (userImages) => {
     body: JSON.stringify(data),
   });
 
-  const json = await res.json();
+  json = await res.json();
 
   return json;
 

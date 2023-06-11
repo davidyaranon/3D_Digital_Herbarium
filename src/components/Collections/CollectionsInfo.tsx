@@ -4,7 +4,7 @@
  * displays the information for the selected species in the collections page.
  */
 
-import { IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonContent, IonItem, IonLabel, IonList, IonSpinner, IonText } from "@ionic/react";
+import { IonCardContent, IonCardTitle, IonItem, IonLabel, IonList, IonSpinner, IonText } from "@ionic/react";
 import { listOfModels, sketchFabLinks, modelSpeciesName } from "../../herbarium";
 import { useHistory } from "react-router";
 import { Preferences } from "@capacitor/preferences";
@@ -33,7 +33,7 @@ const adjustString = (modelName: string): string => {
   }
   );
   return newString;
-}
+};
 
 /**
  * @description Checks if the model is in the list of models.
@@ -47,7 +47,18 @@ const inModelList = (specimen: string): boolean => {
     return true;
   }
   return false;
-}
+};
+
+/**
+ * @description determines if species name has more than one space.
+ * If so, do not diplay the species name in the list of species corresponding to a genus.
+ * 
+ * @param {string} str
+ * @returns {boolean} true if the speciesName has more than one space in it, false otherwise
+ */
+const hasMultipleSpaces = (str : string) => {
+  return str.split(' ').length > 2;
+};
 
 
 const CollectionsInfo = (props: CollectionsInfoProps) => {
@@ -121,14 +132,32 @@ const CollectionsInfo = (props: CollectionsInfoProps) => {
               <IonCardContent>
 
                 {/* List of species is listed if search term is a genus */}
-                {classificationInfo && "speciesList" in classificationInfo && classificationInfo.speciesList &&
+                {classificationInfo && "speciesList" in classificationInfo && "globalSpeciesList" in classificationInfo &&
+                  classificationInfo.speciesList && classificationInfo.globalSpeciesList &&
                   <>
-                    <IonCardTitle><IonText color='primary'>List of species associated with genus</IonText></IonCardTitle>
+                    {context.localSearchChecked && classificationInfo.speciesList.length <= 0 ?
+                      <IonCardTitle><IonText color='primary'>No local species associated with genus {adjustString(specimen)}</IonText></IonCardTitle>
+                      :
+                      !context.localSearchChecked && classificationInfo.globalSpeciesList.length <= 0 ?
+                        <IonCardTitle><IonText color='primary'>No species associated with genus {adjustString(specimen)}</IonText></IonCardTitle>
+                        :
+                        <IonCardTitle><IonText color='primary'>List of {context.localSearchChecked ? ' local ' : ''} species associated with genus {adjustString(specimen)}</IonText></IonCardTitle>
+                    }
                     <br />
                     <IonList lines="full" text-center style={{ borderRadius: "10px" }}>
-                      {classificationInfo.speciesList.map((species: string, index: number) => {
+                      {context.localSearchChecked && classificationInfo.speciesList.map((species: string, index: number) => {
+                        if(hasMultipleSpaces(species)) { return; }
                         return (
                           <IonItem button key={index.toString()} className="ion-text-wrap" onClick={() => handleClickOnSpeciesFromGenus(species)}>
+                            <IonLabel style={{ textAlign: "left", fontSize: "1.1em" }} className="ion-text-wrap">
+                              {species}
+                            </IonLabel>
+                          </IonItem>
+                        );
+                      })}
+                      {!context.localSearchChecked && classificationInfo.globalSpeciesList.map((species: string, index: number) => {
+                        return (
+                          <IonItem button key={index.toString()} className="ion-text-wrap" onClick={() => handleClickOnSpeciesFromCommonName(species)}>
                             <IonLabel style={{ textAlign: "left", fontSize: "1.1em" }} className="ion-text-wrap">
                               {species}
                             </IonLabel>
@@ -162,10 +191,9 @@ const CollectionsInfo = (props: CollectionsInfoProps) => {
                     <br />
                     <IonList lines="full" text-center style={{ borderRadius: "10px" }}>
                       {Object.keys(classificationInfo).map((keyName: string, i: number) => {
-                        if (keyName === "UsageKey" || keyName === "message" || keyName === "rank" || keyName === "name" || keyName === "speciesList" || keyName === "wikiName") {
+                        if (keyName === "UsageKey" || keyName === "message" || keyName === "rank" || keyName === "name" || keyName === "speciesList" || keyName === "wikiName" || keyName === 'globalSpeciesList') {
                           return null;
                         }
-                        console.log(keyName, classificationInfo[keyName]);
                         return (
                           <IonItem key={keyName + i.toString()} className="ion-text-wrap">
                             <IonLabel style={{ textAlign: "left", fontSize: "1.1em" }} className="ion-text-wrap">
