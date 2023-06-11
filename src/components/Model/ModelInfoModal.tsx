@@ -4,6 +4,8 @@ import '../../App.css';
 import { closeOutline } from "ionicons/icons";
 import { Keyboard } from "@capacitor/keyboard";
 import { adjustString, inModelList } from "../../herbarium";
+import FadeIn from "react-fade-in";
+import { useContext } from "../../my-context";
 
 interface ModelInfoModalProps {
   model: string;
@@ -74,72 +76,109 @@ const ModelInfoModal = (props: ModelInfoModalProps) => {
           :
           <IonCard className="ion-no-padding" color='light'>
 
-            <IonCardHeader>
-              <IonCardTitle>Classification</IonCardTitle>
-            </IonCardHeader>
-            <IonCardContent>
-              <IonList lines="full" text-center style={{borderRadius : "10px"}}>
-                {classificationInfo &&
-                  Object.keys(classificationInfo).map((keyName: string, i: number) => {
-                    if (keyName === "UsageKey" || keyName === "message" || keyName === "rank" || keyName === "name") {
-                      return null;
-                    }
-                    return (
-                      <IonItem key={keyName + i.toString()} className="ion-text-wrap">
-                        <IonLabel style={{ textAlign: "left", fontSize : "1.1em" }} className="ion-text-wrap">
-                          {keyName} : {classificationInfo[keyName as keyof typeof classificationInfo]}
-                        </IonLabel>
-                      </IonItem>
-                    );
-                  })}
-              </IonList>
-            </IonCardContent>
+            {imageInfo && (classificationInfo && (!("listOfCommonNameSpecies" in classificationInfo) || !classificationInfo.listOfCommonNameSpecies)) &&
+              <FadeIn delay={125}>
+                <br />
+                {imageInfo.length <= 0 ?
+                  <IonCardHeader>
+                    <IonCardTitle> No Images Available for {adjustString(model)} </IonCardTitle>
+                  </IonCardHeader>
+                  :
+                  <>
+                    <IonCardHeader>
+                      <IonCardTitle> Images </IonCardTitle>
+                    </IonCardHeader>
+                    <div style={{marginLeft : "20px", marginRight : "20px", height: "50vh", display: "flex", flexDirection: "row", borderRadius: "10px", overflowX: "auto" }}>
 
-            <IonCardHeader>
-              <IonCardTitle>Profile</IonCardTitle>
-            </IonCardHeader>
-            <IonCardContent>
-              <IonList lines="full" text-center style={{borderRadius : "10px"}}>
-                {profileInfo &&
-                  Object.keys(profileInfo).map((keyName: string, i: number) => {
-                    if (!profileInfo[keyName as keyof typeof profileInfo]) {
-                      return null;
-                    }
-                    return (
-                      <IonItem key={keyName + i.toString()} className="ion-text-wrap">
-                        <IonLabel style={{ textAlign: "left", fontSize : "1.1em" }} className="ion-text-wrap">
-                          {keyName} : {profileInfo[keyName as keyof typeof profileInfo]}
-                        </IonLabel>
-                      </IonItem>
-                    );
-                  })}
-              </IonList>
-            </IonCardContent>
+                      {imageInfo.map((src: string, index: number) => {
+                        return (
+                          <img
+                            loading="lazy"
+                            key={index}
+                            style={{ flex: 1, objectFit: "cover", marginRight: "5px" }}
+                            src={src}
+                          />
+                        );
+                      })}
+                    </div>
+                  </>
+                }
+                <br />
+              </FadeIn>
+            }
 
-            <IonCardHeader>
-              <IonCardTitle>Description</IonCardTitle>
-            </IonCardHeader>
-            <IonCardContent>
-              <IonList lines="full" text-center style={{borderRadius : "10px"}}>
-                {wikiInfo &&
-                  Object.keys(wikiInfo).map((keyName: string, i: number) => {
-                    if (keyName === 'wikiLink') {
+            <FadeIn>
+              <IonCardHeader>
+                <IonCardTitle>Classification</IonCardTitle>
+              </IonCardHeader>
+              <IonCardContent>
+                <IonList lines="full" text-center style={{ borderRadius: "10px" }}>
+                  {classificationInfo &&
+                    Object.keys(classificationInfo).map((keyName: string, i: number) => {
+                      if (keyName === "UsageKey" || keyName === "message" || keyName === "rank" || keyName === "name") {
+                        return null;
+                      }
                       return (
-                        <IonLabel key={keyName + i.toString()} style={{ textAlign: "left" }} className="ion-text-wrap">
-                          <a style={{ color: 'var(--ion-color-light)', padding: '15px' }} href={wikiInfo[keyName as keyof typeof wikiInfo]}>{wikiInfo[keyName as keyof typeof wikiInfo]}</a>
-                        </IonLabel>
-                      )
-                    }
-                    return (
-                      <IonItem key={keyName + i.toString()} className="ion-text-wrap">
-                        <IonLabel style={{ textAlign: "left", fontSize : "1.1em" }} className="ion-text-wrap">
-                          {wikiInfo[keyName as keyof typeof wikiInfo]}
-                        </IonLabel>
-                      </IonItem>
-                    );
-                  })}
-              </IonList>
-            </IonCardContent>
+                        <IonItem key={keyName + i.toString()} className="ion-text-wrap">
+                          <IonLabel style={{ textAlign: "left", fontSize: "1.1em" }} className="ion-text-wrap">
+                            {keyName} : {classificationInfo[keyName as keyof typeof classificationInfo]}
+                          </IonLabel>
+                        </IonItem>
+                      );
+                    })}
+                </IonList>
+              </IonCardContent>
+            </FadeIn>
+
+            <FadeIn delay={500}>
+              <IonCardHeader>
+                <IonCardTitle>Profile</IonCardTitle>
+              </IonCardHeader>
+              <IonCardContent>
+                <IonList lines="full" text-center style={{ borderRadius: "10px" }}>
+                  {profileInfo &&
+                    Object.keys(profileInfo).map((keyName: string, i: number) => {
+                      if (!profileInfo[keyName as keyof typeof profileInfo]) {
+                        return null;
+                      }
+                      return (
+                        <IonItem key={keyName + i.toString()} className="ion-text-wrap">
+                          <IonLabel style={{ textAlign: "left", fontSize: "1.1em" }} className="ion-text-wrap">
+                            {keyName} : {profileInfo[keyName as keyof typeof profileInfo]}
+                          </IonLabel>
+                        </IonItem>
+                      );
+                    })}
+                </IonList>
+              </IonCardContent>
+            </FadeIn>
+
+            <FadeIn delay={1000}>
+              <IonCardHeader>
+                <IonCardTitle>Description</IonCardTitle>
+              </IonCardHeader>
+              <IonCardContent>
+                <IonList lines="full" text-center style={{ borderRadius: "10px" }}>
+                  {wikiInfo &&
+                    Object.keys(wikiInfo).map((keyName: string, i: number) => {
+                      if (keyName === 'wikiLink') {
+                        return (
+                          <IonLabel key={keyName + i.toString()} style={{ textAlign: "left" }} className="ion-text-wrap">
+                            <a style={{ color: 'var(--ion-color-light)', padding: '15px' }} href={wikiInfo[keyName as keyof typeof wikiInfo]}>{wikiInfo[keyName as keyof typeof wikiInfo]}</a>
+                          </IonLabel>
+                        )
+                      }
+                      return (
+                        <IonItem key={keyName + i.toString()} className="ion-text-wrap">
+                          <IonLabel style={{ textAlign: "left", fontSize: "1.1em" }} className="ion-text-wrap">
+                            {wikiInfo[keyName as keyof typeof wikiInfo]}
+                          </IonLabel>
+                        </IonItem>
+                      );
+                    })}
+                </IonList>
+              </IonCardContent>
+            </FadeIn>
 
           </IonCard>
         }

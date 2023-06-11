@@ -47,9 +47,8 @@ const Model = ({ match }: RouteComponentProps<ModelSelectPostParams>) => {
       const profileRes = await getSpeciesProfile(classificationRes.UsageKey.toString());
       setProfileInfo(profileRes);
       console.log("profileRes", profileRes)
-      const imageRes = await getSpeciesImages(classificationRes.UsageKey.toString());
-      setImageInfo(imageRes);
-      console.log("imageRes", imageRes)
+      const {globalImages} = await getSpeciesImages(classificationRes.UsageKey.toString(),  classificationRes.name);
+      setImageInfo(globalImages);
     }
     const wikiName = "wikiName" in classificationRes && classificationRes.wikiName ? classificationRes.wikiName : undefined;
     const wikiInfo = await getWikiInfo(classificationRes.name || specimen, wikiName);

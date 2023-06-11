@@ -62,7 +62,8 @@ const Collections = ({ match }: RouteComponentProps<CollectionsPostParams>) => {
   const [profileInfo, setProfileInfo] = React.useState<any>({});
 
   // The image information for the species, default is empty array
-  const [imageInfo, setImageInfo] = React.useState<string[]>([]);
+  const [localImageInfo, setLocalImageInfo] = React.useState<string[]>([]);
+  const [globalImageInfo, setGlobalImageInfo] = React.useState<string[]>([]);
 
   // The wikipedia information for the species, default is empty object
   const [wikiInfo, setWikiInfo] = React.useState<any>({});
@@ -96,9 +97,9 @@ const Collections = ({ match }: RouteComponentProps<CollectionsPostParams>) => {
       const profileRes = await getSpeciesProfile(classificationRes.UsageKey.toString());
       setProfileInfo(profileRes);
       console.log("profileRes", profileRes)
-      const imageRes = await getSpeciesImages(classificationRes.UsageKey.toString(), classificationRes.name, isLocal);
-      setImageInfo(imageRes);
-      console.log("imageRes", imageRes)
+      const { localImages, globalImages } = await getSpeciesImages(classificationRes.UsageKey.toString(), classificationRes.name);
+      setLocalImageInfo(localImages);
+      setGlobalImageInfo(globalImages);
     }
     const wikiName = "wikiName" in classificationRes && classificationRes.wikiName ? classificationRes.wikiName as string : undefined;
     const wikiInfo = await getWikiInfo(classificationRes.name || specimen, wikiName);
@@ -133,7 +134,7 @@ const Collections = ({ match }: RouteComponentProps<CollectionsPostParams>) => {
           <CollectionsInfo
             infoLoading={specimenLoading}
             classificationInfo={classificationInfo} profileInfo={profileInfo}
-            imageInfo={imageInfo} wikiInfo={wikiInfo} specimen={specimen}
+            localImageInfo={localImageInfo} globalImageInfo={globalImageInfo} wikiInfo={wikiInfo} specimen={specimen}
           />
         }
 

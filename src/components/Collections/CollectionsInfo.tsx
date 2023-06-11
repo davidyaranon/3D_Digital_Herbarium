@@ -16,7 +16,8 @@ interface CollectionsInfoProps {
   specimen: string;
   classificationInfo: any;
   profileInfo: any;
-  imageInfo: string[];
+  localImageInfo: string[];
+  globalImageInfo: string[];
   wikiInfo: any;
 };
 
@@ -63,7 +64,7 @@ const hasMultipleSpaces = (str: string) => {
 
 const CollectionsInfo = (props: CollectionsInfoProps) => {
 
-  const { specimen, infoLoading, classificationInfo, profileInfo, imageInfo, wikiInfo } = props;
+  const { specimen, infoLoading, classificationInfo, profileInfo, localImageInfo, globalImageInfo, wikiInfo } = props;
 
   // Hooks
   const history = useHistory();
@@ -113,7 +114,7 @@ const CollectionsInfo = (props: CollectionsInfoProps) => {
         <FadeIn delay={125}>
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             {inModelList(adjustString(specimen)) &&
-              <a style={{ cursor: 'pointer' }} onClick={handleRedirectToModelFromCollections}><IonText color='primary'>3D Model available for {specimen}</IonText></a>
+              <a style={{ cursor: 'pointer' }} onClick={handleRedirectToModelFromCollections}><IonText color='primary'><u>3D Model available for {specimen}</u></IonText></a>
             }
           </div>
         </FadeIn>
@@ -132,32 +133,66 @@ const CollectionsInfo = (props: CollectionsInfoProps) => {
             <IonCardContent>
 
               {/* Images for each specimen (local HSC if local search is toggled) */}
-              {imageInfo && (classificationInfo && (!("listOfCommonNameSpecies" in classificationInfo) || !classificationInfo.listOfCommonNameSpecies)) &&
-                <FadeIn delay={125}>
-                  <br />
-                  {imageInfo.length <= 0 ?
-                    <IonCardTitle><IonText color='primary'>No Images Available for {adjustString(specimen)}</IonText></IonCardTitle>
-                    :
-                    <>
-                      <IonCardTitle><IonText color='primary'>{context.localSearchChecked ? "Local HSC " : ""}Images</IonText></IonCardTitle>
+              {context.localSearchChecked ?
+                <>
+                  {localImageInfo && (classificationInfo && (!("listOfCommonNameSpecies" in classificationInfo) || !classificationInfo.listOfCommonNameSpecies)) &&
+                    <FadeIn delay={125}>
                       <br />
-                      <div style={{ height: "50vh", display: "flex", flexDirection: "row", borderRadius: "10px", overflowX: "auto" }}>
+                      {localImageInfo.length <= 0 ?
+                        <IonCardTitle><IonText color='primary'>No Local Images Available for {adjustString(specimen)}</IonText></IonCardTitle>
+                        :
+                        <>
+                          <IonCardTitle><IonText color='primary'>Local HSC Images</IonText></IonCardTitle>
+                          <br />
+                          <div style={{ height: "50vh", display: "flex", flexDirection: "row", borderRadius: "10px", overflowX: "auto" }}>
 
-                        {imageInfo.map((src: string, index: number) => {
-                          return (
-                            <img
-                              loading="lazy"
-                              key={index}
-                              style={{ flex: 1, objectFit: "cover", marginRight: "5px" }}
-                              src={src}
-                            />
-                          );
-                        })}
-                      </div>
-                    </>
+                            {localImageInfo.map((src: string, index: number) => {
+                              return (
+                                <img
+                                  loading="lazy"
+                                  key={index}
+                                  style={{ flex: 1, objectFit: "cover", marginRight: "5px" }}
+                                  src={src}
+                                />
+                              );
+                            })}
+                          </div>
+                        </>
+                      }
+                    </FadeIn>
                   }
                   <br />
-                </FadeIn>
+                </>
+                :
+                <>
+                  {globalImageInfo && (classificationInfo && (!("listOfCommonNameSpecies" in classificationInfo) || !classificationInfo.listOfCommonNameSpecies)) &&
+                    <FadeIn delay={125}>
+                      <br />
+                      {globalImageInfo.length <= 0 ?
+                        <IonCardTitle><IonText color='primary'>No Images Available for {adjustString(specimen)}</IonText></IonCardTitle>
+                        :
+                        <>
+                          <IonCardTitle><IonText color='primary'>Images</IonText></IonCardTitle>
+                          <br />
+                          <div style={{ height: "50vh", display: "flex", flexDirection: "row", borderRadius: "10px", overflowX: "auto" }}>
+
+                            {globalImageInfo.map((src: string, index: number) => {
+                              return (
+                                <img
+                                  loading="lazy"
+                                  key={index}
+                                  style={{ flex: 1, objectFit: "cover", marginRight: "5px" }}
+                                  src={src}
+                                />
+                              );
+                            })}
+                          </div>
+                        </>
+                      }
+                    </FadeIn>
+                  }
+                  <br />
+                </>
               }
 
               {/* List of species is listed if search term is a genus (local and global cases handled as well) */}
@@ -284,6 +319,7 @@ const CollectionsInfo = (props: CollectionsInfoProps) => {
                   </IonList>
                 </FadeIn>
               }
+              <div style={{ height: "5vh" }} />
             </IonCardContent>
           </>
         }
