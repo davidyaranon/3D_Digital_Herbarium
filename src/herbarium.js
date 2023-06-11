@@ -8,8 +8,6 @@
 
 const PLANT_ID_API_KEY = 'hlBL87ZjwFG5U7cegIbdE2mtJl7La5XATUL6hQk0l4gETxhtWc';
 
-const sketchFabSize = 586; // px
-
 
 // List of models based on common name
 // Used for displaying of models in the popup
@@ -55,14 +53,21 @@ export const sketchFabLinks = {
 };
 
 export const annotations = {
-  "Redwood": {
-    images: ["<img class='annoImg' src='../../images/cph_sign_nobg.png' width='50%' height='65%'>",
-      "<img class='annoImg' src='https://www.nps.gov/redw/learn/nature/images/sectionaltree.jpg?maxwidth=1300&maxheight=1300&autorotate=false' width='50%' height='65%'",
-      "<iframe class='fde' width='100%' height='85%' src='https://www.youtube.com/embed/zxNDzZ8-ako' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share' allowfullscreen></iframe>"],
-
-    text: ["<p class = 'annoP'>You are now viewing the custom application that is mentioned in the annotation in the 3D Model. Welcome to the Cal Poly Humboldt 3D Digital Herbarium!</p>",
-      "<p class = 'annoP'>This would be the annotation authored by our botany assistant on significant and/or remarkable aspects of the bark of a redwood tree.</p>",
-      ""]
+  "sequoia sempervirens": {
+    annotationsLength: 4,
+    images: [ // img tags
+      "<p>Image 1</p>",
+      "<p>Image 2</p>",
+      "<p>Image 3</p>",
+      "<p>Image 4</p>"
+    ],
+    text: [
+      "<p>Annotation 1</p>",
+      "<p>Annotation 2</p>",
+      "<p>Annotation 3</p>",
+      "<p>Annotation 4</p>"
+    ],
+    annotationsLength: 4
   }
 }
 

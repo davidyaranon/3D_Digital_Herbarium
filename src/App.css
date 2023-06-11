@@ -7,7 +7,7 @@
 
 /****************** HEADER (COLLECTIONS / 3D MODEL PAGES) ******************/
 
-/* Hide the search bar when the screen width is less than 768px */
+/* Hide the search bar when the screen width is less than 992px */
 @media screen and (max-width: 991px) {
   .search-bar-container {
     display: none;
@@ -25,7 +25,7 @@
   }
 }
 
-/* Display the search bar when the screen width is greater than or equal to 768px */
+/* Display the search bar when the screen width is greater than or equal to 992px */
 @media screen and (min-width: 992px) {
   .search-bar-container {
     display: flex;
@@ -122,14 +122,28 @@
   border: 5px solid var(--ion-color-light);
 }
 
-.overlay-annotations {
-  position: absolute;
-  top: 5%; /* Adjust the top value to add some space from the top */
-  left: 5%; /* Adjust the left value to add some space from the left */
-  right: 5%; /* Adjust the right value to add some space from the right */
-  bottom: 5%; /* Adjust the bottom value to add some space from the bottom */
-  background-color: rgba(255, 255, 255, 0.7);
-  border-radius: 10px;
+@media screen and (max-width: 586px) {
+  .overlay-annotations {
+    display : none;
+  }
+}
+
+/* @media screen and (min-width: 587px) {  UN-COMMENT IF OVERLAY IS NOT DESIRED ON MOBILE */ 
+  .overlay-annotations {
+    display : block;
+    position: absolute;
+    top: 5%;
+    left: 5%;
+    right: 5%;
+    bottom: 5%;
+    background-color: rgba(28, 28, 28, 0.75);
+    border-radius: 10px;
+  }
+/* } */
+
+.annotations-info {
+  padding: 10px;
+  color: white;
 }
 
 
