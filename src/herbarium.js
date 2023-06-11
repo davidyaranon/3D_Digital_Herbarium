@@ -7,6 +7,7 @@
 
 // GLOBAL VARIABLES
 const PLANT_ID_API_KEY = 'hlBL87ZjwFG5U7cegIbdE2mtJl7La5XATUL6hQk0l4gETxhtWc';
+const HSCDatasetKey = '6958627a-e1cd-489f-b4f3-6e7760203b9d';
 
 // List of models based on common name
 // Used for displaying of models in the popup
@@ -596,6 +597,7 @@ export const getSpeciesProfile = async (usageKey) => {
  * @see https://www.gbif.org/developer/occurrence
  * 
  * @param {string} usageKey - The usage key for the species returned from the GBIF match endpoint.
+ * @param {boolean} isLocal - If true, the images will be retrieved from HSC
  * @returns {[string]} - The species images.
  * 
  * @example
@@ -606,9 +608,20 @@ export const getSpeciesProfile = async (usageKey) => {
  * "https://inaturalist-open-data.s3.amazonaws.com/photos/250148503/original.jpg"
  * }
  */
-export const getSpeciesImages = async (usageKey) => {
+export const getSpeciesImages = async (usageKey, name, isLocal) => {
   try {
-    // conxsole.log(usageKey)
+    if (isLocal) {
+      const res = await fetch('https://api.gbif.org/v1/occurrence/search?datasetKey=' + HSCDatasetKey + '&mediaType=StillImage&q=' + name + "&scientificName=" + name)
+      const json = await res.json();
+      if (!("results" in json)) { return []; };
+      let images = [];
+      const imagesLength = json.results.length < 10 ? json.results.length : 10;
+      for (let i = 0; i < imagesLength; i++) {
+        const image = json.results[i].media[0].identifier;
+        images.push(image);
+      }
+      return images;
+    }
     const res = await fetch("https://api.gbif.org/v1/occurrence/search?speciesKey=" + usageKey + "&mediaType=StillImage");
     const data = await res.json();
     if (!("results" in data)) { return []; };

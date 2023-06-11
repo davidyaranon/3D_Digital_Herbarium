@@ -4,7 +4,7 @@
  * displays the information for the selected species in the collections page.
  */
 
-import { IonCardContent, IonCardTitle, IonItem, IonLabel, IonList, IonSpinner, IonText } from "@ionic/react";
+import { IonCardContent, IonCardTitle, IonImg, IonItem, IonLabel, IonList, IonSpinner, IonText } from "@ionic/react";
 import { listOfModels, sketchFabLinks, modelSpeciesName } from "../../herbarium";
 import { useHistory } from "react-router";
 import { Preferences } from "@capacitor/preferences";
@@ -56,7 +56,7 @@ const inModelList = (specimen: string): boolean => {
  * @param {string} str
  * @returns {boolean} true if the speciesName has more than one space in it, false otherwise
  */
-const hasMultipleSpaces = (str : string) => {
+const hasMultipleSpaces = (str: string) => {
   return str.split(' ').length > 2;
 };
 
@@ -106,11 +106,11 @@ const CollectionsInfo = (props: CollectionsInfoProps) => {
 
         <FadeIn>
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <p style={{ fontSize: "1.25em" }}><IonText color='primary'>{adjustString(specimen)}</IonText></p>
+            <p style={{ fontSize: "1.5em" }}><IonText color='primary'>{adjustString(specimen)}</IonText></p>
           </div>
         </FadeIn>
 
-        <FadeIn>
+        <FadeIn delay={125}>
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             {inModelList(adjustString(specimen)) &&
               <a style={{ cursor: 'pointer' }} onClick={handleRedirectToModelFromCollections}><IonText color='primary'>3D Model available for {specimen}</IonText></a>
@@ -131,10 +131,37 @@ const CollectionsInfo = (props: CollectionsInfoProps) => {
             <>
               <IonCardContent>
 
+                {imageInfo && (classificationInfo && (!("listOfCommonNameSpecies" in classificationInfo) || !classificationInfo.listOfCommonNameSpecies)) &&
+                  <FadeIn delay={125}>
+                    <br />
+                    {imageInfo.length <= 0 ?
+                      <IonCardTitle><IonText color='primary'>No Images Available for {adjustString(specimen)}</IonText></IonCardTitle>
+                      :
+                      <>
+                        <IonCardTitle><IonText color='primary'>{context.localSearchChecked ? "Local HSC " : ""}Images</IonText></IonCardTitle>
+                        <br />
+                        <div style={{ height: "50vh", display: "flex", flexDirection: "row", borderRadius: "10px", overflowX: "auto" }}>
+
+                          {imageInfo.map((src: string, index: number) => {
+                            return (
+                              <img
+                                key={index}
+                                style={{ flex: 1, objectFit: "cover", marginRight: "5px" }}
+                                src={src}
+                              />
+                            );
+                          })}
+                        </div>
+                      </>
+                    }
+                    <br />
+                  </FadeIn>
+                }
+
                 {/* List of species is listed if search term is a genus */}
                 {classificationInfo && "speciesList" in classificationInfo && "globalSpeciesList" in classificationInfo &&
                   classificationInfo.speciesList && classificationInfo.globalSpeciesList &&
-                  <>
+                  <FadeIn delay={150}>
                     {context.localSearchChecked && classificationInfo.speciesList.length <= 0 ?
                       <IonCardTitle><IonText color='primary'>No local species associated with genus {adjustString(specimen)}</IonText></IonCardTitle>
                       :
@@ -146,7 +173,7 @@ const CollectionsInfo = (props: CollectionsInfoProps) => {
                     <br />
                     <IonList lines="full" text-center style={{ borderRadius: "10px" }}>
                       {context.localSearchChecked && classificationInfo.speciesList.map((species: string, index: number) => {
-                        if(hasMultipleSpaces(species)) { return; }
+                        if (hasMultipleSpaces(species)) { return; }
                         return (
                           <IonItem button key={index.toString()} className="ion-text-wrap" onClick={() => handleClickOnSpeciesFromGenus(species)}>
                             <IonLabel style={{ textAlign: "left", fontSize: "1.1em" }} className="ion-text-wrap">
@@ -166,12 +193,12 @@ const CollectionsInfo = (props: CollectionsInfoProps) => {
                       })}
                     </IonList>
                     <br />
-                  </>
+                  </FadeIn>
                 }
 
                 {/* List of species/genera is listed if search term is a common name, otherwise Classification info */}
                 {classificationInfo && "listOfCommonNameSpecies" in classificationInfo && classificationInfo.listOfCommonNameSpecies ?
-                  <>
+                  <FadeIn delay={175}>
                     <IonCardTitle><IonText color='primary'>Did you mean...?</IonText></IonCardTitle>
                     <br />
                     <IonList lines="full" text-center style={{ borderRadius: "10px" }}>
@@ -184,9 +211,9 @@ const CollectionsInfo = (props: CollectionsInfoProps) => {
                       })}
                     </IonList>
                     <br />
-                  </>
+                  </FadeIn>
                   :
-                  <>
+                  <FadeIn delay={175}>
                     <IonCardTitle><IonText color='primary'>Classification</IonText></IonCardTitle>
                     <br />
                     <IonList lines="full" text-center style={{ borderRadius: "10px" }}>
@@ -203,13 +230,13 @@ const CollectionsInfo = (props: CollectionsInfoProps) => {
                         );
                       })}
                     </IonList>
-                  </>
+                  </FadeIn>
                 }
 
                 <br />
 
                 {!("listOfCommonNameSpecies" in classificationInfo) &&
-                  <>
+                  <FadeIn delay={200}>
                     <IonCardTitle><IonText color='primary'>Profile</IonText></IonCardTitle>
                     <br />
                     <IonList lines="full" text-center style={{ borderRadius: "10px" }}>
@@ -251,7 +278,7 @@ const CollectionsInfo = (props: CollectionsInfoProps) => {
                           );
                         })}
                     </IonList>
-                  </>
+                  </FadeIn>
                 }
               </IonCardContent>
             </>

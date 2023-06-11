@@ -79,14 +79,14 @@ const Collections = ({ match }: RouteComponentProps<CollectionsPostParams>) => {
     context.setSpecimen(specimen);
     await Preferences.set({key : 'specimen', value : specimen});
     setSpecimenLoading(true);
-    const localSearchChecked = await Preferences.get({key : 'localSearchChecked'});2
+    const localSearchChecked = await Preferences.get({key : 'localSearchChecked'});
     let isLocal = false;
     if(localSearchChecked.value === 'true') {
       isLocal = true;
     }
     const classificationRes: SpecimenClassificationInfo = await getSearchTermClassification(specimen, isLocal);
     setClassificationInfo(classificationRes);
-    if(localSearchChecked && "rank" in classificationRes && classificationRes.rank === "Common Name" && "name" in classificationRes && classificationRes.name && (!("listOfCommonNameSpecies" in classificationRes) || classificationRes.listOfCommonNameSpecies === undefined ||classificationRes.listOfCommonNameSpecies.length === 0 ) ) {
+    if(isLocal && "rank" in classificationRes && classificationRes.rank === "Common Name" && "name" in classificationRes && classificationRes.name && (!("listOfCommonNameSpecies" in classificationRes) || classificationRes.listOfCommonNameSpecies === undefined ||classificationRes.listOfCommonNameSpecies.length === 0 ) ) {
       await Preferences.set({key : 'specimen', value : classificationRes.name});
       context.setSpecimen(classificationRes.name);
       history.push(`/pages/collections/${classificationRes.name}`);
@@ -96,7 +96,7 @@ const Collections = ({ match }: RouteComponentProps<CollectionsPostParams>) => {
       const profileRes = await getSpeciesProfile(classificationRes.UsageKey.toString());
       setProfileInfo(profileRes);
       console.log("profileRes", profileRes)
-      const imageRes = await getSpeciesImages(classificationRes.UsageKey.toString());
+      const imageRes = await getSpeciesImages(classificationRes.UsageKey.toString(), classificationRes.name, isLocal);
       setImageInfo(imageRes);
       console.log("imageRes", imageRes)
     }

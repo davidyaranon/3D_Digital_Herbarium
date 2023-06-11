@@ -147,34 +147,37 @@ http://ionicframework.com/docs/theming/ */
   --ion-color-selected-tint: #ffff1a;
 
   --ion-background-color: #ffffff;
-    --ion-background-color-rgb: 255, 255, 255;
+  --ion-background-color-rgb: 255, 255, 255;
 
-    --ion-text-color: #FFFFFF;
-    --ion-text-color-rgb: 255, 255, 255;
+  --ion-text-color: #FFFFFF;
+  --ion-text-color-rgb: 255, 255, 255;
 
-    --ion-color-step-50: #2d6319;
-    --ion-color-step-100: #386b25;
-    --ion-color-step-150: #437431;
-    --ion-color-step-200: #4e7c3d;
-    --ion-color-step-250: #59844a;
-    --ion-color-step-300: #648c56;
-    --ion-color-step-350: #6f9462;
-    --ion-color-step-400: #7a9d6e;
-    --ion-color-step-450: #85a57a;
-    --ion-color-step-500: #91ad86;
-    --ion-color-step-550: #9cb592;
-    --ion-color-step-600: #a7bd9e;
-    --ion-color-step-650: #b2c6aa;
-    --ion-color-step-700: #bdceb6;
-    --ion-color-step-750: #c8d6c3;
-    --ion-color-step-800: #d3decf;
-    --ion-color-step-850: #dee6db;
-    --ion-color-step-900: #e9efe7;
-    --ion-color-step-950: #f4f7f3;
+  --ion-color-step-50: #2d6319;
+  --ion-color-step-100: #386b25;
+  --ion-color-step-150: #437431;
+  --ion-color-step-200: #4e7c3d;
+  --ion-color-step-250: #59844a;
+  --ion-color-step-300: #648c56;
+  --ion-color-step-350: #6f9462;
+  --ion-color-step-400: #7a9d6e;
+  --ion-color-step-450: #85a57a;
+  --ion-color-step-500: #91ad86;
+  --ion-color-step-550: #9cb592;
+  --ion-color-step-600: #a7bd9e;
+  --ion-color-step-650: #b2c6aa;
+  --ion-color-step-700: #bdceb6;
+  --ion-color-step-750: #c8d6c3;
+  --ion-color-step-800: #d3decf;
+  --ion-color-step-850: #dee6db;
+  --ion-color-step-900: #e9efe7;
+  --ion-color-step-950: #f4f7f3;
 
-    --ion-item-background: #225B0D;
+  --ion-item-background: #225B0D;
 
-    --ion-card-background: #1c1c1d;
+  --ion-card-background: #1c1c1d;
+
+  --swiper-pagination-color: var(--ion-color-selected);
+
 }
 
 @media (prefers-color-scheme: dark) {
@@ -255,6 +258,9 @@ http://ionicframework.com/docs/theming/ */
     --ion-color-light-contrast-rgb: 0, 0, 0;
     --ion-color-light-shade: #d7d8da;
     --ion-color-light-tint: #f5f6f9;
+
+    --swiper-pagination-color: var(--ion-color-selected);
+
   }
 
   /*
@@ -292,6 +298,9 @@ http://ionicframework.com/docs/theming/ */
     --ion-item-background: #225B0D;
 
     --ion-card-background: #1c1c1d;
+
+    --swiper-pagination-color: var(--ion-color-selected);
+
   }
 
   .ios ion-modal {
