@@ -52,6 +52,7 @@ export const sketchFabLinks = {
   'alnus rubra': "ca37de74282f4eb7af25e3ab81e761ff"
 };
 
+// Used for sketchfab annotations in 3D model page
 export const annotations = {
   "sequoia sempervirens": {
     annotationsLength: 4,
@@ -398,7 +399,7 @@ export const handleGenus = async (genusName, isLocal) => {
  * "Order": "Nymphaeales", "Family": "Nymphaeaceae", "UsageKey": `${key}` 
  * }
 */
-export const getSearchTermClassification = async (searchTerm, isLocal = false) => {
+export const getSearchTermClassification = async (searchTerm, isLocal = false, is3dModelPage = false) => {
   let results = {
     "Kingdom": "",
     "Phylum": "",
@@ -412,6 +413,8 @@ export const getSearchTermClassification = async (searchTerm, isLocal = false) =
     let data = await response.json();
     let searchRes;
     let rank = "";
+
+    if (is3dModelPage) { isLocal = false; }
 
     if (data && "rank" in data) {
       if (data.rank === "SPECIES") {

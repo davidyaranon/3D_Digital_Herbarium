@@ -9,10 +9,10 @@ interface ModelInfoModalProps {
   model: string;
   infoLoading: boolean;
   showInfoModal: boolean;
-  wikiInfo : any;
-  profileInfo : any;
-  classificationInfo : any;
-  imageInfo : any;
+  wikiInfo: any;
+  profileInfo: any;
+  classificationInfo: any;
+  imageInfo: any;
   setShowInfoModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
@@ -49,7 +49,16 @@ const ModelInfoModal = (props: ModelInfoModalProps) => {
       <div style={{ width: "100%" }}>
         <IonHeader>
           <IonToolbar>
-            <IonTitle color='primary'>{!inModelList(model) ? `No matching model for ${model}!` : adjustString(model)}</IonTitle>
+            <IonTitle color='primary'>
+              {!inModelList(model) ? `No matching model for ${model}!` : (
+                <>
+                  {adjustString(model)}
+                  {classificationInfo && "name" in classificationInfo && (
+                    <span>{" (" + classificationInfo.name + ")"}</span>
+                  )}
+                </>
+              )}
+            </IonTitle>
             <IonButtons style={{ marginLeft: "-0.5%" }}>
               <IonButton onClick={closeModal}>
                 <IonIcon color='primary' icon={closeOutline} />
@@ -64,39 +73,20 @@ const ModelInfoModal = (props: ModelInfoModalProps) => {
           <IonSpinner color="primary" className='full-center' />
           :
           <IonCard className="ion-no-padding" color='light'>
-            <IonCardHeader>
-              <IonCardTitle>Profile</IonCardTitle>
-            </IonCardHeader>
-            <IonCardContent>
-              <IonList lines="full" text-center>
-                {profileInfo &&
-                  Object.keys(profileInfo).map((keyName: string, i: number) => {
-                    if (!profileInfo[keyName as keyof typeof profileInfo]) {
-                      return null;
-                    }
-                    return (
-                      <IonItem key={keyName + i.toString()} className="ion-text-wrap">
-                        <IonLabel style={{ textAlign: "left" }} className="ion-text-wrap">
-                          {keyName} : {profileInfo[keyName as keyof typeof profileInfo]}
-                        </IonLabel>
-                      </IonItem>
-                    );
-                  })}
-              </IonList>
-            </IonCardContent>
+
             <IonCardHeader>
               <IonCardTitle>Classification</IonCardTitle>
             </IonCardHeader>
             <IonCardContent>
-              <IonList lines="full" text-center>
+              <IonList lines="full" text-center style={{borderRadius : "10px"}}>
                 {classificationInfo &&
                   Object.keys(classificationInfo).map((keyName: string, i: number) => {
-                    if (keyName === "UsageKey") {
+                    if (keyName === "UsageKey" || keyName === "message" || keyName === "rank" || keyName === "name") {
                       return null;
                     }
                     return (
                       <IonItem key={keyName + i.toString()} className="ion-text-wrap">
-                        <IonLabel style={{ textAlign: "left" }} className="ion-text-wrap">
+                        <IonLabel style={{ textAlign: "left", fontSize : "1.1em" }} className="ion-text-wrap">
                           {keyName} : {classificationInfo[keyName as keyof typeof classificationInfo]}
                         </IonLabel>
                       </IonItem>
@@ -104,23 +94,45 @@ const ModelInfoModal = (props: ModelInfoModalProps) => {
                   })}
               </IonList>
             </IonCardContent>
+
+            <IonCardHeader>
+              <IonCardTitle>Profile</IonCardTitle>
+            </IonCardHeader>
+            <IonCardContent>
+              <IonList lines="full" text-center style={{borderRadius : "10px"}}>
+                {profileInfo &&
+                  Object.keys(profileInfo).map((keyName: string, i: number) => {
+                    if (!profileInfo[keyName as keyof typeof profileInfo]) {
+                      return null;
+                    }
+                    return (
+                      <IonItem key={keyName + i.toString()} className="ion-text-wrap">
+                        <IonLabel style={{ textAlign: "left", fontSize : "1.1em" }} className="ion-text-wrap">
+                          {keyName} : {profileInfo[keyName as keyof typeof profileInfo]}
+                        </IonLabel>
+                      </IonItem>
+                    );
+                  })}
+              </IonList>
+            </IonCardContent>
+
             <IonCardHeader>
               <IonCardTitle>Description</IonCardTitle>
             </IonCardHeader>
             <IonCardContent>
-              <IonList lines="full" text-center>
+              <IonList lines="full" text-center style={{borderRadius : "10px"}}>
                 {wikiInfo &&
                   Object.keys(wikiInfo).map((keyName: string, i: number) => {
                     if (keyName === 'wikiLink') {
                       return (
                         <IonLabel key={keyName + i.toString()} style={{ textAlign: "left" }} className="ion-text-wrap">
-                          <a href={wikiInfo[keyName as keyof typeof wikiInfo]}>{wikiInfo[keyName as keyof typeof wikiInfo]}</a>
+                          <a style={{ color: 'var(--ion-color-light)', padding: '15px' }} href={wikiInfo[keyName as keyof typeof wikiInfo]}>{wikiInfo[keyName as keyof typeof wikiInfo]}</a>
                         </IonLabel>
                       )
                     }
                     return (
                       <IonItem key={keyName + i.toString()} className="ion-text-wrap">
-                        <IonLabel style={{ textAlign: "left" }} className="ion-text-wrap">
+                        <IonLabel style={{ textAlign: "left", fontSize : "1.1em" }} className="ion-text-wrap">
                           {wikiInfo[keyName as keyof typeof wikiInfo]}
                         </IonLabel>
                       </IonItem>
@@ -128,6 +140,7 @@ const ModelInfoModal = (props: ModelInfoModalProps) => {
                   })}
               </IonList>
             </IonCardContent>
+
           </IonCard>
         }
 

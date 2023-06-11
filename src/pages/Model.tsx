@@ -40,7 +40,7 @@ const Model = ({ match }: RouteComponentProps<ModelSelectPostParams>) => {
     const specimen: string | undefined | null = modelSpeciesName[adjustString(model) as keyof typeof modelSpeciesName];
     if (!specimen || model === 'select') return;
     setInfoLoading(true);
-    const classificationRes = await getSearchTermClassification(specimen, context.localSearchChecked);
+    const classificationRes = await getSearchTermClassification(specimen, context.localSearchChecked, true);
     setClassificationInfo(classificationRes);
     console.log("classificationRes", classificationRes);
     if (classificationRes.UsageKey) {

@@ -4,7 +4,7 @@
  * displays the information for the selected species in the collections page.
  */
 
-import { IonText } from "@ionic/react";
+import { IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonContent, IonItem, IonLabel, IonList, IonSpinner, IonText } from "@ionic/react";
 import { listOfModels, sketchFabLinks, modelSpeciesName } from "../../herbarium";
 import { useHistory } from "react-router";
 import { Preferences } from "@capacitor/preferences";
@@ -12,6 +12,7 @@ import { useContext } from "../../my-context";
 import FadeIn from "react-fade-in/lib/FadeIn";
 
 interface CollectionsInfoProps {
+  infoLoading: boolean;
   specimen: string;
   classificationInfo: any;
   profileInfo: any;
@@ -50,8 +51,8 @@ const inModelList = (specimen: string): boolean => {
 
 
 const CollectionsInfo = (props: CollectionsInfoProps) => {
- 
-  const { specimen, classificationInfo, profileInfo, imageInfo, wikiInfo } = props;
+
+  const { specimen, infoLoading, classificationInfo, profileInfo, imageInfo, wikiInfo } = props;
 
   // Hooks
   const history = useHistory();
@@ -76,27 +77,158 @@ const CollectionsInfo = (props: CollectionsInfoProps) => {
     }
   };
 
+  const handleClickOnSpeciesFromGenus = async (species: string): Promise<void> => {
+    await Preferences.set({ key: 'specimen', value: species });
+    context.setSpecimen(species);
+    history.push("/pages/collections/" + species);
+  };
+
+  const handleClickOnSpeciesFromCommonName = async (species: string): Promise<void> => {
+    await Preferences.set({ key: 'specimen', value: species });
+    context.setSpecimen(species);
+    history.push("/pages/collections/" + species);
+  };
+
   return (
     <>
       <div>
+
         <FadeIn>
-          <p><IonText color='primary'>{specimen}</IonText></p>
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <p style={{ fontSize: "1.25em" }}><IonText color='primary'>{adjustString(specimen)}</IonText></p>
+          </div>
         </FadeIn>
-        {inModelList(adjustString(specimen)) &&
-          <a style={{ cursor: 'pointer' }} onClick={handleRedirectToModelFromCollections}><IonText color='primary'>3D Model available for {specimen}</IonText></a>
-        }
-        {classificationInfo && classificationInfo.name === undefined ?
-          <FadeIn>
+
+        <FadeIn>
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            {inModelList(adjustString(specimen)) &&
+              <a style={{ cursor: 'pointer' }} onClick={handleRedirectToModelFromCollections}><IonText color='primary'>3D Model available for {specimen}</IonText></a>
+            }
+          </div>
+        </FadeIn>
+
+        {classificationInfo && classificationInfo.name === undefined &&
+          <FadeIn className='full-center'>
             <p><IonText color='primary'>{classificationInfo.message}</IonText></p>
           </FadeIn>
-          : classificationInfo && classificationInfo.name ?
-            <FadeIn>
-              <p><IonText color='primary'>{classificationInfo.name}</IonText></p>
-            </FadeIn>
-            :
-            <></>
         }
-      </div>
+
+        {infoLoading ?
+          <IonSpinner color="primary" className='full-center' />
+          :
+          <>
+            <IonCardContent>
+
+              {/* List of species is listed if search term is a genus */}
+              {classificationInfo && "speciesList" in classificationInfo && classificationInfo.speciesList &&
+                <>
+                  <IonCardTitle><IonText color='primary'>List of species associated with genus</IonText></IonCardTitle>
+                  <br />
+                  <IonList lines="full" text-center style={{ borderRadius: "10px" }}>
+                    {classificationInfo.speciesList.map((species: string, index: number) => {
+                      return (
+                        <IonItem button key={index.toString()} className="ion-text-wrap" onClick={() => handleClickOnSpeciesFromGenus(species)}>
+                          <IonLabel style={{ textAlign: "left", fontSize: "1.1em" }} className="ion-text-wrap">
+                            {species}
+                          </IonLabel>
+                        </IonItem>
+                      );
+                    })}
+                  </IonList>
+                  <br />
+                </>
+              }
+
+              {/* List of species/genera is listed if search term is a common name, otherwise Classification info */}
+              {classificationInfo && "listOfCommonNameSpecies" in classificationInfo && classificationInfo.listOfCommonNameSpecies ?
+                <>
+                  <IonCardTitle><IonText color='primary'>Did you mean...?</IonText></IonCardTitle>
+                  <br />
+                  <IonList lines="full" text-center style={{ borderRadius: "10px" }}>
+                    {classificationInfo.listOfCommonNameSpecies.map((info: any, index: number) => {
+                      return (
+                        <IonItem button key={index} onClick={() => handleClickOnSpeciesFromCommonName(info.name)}>
+                          <IonLabel>{info.name} ({info.rank})</IonLabel>
+                        </IonItem>
+                      );
+                    })}
+                  </IonList>
+                  <br />
+                </>
+                :
+                <>
+                  <IonCardTitle><IonText color='primary'>Classification</IonText></IonCardTitle>
+                  <br />
+                  <IonList lines="full" text-center style={{ borderRadius: "10px" }}>
+                    {Object.keys(classificationInfo).map((keyName: string, i: number) => {
+                      if (keyName === "UsageKey" || keyName === "message" || keyName === "rank" || keyName === "name") {
+                        return null;
+                      }
+                      console.log(keyName, classificationInfo[keyName]);
+                      return (
+                        <IonItem key={keyName + i.toString()} className="ion-text-wrap">
+                          <IonLabel style={{ textAlign: "left", fontSize: "1.1em" }} className="ion-text-wrap">
+                            {keyName} : {classificationInfo[keyName as keyof typeof classificationInfo]}
+                          </IonLabel>
+                        </IonItem>
+                      );
+                    })}
+                  </IonList>
+                </>
+              }
+
+              <br />
+
+              {!("listOfCommonNameSpecies" in classificationInfo) &&
+                <>
+                  <IonCardTitle><IonText color='primary'>Profile</IonText></IonCardTitle>
+                  <br />
+                  <IonList lines="full" text-center style={{ borderRadius: "10px" }}>
+                    {profileInfo &&
+                      Object.keys(profileInfo).map((keyName: string, i: number) => {
+                        if (!profileInfo[keyName as keyof typeof profileInfo]) {
+                          return null;
+                        }
+                        return (
+                          <IonItem key={keyName + i.toString()} className="ion-text-wrap">
+                            <IonLabel style={{ textAlign: "left", fontSize: "1.1em" }} className="ion-text-wrap">
+                              {keyName} : {profileInfo[keyName as keyof typeof profileInfo]}
+                            </IonLabel>
+                          </IonItem>
+                        );
+                      })}
+                  </IonList>
+
+                  <br />
+
+                  <IonCardTitle><IonText color='primary'>Description</IonText></IonCardTitle>
+                  <br />
+                  <IonList lines="full" text-center style={{ borderRadius: "10px" }}>
+                    {wikiInfo &&
+                      Object.keys(wikiInfo).map((keyName: string, i: number) => {
+                        if (keyName === 'wikiLink') {
+                          return (
+                            <IonLabel key={keyName + i.toString()} style={{ textAlign: "left" }} className="ion-text-wrap">
+                              <a style={{ color: 'var(--ion-color-light)', padding: '15px' }} href={wikiInfo[keyName as keyof typeof wikiInfo]}>{wikiInfo[keyName as keyof typeof wikiInfo]}</a>
+                            </IonLabel>
+                          )
+                        }
+                        return (
+                          <IonItem key={keyName + i.toString()} className="ion-text-wrap">
+                            <IonLabel style={{ textAlign: "left", fontSize: "1.1em" }} className="ion-text-wrap">
+                              {wikiInfo[keyName as keyof typeof wikiInfo]}
+                            </IonLabel>
+                          </IonItem>
+                        );
+                      })}
+                  </IonList>
+                </>
+              }
+            </IonCardContent>
+          </>
+        }
+
+      </div >
     </>
   )
 };

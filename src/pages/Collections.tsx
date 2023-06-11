@@ -116,6 +116,7 @@ const Collections = ({ match }: RouteComponentProps<CollectionsPostParams>) => {
           </>
           :
           <CollectionsInfo
+            infoLoading={specimenLoading}
             classificationInfo={classificationInfo} profileInfo={profileInfo}
             imageInfo={imageInfo} wikiInfo={wikiInfo} specimen={specimen}
           />

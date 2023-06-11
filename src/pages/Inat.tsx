@@ -6,7 +6,7 @@ const Inat = () => {
   return (
     <IonPage>
       <IonContent>
-        <p><IonText color='primary'>iNat</IonText></p>
+        <p><IonText color='primary'>iNat (work in progress)</IonText></p>
       </IonContent>
     </IonPage>
   );
