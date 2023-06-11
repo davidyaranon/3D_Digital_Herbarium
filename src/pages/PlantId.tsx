@@ -24,6 +24,7 @@ const PlantId = () => {
   const [plantIdResults, setPlantIdResults] = React.useState<any>();
   const [selectedPhoto, setSelectedPhoto] = React.useState<GalleryPhoto>();
   const [loading, setLoading] = React.useState<boolean>(false);
+  const [showError, setShowError] = React.useState<boolean>(false);
 
   const handleCollectionsPageRedirect = async (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, speciesName: string): Promise<void> => {
     e.preventDefault();
@@ -48,6 +49,7 @@ const PlantId = () => {
       }
     } catch (error) {
       console.error("Error occurred during plant identification", error);
+      setShowError(true);
     } finally {
       setLoading(false);
     }
@@ -118,6 +120,14 @@ const PlantId = () => {
                 <IonIcon size='large' style={{ width: "100%", height: "100%" }} icon={cameraSharp} />
               </IonButton>
             </div>
+          </div>
+        }
+
+        {showError &&
+          <div className='loading-center'>
+            <IonText color='primary'>
+              <p>Error loading plantID API, try reloading the page and try again!</p>
+            </IonText>
           </div>
         }
 
