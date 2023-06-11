@@ -421,6 +421,7 @@ export const getSearchTermClassification = async (searchTerm, isLocal, is3dModel
     let data = await response.json();
     let searchRes;
     let rank = "";
+    let newUsageKey = "";
 
     if (is3dModelPage) { isLocal = false; }
 
@@ -431,6 +432,15 @@ export const getSearchTermClassification = async (searchTerm, isLocal, is3dModel
       if (data.rank === "SPECIES") {
         console.log("Search term is a species!")
         searchRes = await handleSpecies(searchTerm, isLocal);
+        if (searchRes.name != undefined &&
+          searchRes.name.trim().toLowerCase() !== searchTerm.trim().toLowerCase()) {
+          const r = await fetch("https://api.gbif.org/v1/species/match?name=" + searchRes.name);
+          const d = await r.json();
+          console.log({d})
+          if ("usageKey" in d) {
+            newUsageKey = d.usageKey;
+          }
+        }
         rank = "SPECIES";
       }
       else if (data.rank === "GENUS") {
@@ -464,8 +474,7 @@ export const getSearchTermClassification = async (searchTerm, isLocal, is3dModel
     results.Class = data.class;
     results.Order = data.order;
     results.Family = data.family;
-    results.UsageKey = data.usageKey;
-
+    results.UsageKey = newUsageKey || data.usageKey;
     return results;
 
   } catch (error) {

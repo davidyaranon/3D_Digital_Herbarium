@@ -127,163 +127,165 @@ const CollectionsInfo = (props: CollectionsInfoProps) => {
         {infoLoading ?
           <IonSpinner color="primary" className='full-center' />
           :
-          classificationInfo && classificationInfo.name !== undefined ?
-            <>
-              <IonCardContent>
+          classificationInfo && classificationInfo.name !== undefined &&
+          <>
+            <IonCardContent>
 
-                {imageInfo && (classificationInfo && (!("listOfCommonNameSpecies" in classificationInfo) || !classificationInfo.listOfCommonNameSpecies)) &&
-                  <FadeIn delay={125}>
-                    <br />
-                    {imageInfo.length <= 0 ?
-                      <IonCardTitle><IonText color='primary'>No Images Available for {adjustString(specimen)}</IonText></IonCardTitle>
+              {/* Images for each specimen (local HSC if local search is toggled) */}
+              {imageInfo && (classificationInfo && (!("listOfCommonNameSpecies" in classificationInfo) || !classificationInfo.listOfCommonNameSpecies)) &&
+                <FadeIn delay={125}>
+                  <br />
+                  {imageInfo.length <= 0 ?
+                    <IonCardTitle><IonText color='primary'>No Images Available for {adjustString(specimen)}</IonText></IonCardTitle>
+                    :
+                    <>
+                      <IonCardTitle><IonText color='primary'>{context.localSearchChecked ? "Local HSC " : ""}Images</IonText></IonCardTitle>
+                      <br />
+                      <div style={{ height: "50vh", display: "flex", flexDirection: "row", borderRadius: "10px", overflowX: "auto" }}>
+
+                        {imageInfo.map((src: string, index: number) => {
+                          return (
+                            <img
+                              loading="lazy"
+                              key={index}
+                              style={{ flex: 1, objectFit: "cover", marginRight: "5px" }}
+                              src={src}
+                            />
+                          );
+                        })}
+                      </div>
+                    </>
+                  }
+                  <br />
+                </FadeIn>
+              }
+
+              {/* List of species is listed if search term is a genus (local and global cases handled as well) */}
+              {classificationInfo && "speciesList" in classificationInfo && "globalSpeciesList" in classificationInfo &&
+                classificationInfo.speciesList && classificationInfo.globalSpeciesList &&
+                <FadeIn delay={150}>
+                  {context.localSearchChecked && classificationInfo.speciesList.length <= 0 ?
+                    <IonCardTitle><IonText color='primary'>No local species associated with genus {adjustString(specimen)}</IonText></IonCardTitle>
+                    :
+                    !context.localSearchChecked && classificationInfo.globalSpeciesList.length <= 0 ?
+                      <IonCardTitle><IonText color='primary'>No species associated with genus {adjustString(specimen)}</IonText></IonCardTitle>
                       :
-                      <>
-                        <IonCardTitle><IonText color='primary'>{context.localSearchChecked ? "Local HSC " : ""}Images</IonText></IonCardTitle>
-                        <br />
-                        <div style={{ height: "50vh", display: "flex", flexDirection: "row", borderRadius: "10px", overflowX: "auto" }}>
+                      <IonCardTitle><IonText color='primary'>List of {context.localSearchChecked ? ' local ' : ''} species associated with genus {adjustString(specimen)}</IonText></IonCardTitle>
+                  }
+                  <br />
+                  <IonList lines="full" text-center style={{ borderRadius: "10px" }}>
+                    {context.localSearchChecked && classificationInfo.speciesList.map((species: string, index: number) => {
+                      if (hasMultipleSpaces(species)) { return; }
+                      return (
+                        <IonItem button key={index.toString()} className="ion-text-wrap" onClick={() => handleClickOnSpeciesFromGenus(species)}>
+                          <IonLabel style={{ textAlign: "left", fontSize: "1.1em" }} className="ion-text-wrap">
+                            {species}
+                          </IonLabel>
+                        </IonItem>
+                      );
+                    })}
+                    {!context.localSearchChecked && classificationInfo.globalSpeciesList.map((species: string, index: number) => {
+                      return (
+                        <IonItem button key={index.toString()} className="ion-text-wrap" onClick={() => handleClickOnSpeciesFromCommonName(species)}>
+                          <IonLabel style={{ textAlign: "left", fontSize: "1.1em" }} className="ion-text-wrap">
+                            {species}
+                          </IonLabel>
+                        </IonItem>
+                      );
+                    })}
+                  </IonList>
+                  <br />
+                </FadeIn>
+              }
 
-                          {imageInfo.map((src: string, index: number) => {
-                            return (
-                              <img
-                                key={index}
-                                style={{ flex: 1, objectFit: "cover", marginRight: "5px" }}
-                                src={src}
-                              />
-                            );
-                          })}
-                        </div>
-                      </>
-                    }
-                    <br />
-                  </FadeIn>
-                }
+              {/* List of species/genera is listed if search term is a common name, otherwise Classification info */}
+              {classificationInfo && "listOfCommonNameSpecies" in classificationInfo && classificationInfo.listOfCommonNameSpecies ?
+                <FadeIn delay={175}>
+                  <IonCardTitle><IonText color='primary'>Did you mean...?</IonText></IonCardTitle>
+                  <br />
+                  <IonList lines="full" text-center style={{ borderRadius: "10px" }}>
+                    {classificationInfo.listOfCommonNameSpecies.map((info: any, index: number) => {
+                      return (
+                        <IonItem button key={index} onClick={() => handleClickOnSpeciesFromCommonName(info.name)}>
+                          <IonLabel>{info.name} ({info.rank})</IonLabel>
+                        </IonItem>
+                      );
+                    })}
+                  </IonList>
+                  <br />
+                </FadeIn>
+                :
+                <FadeIn delay={175}>
+                  <IonCardTitle><IonText color='primary'>Classification</IonText></IonCardTitle>
+                  <br />
+                  <IonList lines="full" text-center style={{ borderRadius: "10px" }}>
+                    {Object.keys(classificationInfo).map((keyName: string, i: number) => {
+                      if (keyName === "UsageKey" || keyName === "message" || keyName === "rank" || keyName === "name" || keyName === "speciesList" || keyName === "wikiName" || keyName === 'globalSpeciesList') {
+                        return null;
+                      }
+                      return (
+                        <IonItem key={keyName + i.toString()} className="ion-text-wrap">
+                          <IonLabel style={{ textAlign: "left", fontSize: "1.1em" }} className="ion-text-wrap">
+                            {keyName} : {classificationInfo[keyName as keyof typeof classificationInfo]}
+                          </IonLabel>
+                        </IonItem>
+                      );
+                    })}
+                  </IonList>
+                </FadeIn>
+              }
 
-                {/* List of species is listed if search term is a genus */}
-                {classificationInfo && "speciesList" in classificationInfo && "globalSpeciesList" in classificationInfo &&
-                  classificationInfo.speciesList && classificationInfo.globalSpeciesList &&
-                  <FadeIn delay={150}>
-                    {context.localSearchChecked && classificationInfo.speciesList.length <= 0 ?
-                      <IonCardTitle><IonText color='primary'>No local species associated with genus {adjustString(specimen)}</IonText></IonCardTitle>
-                      :
-                      !context.localSearchChecked && classificationInfo.globalSpeciesList.length <= 0 ?
-                        <IonCardTitle><IonText color='primary'>No species associated with genus {adjustString(specimen)}</IonText></IonCardTitle>
-                        :
-                        <IonCardTitle><IonText color='primary'>List of {context.localSearchChecked ? ' local ' : ''} species associated with genus {adjustString(specimen)}</IonText></IonCardTitle>
-                    }
-                    <br />
-                    <IonList lines="full" text-center style={{ borderRadius: "10px" }}>
-                      {context.localSearchChecked && classificationInfo.speciesList.map((species: string, index: number) => {
-                        if (hasMultipleSpaces(species)) { return; }
-                        return (
-                          <IonItem button key={index.toString()} className="ion-text-wrap" onClick={() => handleClickOnSpeciesFromGenus(species)}>
-                            <IonLabel style={{ textAlign: "left", fontSize: "1.1em" }} className="ion-text-wrap">
-                              {species}
-                            </IonLabel>
-                          </IonItem>
-                        );
-                      })}
-                      {!context.localSearchChecked && classificationInfo.globalSpeciesList.map((species: string, index: number) => {
-                        return (
-                          <IonItem button key={index.toString()} className="ion-text-wrap" onClick={() => handleClickOnSpeciesFromCommonName(species)}>
-                            <IonLabel style={{ textAlign: "left", fontSize: "1.1em" }} className="ion-text-wrap">
-                              {species}
-                            </IonLabel>
-                          </IonItem>
-                        );
-                      })}
-                    </IonList>
-                    <br />
-                  </FadeIn>
-                }
+              <br />
 
-                {/* List of species/genera is listed if search term is a common name, otherwise Classification info */}
-                {classificationInfo && "listOfCommonNameSpecies" in classificationInfo && classificationInfo.listOfCommonNameSpecies ?
-                  <FadeIn delay={175}>
-                    <IonCardTitle><IonText color='primary'>Did you mean...?</IonText></IonCardTitle>
-                    <br />
-                    <IonList lines="full" text-center style={{ borderRadius: "10px" }}>
-                      {classificationInfo.listOfCommonNameSpecies.map((info: any, index: number) => {
-                        return (
-                          <IonItem button key={index} onClick={() => handleClickOnSpeciesFromCommonName(info.name)}>
-                            <IonLabel>{info.name} ({info.rank})</IonLabel>
-                          </IonItem>
-                        );
-                      })}
-                    </IonList>
-                    <br />
-                  </FadeIn>
-                  :
-                  <FadeIn delay={175}>
-                    <IonCardTitle><IonText color='primary'>Classification</IonText></IonCardTitle>
-                    <br />
-                    <IonList lines="full" text-center style={{ borderRadius: "10px" }}>
-                      {Object.keys(classificationInfo).map((keyName: string, i: number) => {
-                        if (keyName === "UsageKey" || keyName === "message" || keyName === "rank" || keyName === "name" || keyName === "speciesList" || keyName === "wikiName" || keyName === 'globalSpeciesList') {
+              {/* Profile Information */}
+              {!("listOfCommonNameSpecies" in classificationInfo) &&
+                <FadeIn delay={200}>
+                  <IonCardTitle><IonText color='primary'>Profile</IonText></IonCardTitle>
+                  <br />
+                  <IonList lines="full" text-center style={{ borderRadius: "10px" }}>
+                    {profileInfo &&
+                      Object.keys(profileInfo).map((keyName: string, i: number) => {
+                        if (!profileInfo[keyName as keyof typeof profileInfo]) {
                           return null;
                         }
                         return (
                           <IonItem key={keyName + i.toString()} className="ion-text-wrap">
                             <IonLabel style={{ textAlign: "left", fontSize: "1.1em" }} className="ion-text-wrap">
-                              {keyName} : {classificationInfo[keyName as keyof typeof classificationInfo]}
+                              {keyName} : {profileInfo[keyName as keyof typeof profileInfo]}
                             </IonLabel>
                           </IonItem>
                         );
                       })}
-                    </IonList>
-                  </FadeIn>
-                }
+                  </IonList>
 
-                <br />
+                  <br />
 
-                {!("listOfCommonNameSpecies" in classificationInfo) &&
-                  <FadeIn delay={200}>
-                    <IonCardTitle><IonText color='primary'>Profile</IonText></IonCardTitle>
-                    <br />
-                    <IonList lines="full" text-center style={{ borderRadius: "10px" }}>
-                      {profileInfo &&
-                        Object.keys(profileInfo).map((keyName: string, i: number) => {
-                          if (!profileInfo[keyName as keyof typeof profileInfo]) {
-                            return null;
-                          }
+                  {/* Wikipedia Description */}
+                  <IonCardTitle><IonText color='primary'>Description</IonText></IonCardTitle>
+                  <br />
+                  <IonList lines="full" text-center style={{ borderRadius: "10px" }}>
+                    {wikiInfo &&
+                      Object.keys(wikiInfo).map((keyName: string, i: number) => {
+                        if (keyName === 'wikiLink') {
                           return (
-                            <IonItem key={keyName + i.toString()} className="ion-text-wrap">
-                              <IonLabel style={{ textAlign: "left", fontSize: "1.1em" }} className="ion-text-wrap">
-                                {keyName} : {profileInfo[keyName as keyof typeof profileInfo]}
-                              </IonLabel>
-                            </IonItem>
-                          );
-                        })}
-                    </IonList>
-
-                    <br />
-
-                    <IonCardTitle><IonText color='primary'>Description</IonText></IonCardTitle>
-                    <br />
-                    <IonList lines="full" text-center style={{ borderRadius: "10px" }}>
-                      {wikiInfo &&
-                        Object.keys(wikiInfo).map((keyName: string, i: number) => {
-                          if (keyName === 'wikiLink') {
-                            return (
-                              <IonLabel key={keyName + i.toString()} style={{ textAlign: "left" }} className="ion-text-wrap">
-                                <a style={{ color: 'var(--ion-color-light)', padding: '15px' }} href={wikiInfo[keyName as keyof typeof wikiInfo]}>{wikiInfo[keyName as keyof typeof wikiInfo]}</a>
-                              </IonLabel>
-                            )
-                          }
-                          return (
-                            <IonItem key={keyName + i.toString()} className="ion-text-wrap">
-                              <IonLabel style={{ textAlign: "left", fontSize: "1.1em" }} className="ion-text-wrap">
-                                {wikiInfo[keyName as keyof typeof wikiInfo]}
-                              </IonLabel>
-                            </IonItem>
-                          );
-                        })}
-                    </IonList>
-                  </FadeIn>
-                }
-              </IonCardContent>
-            </>
-            :
-            <></>
+                            <IonLabel key={keyName + i.toString()} style={{ textAlign: "left" }} className="ion-text-wrap">
+                              <a style={{ color: 'var(--ion-color-light)', padding: '15px' }} href={wikiInfo[keyName as keyof typeof wikiInfo]}>{wikiInfo[keyName as keyof typeof wikiInfo]}</a>
+                            </IonLabel>
+                          )
+                        }
+                        return (
+                          <IonItem key={keyName + i.toString()} className="ion-text-wrap">
+                            <IonLabel style={{ textAlign: "left", fontSize: "1.1em" }} className="ion-text-wrap">
+                              {wikiInfo[keyName as keyof typeof wikiInfo]}
+                            </IonLabel>
+                          </IonItem>
+                        );
+                      })}
+                  </IonList>
+                </FadeIn>
+              }
+            </IonCardContent>
+          </>
         }
 
       </div >
