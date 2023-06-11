@@ -403,7 +403,7 @@ export const handleGenus = async (genusName, isLocal) => {
  * "Order": "Nymphaeales", "Family": "Nymphaeaceae", "UsageKey": `${key}` 
  * }
 */
-export const getSearchTermClassification = async (searchTerm, isLocal = false, is3dModelPage = false) => {
+export const getSearchTermClassification = async (searchTerm, isLocal, is3dModelPage = false) => {
   let results = {
     "Kingdom": "",
     "Phylum": "",
@@ -419,6 +419,9 @@ export const getSearchTermClassification = async (searchTerm, isLocal = false, i
     let rank = "";
 
     if (is3dModelPage) { isLocal = false; }
+
+    console.log("isLocal: " + isLocal);
+
 
     if (data && "rank" in data) {
       if (data.rank === "SPECIES") {

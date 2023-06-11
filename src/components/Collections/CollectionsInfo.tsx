@@ -116,116 +116,119 @@ const CollectionsInfo = (props: CollectionsInfoProps) => {
         {infoLoading ?
           <IonSpinner color="primary" className='full-center' />
           :
-          <>
-            <IonCardContent>
+          classificationInfo && classificationInfo.name !== undefined ?
+            <>
+              <IonCardContent>
 
-              {/* List of species is listed if search term is a genus */}
-              {classificationInfo && "speciesList" in classificationInfo && classificationInfo.speciesList &&
-                <>
-                  <IonCardTitle><IonText color='primary'>List of species associated with genus</IonText></IonCardTitle>
-                  <br />
-                  <IonList lines="full" text-center style={{ borderRadius: "10px" }}>
-                    {classificationInfo.speciesList.map((species: string, index: number) => {
-                      return (
-                        <IonItem button key={index.toString()} className="ion-text-wrap" onClick={() => handleClickOnSpeciesFromGenus(species)}>
-                          <IonLabel style={{ textAlign: "left", fontSize: "1.1em" }} className="ion-text-wrap">
-                            {species}
-                          </IonLabel>
-                        </IonItem>
-                      );
-                    })}
-                  </IonList>
-                  <br />
-                </>
-              }
+                {/* List of species is listed if search term is a genus */}
+                {classificationInfo && "speciesList" in classificationInfo && classificationInfo.speciesList &&
+                  <>
+                    <IonCardTitle><IonText color='primary'>List of species associated with genus</IonText></IonCardTitle>
+                    <br />
+                    <IonList lines="full" text-center style={{ borderRadius: "10px" }}>
+                      {classificationInfo.speciesList.map((species: string, index: number) => {
+                        return (
+                          <IonItem button key={index.toString()} className="ion-text-wrap" onClick={() => handleClickOnSpeciesFromGenus(species)}>
+                            <IonLabel style={{ textAlign: "left", fontSize: "1.1em" }} className="ion-text-wrap">
+                              {species}
+                            </IonLabel>
+                          </IonItem>
+                        );
+                      })}
+                    </IonList>
+                    <br />
+                  </>
+                }
 
-              {/* List of species/genera is listed if search term is a common name, otherwise Classification info */}
-              {classificationInfo && "listOfCommonNameSpecies" in classificationInfo && classificationInfo.listOfCommonNameSpecies ?
-                <>
-                  <IonCardTitle><IonText color='primary'>Did you mean...?</IonText></IonCardTitle>
-                  <br />
-                  <IonList lines="full" text-center style={{ borderRadius: "10px" }}>
-                    {classificationInfo.listOfCommonNameSpecies.map((info: any, index: number) => {
-                      return (
-                        <IonItem button key={index} onClick={() => handleClickOnSpeciesFromCommonName(info.name)}>
-                          <IonLabel>{info.name} ({info.rank})</IonLabel>
-                        </IonItem>
-                      );
-                    })}
-                  </IonList>
-                  <br />
-                </>
-                :
-                <>
-                  <IonCardTitle><IonText color='primary'>Classification</IonText></IonCardTitle>
-                  <br />
-                  <IonList lines="full" text-center style={{ borderRadius: "10px" }}>
-                    {Object.keys(classificationInfo).map((keyName: string, i: number) => {
-                      if (keyName === "UsageKey" || keyName === "message" || keyName === "rank" || keyName === "name" || keyName === "speciesList" || keyName === "wikiName") {
-                        return null;
-                      }
-                      console.log(keyName, classificationInfo[keyName]);
-                      return (
-                        <IonItem key={keyName + i.toString()} className="ion-text-wrap">
-                          <IonLabel style={{ textAlign: "left", fontSize: "1.1em" }} className="ion-text-wrap">
-                            {keyName} : {classificationInfo[keyName as keyof typeof classificationInfo]}
-                          </IonLabel>
-                        </IonItem>
-                      );
-                    })}
-                  </IonList>
-                </>
-              }
-
-              <br />
-
-              {!("listOfCommonNameSpecies" in classificationInfo) &&
-                <>
-                  <IonCardTitle><IonText color='primary'>Profile</IonText></IonCardTitle>
-                  <br />
-                  <IonList lines="full" text-center style={{ borderRadius: "10px" }}>
-                    {profileInfo &&
-                      Object.keys(profileInfo).map((keyName: string, i: number) => {
-                        if (!profileInfo[keyName as keyof typeof profileInfo]) {
+                {/* List of species/genera is listed if search term is a common name, otherwise Classification info */}
+                {classificationInfo && "listOfCommonNameSpecies" in classificationInfo && classificationInfo.listOfCommonNameSpecies ?
+                  <>
+                    <IonCardTitle><IonText color='primary'>Did you mean...?</IonText></IonCardTitle>
+                    <br />
+                    <IonList lines="full" text-center style={{ borderRadius: "10px" }}>
+                      {classificationInfo.listOfCommonNameSpecies.map((info: any, index: number) => {
+                        return (
+                          <IonItem button key={index} onClick={() => handleClickOnSpeciesFromCommonName(info.name)}>
+                            <IonLabel>{info.name} ({info.rank})</IonLabel>
+                          </IonItem>
+                        );
+                      })}
+                    </IonList>
+                    <br />
+                  </>
+                  :
+                  <>
+                    <IonCardTitle><IonText color='primary'>Classification</IonText></IonCardTitle>
+                    <br />
+                    <IonList lines="full" text-center style={{ borderRadius: "10px" }}>
+                      {Object.keys(classificationInfo).map((keyName: string, i: number) => {
+                        if (keyName === "UsageKey" || keyName === "message" || keyName === "rank" || keyName === "name" || keyName === "speciesList" || keyName === "wikiName") {
                           return null;
                         }
+                        console.log(keyName, classificationInfo[keyName]);
                         return (
                           <IonItem key={keyName + i.toString()} className="ion-text-wrap">
                             <IonLabel style={{ textAlign: "left", fontSize: "1.1em" }} className="ion-text-wrap">
-                              {keyName} : {profileInfo[keyName as keyof typeof profileInfo]}
+                              {keyName} : {classificationInfo[keyName as keyof typeof classificationInfo]}
                             </IonLabel>
                           </IonItem>
                         );
                       })}
-                  </IonList>
+                    </IonList>
+                  </>
+                }
 
-                  <br />
+                <br />
 
-                  <IonCardTitle><IonText color='primary'>Description</IonText></IonCardTitle>
-                  <br />
-                  <IonList lines="full" text-center style={{ borderRadius: "10px" }}>
-                    {wikiInfo &&
-                      Object.keys(wikiInfo).map((keyName: string, i: number) => {
-                        if (keyName === 'wikiLink') {
+                {!("listOfCommonNameSpecies" in classificationInfo) &&
+                  <>
+                    <IonCardTitle><IonText color='primary'>Profile</IonText></IonCardTitle>
+                    <br />
+                    <IonList lines="full" text-center style={{ borderRadius: "10px" }}>
+                      {profileInfo &&
+                        Object.keys(profileInfo).map((keyName: string, i: number) => {
+                          if (!profileInfo[keyName as keyof typeof profileInfo]) {
+                            return null;
+                          }
                           return (
-                            <IonLabel key={keyName + i.toString()} style={{ textAlign: "left" }} className="ion-text-wrap">
-                              <a style={{ color: 'var(--ion-color-light)', padding: '15px' }} href={wikiInfo[keyName as keyof typeof wikiInfo]}>{wikiInfo[keyName as keyof typeof wikiInfo]}</a>
-                            </IonLabel>
-                          )
-                        }
-                        return (
-                          <IonItem key={keyName + i.toString()} className="ion-text-wrap">
-                            <IonLabel style={{ textAlign: "left", fontSize: "1.1em" }} className="ion-text-wrap">
-                              {wikiInfo[keyName as keyof typeof wikiInfo]}
-                            </IonLabel>
-                          </IonItem>
-                        );
-                      })}
-                  </IonList>
-                </>
-              }
-            </IonCardContent>
-          </>
+                            <IonItem key={keyName + i.toString()} className="ion-text-wrap">
+                              <IonLabel style={{ textAlign: "left", fontSize: "1.1em" }} className="ion-text-wrap">
+                                {keyName} : {profileInfo[keyName as keyof typeof profileInfo]}
+                              </IonLabel>
+                            </IonItem>
+                          );
+                        })}
+                    </IonList>
+
+                    <br />
+
+                    <IonCardTitle><IonText color='primary'>Description</IonText></IonCardTitle>
+                    <br />
+                    <IonList lines="full" text-center style={{ borderRadius: "10px" }}>
+                      {wikiInfo &&
+                        Object.keys(wikiInfo).map((keyName: string, i: number) => {
+                          if (keyName === 'wikiLink') {
+                            return (
+                              <IonLabel key={keyName + i.toString()} style={{ textAlign: "left" }} className="ion-text-wrap">
+                                <a style={{ color: 'var(--ion-color-light)', padding: '15px' }} href={wikiInfo[keyName as keyof typeof wikiInfo]}>{wikiInfo[keyName as keyof typeof wikiInfo]}</a>
+                              </IonLabel>
+                            )
+                          }
+                          return (
+                            <IonItem key={keyName + i.toString()} className="ion-text-wrap">
+                              <IonLabel style={{ textAlign: "left", fontSize: "1.1em" }} className="ion-text-wrap">
+                                {wikiInfo[keyName as keyof typeof wikiInfo]}
+                              </IonLabel>
+                            </IonItem>
+                          );
+                        })}
+                    </IonList>
+                  </>
+                }
+              </IonCardContent>
+            </>
+            :
+            <></>
         }
 
       </div >
