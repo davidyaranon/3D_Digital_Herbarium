@@ -123,6 +123,14 @@ const PlantId = () => {
           </div>
         }
 
+        {!loading && !plantIdResults &&
+          <div className='loading-center' style={{paddingBottom : "50%"}}>
+            <IonText color='primary'>
+              <p>JPEGs and PNGs only!</p>
+            </IonText>
+          </div>
+        }
+
         {showError &&
           <div className='loading-center'>
             <IonText color='primary'>

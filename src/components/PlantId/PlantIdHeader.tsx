@@ -12,7 +12,7 @@ const PlantIdHeader = () => {
             <IonMenuButton style={{ marginTop: "15%" }}></IonMenuButton>
           </IonButtons>
 
-          <IonTitle><IonText color='primary'>Plant ID (JPEGs and PNGs ONLY!)</IonText></IonTitle>
+          <IonTitle><IonText color='primary'>Plant ID</IonText></IonTitle>
 
         </IonToolbar>
       </IonHeader>
