@@ -36,10 +36,6 @@ const Model = ({ match }: RouteComponentProps<ModelSelectPostParams>) => {
   const [imageInfo, setImageInfo] = React.useState<any>(null);
   const [wikiInfo, setWikiInfo] = React.useState<any>(null);
 
-  const handleNewModelSelected = React.useCallback(async (): Promise<void> => {
-    await Preferences.set({ key: 'model', value: model });
-  }, []);
-
   const handleLoadModelSpeciesInfo = React.useCallback(async (): Promise<void> => {
     const specimen: string | undefined | null = modelSpeciesName[model as keyof typeof modelSpeciesName];
     if (!specimen || model === 'select') return;
@@ -66,10 +62,6 @@ const Model = ({ match }: RouteComponentProps<ModelSelectPostParams>) => {
   };
 
   React.useEffect(() => {
-    handleNewModelSelected();
-  }, [model]);
-
-  React.useEffect(() => {
     handleLoadModelSpeciesInfo();
   }, [model]);
 
@@ -77,7 +69,11 @@ const Model = ({ match }: RouteComponentProps<ModelSelectPostParams>) => {
     <IonPage>
 
       {/* Header */}
-      <ModelHeader infoLoading={infoLoading} handleSetModelLoading={setModelLoading} model={model} />
+      <ModelHeader
+        infoLoading={infoLoading} handleSetModelLoading={setModelLoading} model={model}
+        wikiInfo={wikiInfo} classificationInfo={classificationInfo}
+        imageInfo={imageInfo} profileInfo={profileInfo}
+      />
 
       <IonContent>
 

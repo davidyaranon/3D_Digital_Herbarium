@@ -65,7 +65,7 @@ const App: React.FC = () => {
       const modelPreferences = await Preferences.get({ key: 'model' });
       const specimenPreferences = await Preferences.get({ key: 'specimen' });
       if (modelPreferences.value) {
-        console.log('setting model context to ' + modelPreferences.value)
+        console.log('setting model context to! ' + modelPreferences.value)
         context.setModel(modelPreferences.value);
       }
       if(specimenPreferences.value) {

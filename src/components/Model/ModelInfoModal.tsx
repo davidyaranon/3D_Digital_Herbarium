@@ -1,5 +1,5 @@
 import React from "react";
-import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonModal, IonSpinner, IonText, IonTitle, IonToolbar } from "@ionic/react";
+import { IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonContent, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonModal, IonSpinner, IonText, IonTitle, IonToolbar } from "@ionic/react";
 import '../../App.css';
 import { closeOutline } from "ionicons/icons";
 import { Keyboard } from "@capacitor/keyboard";
@@ -9,12 +9,16 @@ interface ModelInfoModalProps {
   model: string;
   infoLoading: boolean;
   showInfoModal: boolean;
+  wikiInfo : any;
+  profileInfo : any;
+  classificationInfo : any;
+  imageInfo : any;
   setShowInfoModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const ModelInfoModal = (props: ModelInfoModalProps) => {
 
-  const { model, infoLoading, showInfoModal, setShowInfoModal } = props;
+  const { model, infoLoading, showInfoModal, setShowInfoModal, wikiInfo, classificationInfo, profileInfo, imageInfo } = props;
 
   /**
    * @description: This function is called when the user presses the close button on the search modal.
@@ -59,7 +63,72 @@ const ModelInfoModal = (props: ModelInfoModalProps) => {
         {infoLoading ?
           <IonSpinner color="primary" className='full-center' />
           :
-          <p style={{ padding: "10px" }}><IonText color='primary'>HI MODAL</IonText></p>
+          <IonCard className="ion-no-padding">
+            <IonCardHeader>
+              <IonCardTitle>Profile</IonCardTitle>
+            </IonCardHeader>
+            <IonCardContent>
+              <IonList lines="full" text-center>
+                {profileInfo &&
+                  Object.keys(profileInfo).map((keyName: string, i: number) => {
+                    if (!profileInfo[keyName as keyof typeof profileInfo]) {
+                      return null;
+                    }
+                    return (
+                      <IonItem key={keyName + i.toString()} className="ion-text-wrap">
+                        <IonLabel style={{ textAlign: "left" }} className="ion-text-wrap">
+                          {keyName} : {profileInfo[keyName as keyof typeof profileInfo]}
+                        </IonLabel>
+                      </IonItem>
+                    );
+                  })}
+              </IonList>
+            </IonCardContent>
+            <IonCardHeader>
+              <IonCardTitle>Classification</IonCardTitle>
+            </IonCardHeader>
+            <IonCardContent>
+              <IonList lines="full" text-center>
+                {classificationInfo &&
+                  Object.keys(classificationInfo).map((keyName: string, i: number) => {
+                    if (keyName === "UsageKey") {
+                      return null;
+                    }
+                    return (
+                      <IonItem key={keyName + i.toString()} className="ion-text-wrap">
+                        <IonLabel style={{ textAlign: "left" }} className="ion-text-wrap">
+                          {keyName} : {classificationInfo[keyName as keyof typeof classificationInfo]}
+                        </IonLabel>
+                      </IonItem>
+                    );
+                  })}
+              </IonList>
+            </IonCardContent>
+            <IonCardHeader>
+              <IonCardTitle>Description</IonCardTitle>
+            </IonCardHeader>
+            <IonCardContent>
+              <IonList lines="full" text-center>
+                {wikiInfo &&
+                  Object.keys(wikiInfo).map((keyName: string, i: number) => {
+                    if (keyName === 'wikiLink') {
+                      return (
+                        <IonLabel key={keyName + i.toString()} style={{ textAlign: "left" }} className="ion-text-wrap">
+                          <a href={wikiInfo[keyName as keyof typeof wikiInfo]}>{wikiInfo[keyName as keyof typeof wikiInfo]}</a>
+                        </IonLabel>
+                      )
+                    }
+                    return (
+                      <IonItem key={keyName + i.toString()} className="ion-text-wrap">
+                        <IonLabel style={{ textAlign: "left" }} className="ion-text-wrap">
+                          {wikiInfo[keyName as keyof typeof wikiInfo]}
+                        </IonLabel>
+                      </IonItem>
+                    );
+                  })}
+              </IonList>
+            </IonCardContent>
+          </IonCard>
         }
 
       </IonContent>

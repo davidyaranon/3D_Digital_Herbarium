@@ -33,13 +33,17 @@ import ModelInfoModal from './ModelInfoModal';
 interface ModelHeaderProps {
   model: string;
   infoLoading: boolean;
+  wikiInfo: any;
+  profileInfo: any;
+  classificationInfo: any;
+  imageInfo: any;
   handleSetModelLoading: (loading: boolean) => void;
 };
 
 const ModelHeader = React.memo((props: ModelHeaderProps) => {
 
   // Props
-  const { model, infoLoading, handleSetModelLoading } = props;
+  const { model, infoLoading, handleSetModelLoading, wikiInfo, profileInfo, classificationInfo, imageInfo } = props;
 
   // Hooks
   const context = useContext();
@@ -93,7 +97,7 @@ const ModelHeader = React.memo((props: ModelHeaderProps) => {
    * 
    * @param {React.KeyboardEvent<HTMLIonSearchbarElement>} event the event that is triggered when the user presses a key on the searchbar
    */
-  const handleSearchKeyPress = React.useCallback((event: React.KeyboardEvent<HTMLIonSearchbarElement>) : void =>  {
+  const handleSearchKeyPress = React.useCallback((event: React.KeyboardEvent<HTMLIonSearchbarElement>): void => {
     if (event.key === 'Enter') {
       const searchTerm = (event.target as HTMLIonSearchbarElement).value || '';
       handleModelListButtonPress(searchTerm);
@@ -162,7 +166,12 @@ const ModelHeader = React.memo((props: ModelHeaderProps) => {
       />
 
       { /* Slide up modal that displays the info of the current model species when the user clicks on the info icon */}
-      <ModelInfoModal infoLoading={infoLoading} showInfoModal={showInfoModal} setShowInfoModal={setShowInfoModal} model={model} />
+      <ModelInfoModal
+        infoLoading={infoLoading} showInfoModal={showInfoModal}
+        setShowInfoModal={setShowInfoModal} model={model}
+        wikiInfo={wikiInfo} profileInfo={profileInfo}
+        classificationInfo={classificationInfo} imageInfo={imageInfo}
+      />
 
     </>
   )
