@@ -10,7 +10,7 @@ import React from "react";
 import {
   IonPage, IonContent, IonText
 } from "@ionic/react"
-import { RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps, useHistory } from 'react-router-dom';
 
 /* Helpers */
 import { useContext } from "../my-context";
@@ -21,6 +21,7 @@ import CollectionsInfo from "../components/Collections/CollectionsInfo";
 
 /* Styles */
 import '../App.css';
+import { Preferences } from "@capacitor/preferences";
 
 interface CollectionsPostParams {
   specimen: string;
@@ -47,6 +48,7 @@ const Collections = ({ match }: RouteComponentProps<CollectionsPostParams>) => {
   /* Hooks */
   const Toast = useToast();
   const context = useContext();
+  const history = useHistory();
 
   /* State Variables */
 
@@ -75,9 +77,15 @@ const Collections = ({ match }: RouteComponentProps<CollectionsPostParams>) => {
   const handlePageLoad = React.useCallback(async (): Promise<void> => {
     if (!specimen) return;
     context.setSpecimen(specimen);
+    await Preferences.set({key : 'specimen', value : specimen});
     setSpecimenLoading(true);
     const classificationRes: SpecimenClassificationInfo = await getSearchTermClassification(specimen, context.localSearchChecked);
     setClassificationInfo(classificationRes);
+    if(context.localSearchChecked && "rank" in classificationRes && classificationRes.rank === "Common Name" && "name" in classificationRes && classificationRes.name) {
+      await Preferences.set({key : 'specimen', value : classificationRes.name});
+      context.setSpecimen(classificationRes.name);
+      history.push(`/pages/collections/${classificationRes.name}`);
+    }
     console.log("classificationRes", classificationRes);
     if (classificationRes.UsageKey) {
       const profileRes = await getSpeciesProfile(classificationRes.UsageKey.toString());

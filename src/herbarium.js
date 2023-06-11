@@ -260,7 +260,7 @@ export const handleCommonName = async (commonName, isLocal) => {
     }
     return {
       message: "",
-      name: ret,
+      name: ret[0],
       listOfCommonNameSpecies: []
     };
   }
