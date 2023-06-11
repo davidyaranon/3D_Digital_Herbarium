@@ -3,7 +3,7 @@ import { IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardT
 import '../../App.css';
 import { closeOutline } from "ionicons/icons";
 import { Keyboard } from "@capacitor/keyboard";
-import { inModelList } from "../../herbarium";
+import { adjustString, inModelList } from "../../herbarium";
 
 interface ModelInfoModalProps {
   model: string;
@@ -49,7 +49,7 @@ const ModelInfoModal = (props: ModelInfoModalProps) => {
       <div style={{ width: "100%" }}>
         <IonHeader>
           <IonToolbar>
-            <IonTitle color='primary'>{!inModelList(model) ? `No matching model for ${model}!` : model}</IonTitle>
+            <IonTitle color='primary'>{!inModelList(model) ? `No matching model for ${model}!` : adjustString(model)}</IonTitle>
             <IonButtons style={{ marginLeft: "-0.5%" }}>
               <IonButton onClick={closeModal}>
                 <IonIcon color='primary' icon={closeOutline} />
@@ -63,7 +63,7 @@ const ModelInfoModal = (props: ModelInfoModalProps) => {
         {infoLoading ?
           <IonSpinner color="primary" className='full-center' />
           :
-          <IonCard className="ion-no-padding">
+          <IonCard className="ion-no-padding" color='light'>
             <IonCardHeader>
               <IonCardTitle>Profile</IonCardTitle>
             </IonCardHeader>

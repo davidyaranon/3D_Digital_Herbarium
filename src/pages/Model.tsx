@@ -37,7 +37,7 @@ const Model = ({ match }: RouteComponentProps<ModelSelectPostParams>) => {
   const [wikiInfo, setWikiInfo] = React.useState<any>(null);
 
   const handleLoadModelSpeciesInfo = React.useCallback(async (): Promise<void> => {
-    const specimen: string | undefined | null = modelSpeciesName[model as keyof typeof modelSpeciesName];
+    const specimen: string | undefined | null = modelSpeciesName[adjustString(model) as keyof typeof modelSpeciesName];
     if (!specimen || model === 'select') return;
     setInfoLoading(true);
     const classificationRes = await getSearchTermClassification(specimen, context.localSearchChecked);
