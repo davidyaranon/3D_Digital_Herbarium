@@ -80,7 +80,7 @@ const MobileCollectionsSearchModal = React.memo((props: MobileCollectionsSearchM
               <IonTitle><IonText color='primary'>Collections Search</IonText></IonTitle>
               <IonButtons style={{ marginLeft: "-2.5%" }}>
                 <IonButton onClick={() => { closeModal() }}>
-                  <IonIcon color='primary' icon={closeOutline} />
+                  <IonIcon aria-hidden="true" color='primary' icon={closeOutline} />
                 </IonButton>
               </IonButtons>
             </IonToolbar>

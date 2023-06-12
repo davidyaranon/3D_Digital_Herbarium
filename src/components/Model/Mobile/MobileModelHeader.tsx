@@ -21,16 +21,16 @@ const MobileModelHeader = React.memo((props: ModelDesktopHeaderProps) => {
   
   return (
     <div className="search-icon">
-      <IonTitle><IonText color='primary'>3D Models</IonText></IonTitle>
+      <IonTitle role="heading" aria-level={1}><IonText color='primary'>3D Models</IonText></IonTitle>
       <IonButtons slot='end'>
         <IonButton onClick={handleClickOnSearchIcon} fill='clear' size='large'>
-          <IonIcon icon={searchOutline}></IonIcon>
+          <IonIcon aria-hidden="true" icon={searchOutline}></IonIcon>
         </IonButton>
         <IonButton onClick={handleClickOnInfoIcon} fill='clear' size='large'>
-          <IonIcon icon={informationCircleOutline} />
+          <IonIcon aria-hidden="true" icon={informationCircleOutline} />
         </IonButton>
         <IonButton fill='clear' size='large'>
-          <IonIcon icon={mapOutline}></IonIcon>
+          <IonIcon aria-hidden="true" icon={mapOutline}></IonIcon>
         </IonButton>
       </IonButtons>
     </div>

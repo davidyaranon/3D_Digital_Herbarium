@@ -1,4 +1,4 @@
-import { IonContent, IonHeader, IonPage, IonText } from '@ionic/react';
+import { IonContent, IonPage, IonText, IonCardTitle } from '@ionic/react';
 import React from 'react';
 import HomeHeader from '../components/Home/HomeHeader';
 
@@ -9,11 +9,17 @@ const Home: React.FC = () => {
 
       <HomeHeader />
 
-      <IonContent>
+      <IonContent id='home-page-content'>
         <div style={{ padding: "10px" }}>
-          <p><IonText color='primary'>Welcome to the Cal Poly Humboldt 3D Digital Herbarium Project</IonText></p>
-          <p><IonText color='primary'>Alpha release: Summer 2023</IonText></p>
-          <p><IonText color='primary'>Contact us here</IonText></p>
+          <IonCardTitle role="heading" aria-level={1}><IonText color='primary'>Welcome to the Cal Poly Humboldt 3D Digital Herbarium Project</IonText></IonCardTitle>
+          <h2><IonText color='primary'>Alpha release: Summer 2023</IonText></h2>
+          <h3>
+            <IonText color='primary'>Contact us&nbsp;
+              <a href='mailto:ab632@humboldt.edu'>
+                <span><u>here</u></span>
+              </a>
+            </IonText>
+          </h3>
         </div>
       </IonContent>
     </IonPage >

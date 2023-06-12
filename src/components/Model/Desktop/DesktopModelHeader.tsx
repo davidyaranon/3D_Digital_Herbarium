@@ -38,10 +38,10 @@ const DesktopModelHeader = React.memo((props: ModelDesktopHeaderProps) => {
       />
       <IonButtons slot='end' className='desktop-header-buttons'>
         <IonButton onClick={handleClickOnInfoIcon} fill='clear' size='large'>
-          <IonIcon icon={informationCircleOutline} />
+          <IonIcon aria-hidden="true" icon={informationCircleOutline} />
         </IonButton>
         <IonButton fill='clear' size='large'>
-          <IonIcon icon={mapOutline}></IonIcon>
+          <IonIcon aria-hidden="true" icon={mapOutline}></IonIcon>
         </IonButton>
       </IonButtons>
     </div>

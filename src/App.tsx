@@ -43,6 +43,7 @@ import PlantId from './pages/PlantId';
 import Menu from './components/Menu/Menu';
 import { useContext } from './my-context';
 import { Preferences } from '@capacitor/preferences';
+import NotFound from './pages/NotFound';
 
 setupIonicReact({
   mode: 'ios'
@@ -68,7 +69,7 @@ const App: React.FC = () => {
         console.log('setting model context to! ' + modelPreferences.value)
         context.setModel(modelPreferences.value);
       }
-      if(specimenPreferences.value) {
+      if (specimenPreferences.value) {
         console.log('setting specimen context to ' + specimenPreferences.value)
         context.setSpecimen(specimenPreferences.value);
       }
@@ -100,7 +101,7 @@ const App: React.FC = () => {
               <Redirect to="/pages/models/select" />
             </Route>
 
-            <Route path="/pages/collections/:specimen" exact={true} component={Collections} key={context.specimen}/>
+            <Route path="/pages/collections/:specimen" exact={true} component={Collections} key={context.specimen} />
             <Route path="/pages/collections" exact={true}>
               <Redirect to="/pages/collections/select" />
             </Route>
@@ -111,6 +112,10 @@ const App: React.FC = () => {
 
             <Route path="/pages/plantid" exact={true}>
               <PlantId />
+            </Route>
+
+            <Route>
+              <NotFound />
             </Route>
 
           </IonRouterOutlet>

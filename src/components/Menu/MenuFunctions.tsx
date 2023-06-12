@@ -6,7 +6,7 @@
 import {
   homeOutline, homeSharp, leafOutline, leafSharp,
   fingerPrintOutline, fingerPrintSharp, imageOutline, 
-  imageSharp, cubeOutline, cubeSharp
+  imageSharp, cubeOutline, cubeSharp, helpCircleOutline, helpCircleSharp
 } from 'ionicons/icons';
 
 export interface AppPage {
@@ -47,6 +47,12 @@ export const appPages: AppPage[] = [
     iosIcon: fingerPrintOutline,
     mdIcon: fingerPrintSharp
   },
+  {
+    title: 'About',
+    url: '/pages/about',
+    iosIcon: helpCircleOutline,
+    mdIcon: helpCircleSharp,
+  }
 ];
 
 export const labels = ['Local Search'];

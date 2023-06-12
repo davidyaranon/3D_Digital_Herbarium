@@ -8,7 +8,6 @@
 import React from 'react';
 import {
   IonBadge,
-  IonButton,
   IonContent, IonIcon, IonItem,
   IonLabel, IonList, IonListHeader,
   IonMenu, IonMenuToggle, IonNote, IonPopover, IonText, IonToggle,
@@ -119,9 +118,12 @@ const Menu: React.FC = () => {
         <IonList id="labels-list">
           <IonListHeader>Parameters</IonListHeader>
           <IonItem lines="none">
-            <IonToggle labelPlacement="start" justify="start" checked={isLocalSearchChecked} color='selected' onIonChange={handleEnableLocalSearch}>Local Search </IonToggle>
+            <IonToggle labelPlacement="fixed" justify="start" checked={isLocalSearchChecked} color='selected' onIonChange={handleEnableLocalSearch}>Local Search </IonToggle>
             <div style={{ width: "1vw" }} />
             <IonBadge id='local-search-trigger' color='light'>i</IonBadge>
+          </IonItem>
+          <IonItem lines="none">
+            <IonToggle disabled labelPlacement="fixed" justify="start" color='selected' onIonChange={handleEnableLocalSearch}>Dark Mode</IonToggle>
           </IonItem>
         </IonList>
 

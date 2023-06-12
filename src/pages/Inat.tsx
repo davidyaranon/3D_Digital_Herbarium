@@ -5,7 +5,7 @@ const Inat = () => {
   console.log("Inat page");
   return (
     <IonPage>
-      <IonContent>
+      <IonContent id='inat-page-content'>
         <p><IonText color='primary'>iNat (work in progress)</IonText></p>
       </IonContent>
     </IonPage>

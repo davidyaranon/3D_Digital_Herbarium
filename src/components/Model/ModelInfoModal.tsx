@@ -5,7 +5,6 @@ import { closeOutline } from "ionicons/icons";
 import { Keyboard } from "@capacitor/keyboard";
 import { adjustString, inModelList } from "../../herbarium";
 import FadeIn from "react-fade-in";
-import { useContext } from "../../my-context";
 
 interface ModelInfoModalProps {
   model: string;
@@ -64,7 +63,7 @@ const ModelInfoModal = (props: ModelInfoModalProps) => {
             </IonTitle>
             <IonButtons style={{ marginLeft: "-0.5%" }}>
               <IonButton onClick={closeModal}>
-                <IonIcon color='primary' icon={closeOutline} />
+                <IonIcon aria-hidden="true" color='primary' icon={closeOutline} />
               </IonButton>
             </IonButtons>
           </IonToolbar>

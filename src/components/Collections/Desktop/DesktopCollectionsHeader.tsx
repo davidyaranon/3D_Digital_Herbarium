@@ -38,7 +38,7 @@ const DesktopCollectionsHeader = React.memo((props: DesktopCollectionsHeaderProp
       />
       <IonButtons slot='end' className='desktop-header-buttons'>
         <IonButton fill='clear' size='large'>
-          <IonIcon icon={mapOutline}></IonIcon>
+          <IonIcon aria-hidden="true" icon={mapOutline}></IonIcon>
         </IonButton>
       </IonButtons>
     </div>

@@ -75,7 +75,7 @@ const Model = ({ match }: RouteComponentProps<ModelSelectPostParams>) => {
         imageInfo={imageInfo} profileInfo={profileInfo}
       />
 
-      <IonContent>
+      <IonContent id='model-page-content'>
 
         {/* Model */}
         {model === 'select' ?

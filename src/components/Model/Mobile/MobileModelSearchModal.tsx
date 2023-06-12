@@ -83,7 +83,7 @@ const MobileModelSearchModal = React.memo((props: MobileModelSearchModalProps) =
               <IonTitle><IonText color='primary'>3D Model Search</IonText></IonTitle>
               <IonButtons style={{ marginLeft: "-2.5%" }}>
                 <IonButton onClick={() => { closeModal() }}>
-                  <IonIcon color='primary' icon={closeOutline} />
+                  <IonIcon aria-hidden="true" color='primary' icon={closeOutline} />
                 </IonButton>
               </IonButtons>
             </IonToolbar>

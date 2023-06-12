@@ -157,7 +157,7 @@ const CollectionsInfo = (props: CollectionsInfoProps) => {
         <IonModal style={{ '--width': '95vw', '--background': 'var(--ion-color-light)' }} animated isOpen={showImageOverlay} canDismiss={canDismiss} backdropDismiss={false} handle={false} breakpoints={[0, 1]} initialBreakpoint={1}>
           <IonButtons style={{ padding: "10px" }}>
             <IonButton title="Open image" color='primary' onClick={() => { setShowImageOverlay(false) }}>
-              <IonIcon size='large' icon={closeOutline} />
+              <IonIcon aria-hidden="true" size='large' icon={closeOutline} />
             </IonButton>
           </IonButtons>
           <IonImg style={{ height: "90%", borderRadius : "10px" }} src={context.localSearchChecked ? localImageInfo[imageNumber] : globalImageInfo[imageNumber]} />

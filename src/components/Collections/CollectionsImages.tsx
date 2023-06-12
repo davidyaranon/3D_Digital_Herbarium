@@ -32,6 +32,8 @@ const CollectionsImages = (props: CollectionsImagesProps) => {
                 <img
                   className='species-image'
                   loading="lazy"
+                  role="button" 
+                  aria-label="Open image in modal"
                   key={index}
                   src={src}
                   alt={"Specimen image " + index}

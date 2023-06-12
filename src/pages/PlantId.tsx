@@ -129,7 +129,7 @@ const PlantId = () => {
 
       <PlantIdHeader />
 
-      <IonContent style={{ '--background': '' }}>
+      <IonContent id='plantid-page-content' style={{ '--background': '' }}>
 
         {loading &&
           <div className='loading-center'>
@@ -145,7 +145,7 @@ const PlantId = () => {
           <div className='init-image-square'>
             <div className='camera-button-container'>
               <IonButton onClick={takePicture} size='large' style={{ width: "50%", height: "50%" }} fill="clear">
-                <IonIcon size='large' style={{ width: "100%", height: "100%" }} icon={cameraSharp} />
+                <IonIcon aria-hidden="true" size='large' style={{ width: "100%", height: "100%" }} icon={cameraSharp} />
               </IonButton>
             </div>
           </div>

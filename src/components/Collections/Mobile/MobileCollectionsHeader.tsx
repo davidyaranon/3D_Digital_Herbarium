@@ -19,13 +19,13 @@ const MobileCollectionsHeader = React.memo((props: CollectionsMobileHeaderProps)
 
   return (
     <div className="search-icon">
-      <IonTitle><IonText color='primary'>Collections</IonText></IonTitle>
+      <IonTitle role="heading" aria-level={1}><IonText color='primary'>Collections</IonText></IonTitle>
       <IonButtons slot='end'>
         <IonButton onClick={handleClickOnSearchIcon} fill='clear' size='large'>
-          <IonIcon icon={searchOutline}></IonIcon>
+          <IonIcon aria-hidden="true" icon={searchOutline}></IonIcon>
         </IonButton>
         <IonButton fill='clear' size='large'>
-          <IonIcon icon={mapOutline}></IonIcon>
+          <IonIcon aria-hidden="true" icon={mapOutline}></IonIcon>
         </IonButton>
       </IonButtons>
     </div>

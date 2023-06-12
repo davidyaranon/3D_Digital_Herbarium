@@ -125,14 +125,14 @@ const ModelIframes = React.memo((props: ModelIframesProps) => {
           <div className="overlay-annotations">
             <IonButtons style={{ padding: "10px" }}>
               <IonButton color='selected' onClick={() => { setShowAnnotations(false) }}>
-                <IonIcon size='large' icon={closeOutline} />
+                <IonIcon aria-hidden="true" size='large' icon={closeOutline} />
               </IonButton>
               <div style={{ width: "85vw" }} />
               <IonButton color='selected' onClick={() => { handleClickOnAnnotationArrow(-1) }}>
-                <IonIcon size='large' icon={arrowBack} />
+                <IonIcon aria-hidden="true" size='large' icon={arrowBack} />
               </IonButton>
               <IonButton color='selected' onClick={() => { handleClickOnAnnotationArrow(1) }}>
-                <IonIcon size='large' icon={arrowForward} />
+                <IonIcon aria-hidden="true" size='large' icon={arrowForward} />
               </IonButton>
             </IonButtons>
             <div className="annotations-info">
