@@ -1,14 +1,27 @@
-import { IonButton, IonContent, IonIcon, IonItem, IonList, IonPage, IonRow, IonSpinner, IonText } from "@ionic/react";
-import '../App.css';
+/**
+ * @file PlantId.tsx
+ * @fileoverview PlantID page where people can upload an image and identify what kind of plant it is.
+ */
+
+/* Ionic/React */
 import React from "react";
-import { handlePlantIdSubmit } from "../herbarium";
-import { Camera, GalleryPhoto, GalleryPhotos } from "@capacitor/camera";
-import { cameraSharp } from "ionicons/icons";
-import PlantIdHeader from "../components/PlantId/PlantIdHeader";
-import { useContext } from "../my-context";
-import { Preferences } from "@capacitor/preferences";
 import { useHistory } from "react-router";
+import { IonButton, IonContent, IonIcon, IonItem, IonList, IonPage, IonRow, IonSpinner, IonText } from "@ionic/react";
+import { cameraSharp } from "ionicons/icons";
+
+/* Capacitor */
+import { Preferences } from "@capacitor/preferences";
+import { Camera, GalleryPhoto, GalleryPhotos } from "@capacitor/camera";
+
+/* Other Imports */
+import { useContext } from "../my-context";
+import { handlePlantIdSubmit } from "../herbarium";
 import FadeIn from "react-fade-in/lib/FadeIn";
+import PlantIdHeader from "../components/PlantId/PlantIdHeader";
+
+/* Styles */
+import '../App.css';
+
 
 const trimString = (string: string, length: number): string => {
   return string.length > length ? string.substring(0, length - 3) + "..." : string;
@@ -26,6 +39,13 @@ const PlantId = () => {
   const [loading, setLoading] = React.useState<boolean>(false);
   const [showError, setShowError] = React.useState<boolean>(false);
 
+  /**
+   * @description handles redirest to the Collections page setting the specimen accordingly.
+   * Run when the user clicks on the "3D Model Available" message.
+   * 
+   * @param {React.MouseEvent<HTMLAnchorElement, MouseEvent>} e The click event.
+   * @param {string} speciesName The name of the plant species.
+   */
   const handleCollectionsPageRedirect = async (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, speciesName: string): Promise<void> => {
     e.preventDefault();
     await Preferences.set({ key: 'specimen', value: speciesName });
@@ -33,6 +53,11 @@ const PlantId = () => {
     history.push("/pages/collections/" + speciesName);
   };
 
+  /**
+   * @description Handles the plantID API
+   * 
+   * @param {string[]} base64Strings 
+   */
   const handlePlantIdSubmitWithTimeout = async (base64Strings: string[]): Promise<void> => {
     try {
       const plantIdPromise = handlePlantIdSubmit(base64Strings);
@@ -55,11 +80,14 @@ const PlantId = () => {
     }
   };
 
+  /**
+   * @description Allows user to pick an image to upload to run the plantID API.
+   */
   const takePicture = async (): Promise<void> => {
     try {
       const images: GalleryPhotos = await Camera.pickImages({
         quality: 50,
-        limit: 1,
+        limit: PLANT_ID_IMAGE_LIMIT,
       });
 
       const blobsArr: Blob[] = [];

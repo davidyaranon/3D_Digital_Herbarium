@@ -168,6 +168,17 @@
   font-weight: 500;
 }
 
+.fade-appear,
+.fade-enter {
+  opacity: 0;
+}
+
+.fade-appear-active,
+.fade-enter.fade-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+
 /****************** PLANT ID PAGE ******************/
 
 .square {

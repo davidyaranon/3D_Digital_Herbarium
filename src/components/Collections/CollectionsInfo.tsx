@@ -10,6 +10,7 @@ import { useHistory } from "react-router";
 import { Preferences } from "@capacitor/preferences";
 import { useContext } from "../../my-context";
 import FadeIn from "react-fade-in/lib/FadeIn";
+import CollectionsImages from "./CollectionsImages";
 
 interface CollectionsInfoProps {
   infoLoading: boolean;
@@ -136,62 +137,14 @@ const CollectionsInfo = (props: CollectionsInfoProps) => {
               {context.localSearchChecked ?
                 <>
                   {localImageInfo && (classificationInfo && (!("listOfCommonNameSpecies" in classificationInfo) || !classificationInfo.listOfCommonNameSpecies)) &&
-                    <FadeIn delay={125}>
-                      <br />
-                      {localImageInfo.length <= 0 ?
-                        <IonCardTitle><IonText color='primary'>No Local Images Available for {adjustString(specimen)}</IonText></IonCardTitle>
-                        :
-                        <>
-                          <IonCardTitle><IonText color='primary'>Local HSC Images</IonText></IonCardTitle>
-                          <br />
-                          <div style={{ height: "50vh", display: "flex", flexDirection: "row", borderRadius: "10px", overflowX: "auto" }}>
-
-                            {localImageInfo.map((src: string, index: number) => {
-                              return (
-                                <img
-                                  loading="lazy"
-                                  key={index}
-                                  style={{ flex: 1, objectFit: "cover", marginRight: "5px" }}
-                                  src={src}
-                                />
-                              );
-                            })}
-                          </div>
-                        </>
-                      }
-                    </FadeIn>
+                    <CollectionsImages images={localImageInfo} errorMessage={`No Local Images Available for ${adjustString(specimen)}`} headerMessage={"Local HSC Images"} />
                   }
-                  <br />
                 </>
                 :
                 <>
                   {globalImageInfo && (classificationInfo && (!("listOfCommonNameSpecies" in classificationInfo) || !classificationInfo.listOfCommonNameSpecies)) &&
-                    <FadeIn delay={125}>
-                      <br />
-                      {globalImageInfo.length <= 0 ?
-                        <IonCardTitle><IonText color='primary'>No Images Available for {adjustString(specimen)}</IonText></IonCardTitle>
-                        :
-                        <>
-                          <IonCardTitle><IonText color='primary'>Images</IonText></IonCardTitle>
-                          <br />
-                          <div style={{ height: "50vh", display: "flex", flexDirection: "row", borderRadius: "10px", overflowX: "auto" }}>
-
-                            {globalImageInfo.map((src: string, index: number) => {
-                              return (
-                                <img
-                                  loading="lazy"
-                                  key={index}
-                                  style={{ flex: 1, objectFit: "cover", marginRight: "5px" }}
-                                  src={src}
-                                />
-                              );
-                            })}
-                          </div>
-                        </>
-                      }
-                    </FadeIn>
+                    <CollectionsImages images={globalImageInfo} errorMessage={`No Images Available for ${adjustString(specimen)}`} headerMessage={"Images"} />
                   }
-                  <br />
                 </>
               }
 

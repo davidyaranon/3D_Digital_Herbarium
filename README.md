@@ -10,7 +10,12 @@ Capacitor - https://capacitorjs.com/
 
 
 TO BUILD:
+npm i
 ionic build
+
+TO RUN IN LOCALHOST:
+npm i
+ionic serve
 
 
 ├── src
@@ -31,14 +36,12 @@ ionic build
 │   │   ├── Collections
 │   │   │   ├── CollectionsHeader.tsx
 │   │   │   ├── CollectionsInfo.tsx
-│   │   │   ├── CollectionsInfoModal.tsx
 │   │   │   ├── Desktop
 │   │   │   │   └── DesktopCollectionsHeader.tsx
 │   │   │   └── Mobile
 │   │   │       ├── MobileCollectionsHeader.tsx
 │   │   │       └── MobileCollectionsSearchModal.tsx
 │   │   ├── Home
-│   │   │   ├── Desktop
 │   │   │   └── HomeHeader.tsx
 │   │   ├── Inat
 │   │   ├── Menu
