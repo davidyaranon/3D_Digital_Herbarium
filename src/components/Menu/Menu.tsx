@@ -7,6 +7,8 @@
 { /* Ionic / React */ }
 import React from 'react';
 import {
+  IonBadge,
+  IonButton,
   IonContent, IonIcon, IonItem,
   IonLabel, IonList, IonListHeader,
   IonMenu, IonMenuToggle, IonNote, IonPopover, IonText, IonToggle,
@@ -71,7 +73,7 @@ const Menu: React.FC = () => {
    * If it is not checked, it sets the state variable to false.
    * It also sets the context variable to the state variable.
    */
-  const handleCheckLocalSearch = React.useCallback(async () : Promise<void> => {
+  const handleCheckLocalSearch = React.useCallback(async (): Promise<void> => {
     const isChecked = await Preferences.get({ key: 'localSearchChecked' });
     if (isChecked.value === 'true') {
       setIsLocalSearchChecked(true);
@@ -116,14 +118,16 @@ const Menu: React.FC = () => {
 
         <IonList id="labels-list">
           <IonListHeader>Parameters</IonListHeader>
-          <IonItem lines="none" id={isLocalSearchChecked ? '' : 'hover-local-search-trigger'}>
-            <IonToggle checked={isLocalSearchChecked} color='selected' labelPlacement="start" onIonChange={handleEnableLocalSearch}>Local Search</IonToggle>
+          <IonItem lines="none">
+            <IonToggle labelPlacement="start" justify="start" checked={isLocalSearchChecked} color='selected' onIonChange={handleEnableLocalSearch}>Local Search </IonToggle>
+            <div style={{ width: "1vw" }} />
+            <IonBadge id='local-search-trigger' color='light'>i</IonBadge>
           </IonItem>
         </IonList>
 
         {/* Popover for local search toggle */}
         {showLocalSearchPopover &&
-          <IonPopover onIonPopoverDidDismiss={() => setShowLocalSearchPopover(false)} showBackdrop={false} trigger="hover-local-search-trigger" triggerAction="hover">
+          <IonPopover showBackdrop trigger="local-search-trigger" triggerAction="click">
             <IonContent class="ion-padding">
               <IonText color='primary'>Enable this to limit search queries to local specimen only! To view global data, disable this toggle.</IonText>
             </IonContent>

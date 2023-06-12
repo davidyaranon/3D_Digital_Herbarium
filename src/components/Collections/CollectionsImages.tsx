@@ -11,10 +11,11 @@ interface CollectionsImagesProps {
   images: string[];
   errorMessage: string;
   headerMessage: string;
+  handleClickOnImage: (index: number) => void;
 }
 
 const CollectionsImages = (props: CollectionsImagesProps) => {
-  const { images, errorMessage, headerMessage } = props;
+  const { images, errorMessage, headerMessage, handleClickOnImage } = props;
 
   return (
     <FadeIn>
@@ -29,16 +30,25 @@ const CollectionsImages = (props: CollectionsImagesProps) => {
             {images.map((src: string, index: number) => {
               return (
                 <img
+                  className='species-image'
                   loading="lazy"
                   key={index}
-                  style={{ flex: 1, objectFit: "cover", marginRight: "5px" }}
                   src={src}
+                  alt={"Specimen image " + index}
+                  tabIndex={0}
+                  onClick={() => handleClickOnImage(index)}
+                  onKeyDown={(e) => {
+                    if (e.keyCode === 13) { // Check for the Enter key
+                      handleClickOnImage(index);
+                    }
+                  }}
                 />
               );
             })}
           </div>
         </>
       }
+      <br />
     </FadeIn>
   );
 };

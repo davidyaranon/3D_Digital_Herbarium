@@ -4,13 +4,15 @@
  * displays the information for the selected species in the collections page.
  */
 
-import { IonCardContent, IonCardTitle, IonImg, IonItem, IonLabel, IonList, IonSpinner, IonText } from "@ionic/react";
+import React from "react";
+import { IonButton, IonButtons, IonCardContent, IonCardTitle, IonIcon, IonImg, IonItem, IonLabel, IonList, IonModal, IonSpinner, IonText } from "@ionic/react";
 import { listOfModels, sketchFabLinks, modelSpeciesName } from "../../herbarium";
 import { useHistory } from "react-router";
 import { Preferences } from "@capacitor/preferences";
 import { useContext } from "../../my-context";
 import FadeIn from "react-fade-in/lib/FadeIn";
 import CollectionsImages from "./CollectionsImages";
+import { closeOutline } from "ionicons/icons";
 
 interface CollectionsInfoProps {
   infoLoading: boolean;
@@ -71,6 +73,10 @@ const CollectionsInfo = (props: CollectionsInfoProps) => {
   const history = useHistory();
   const context = useContext();
 
+  // State Variables
+  const [showImageOverlay, setShowImageOverlay] = React.useState<boolean>(false);
+  const [imageNumber, setImageNumber] = React.useState<number>(0);
+
   /**
    * @description Redirects to the model page for the selected model.
    * This function checks whether the specimen is the common name or the species name and handles it accordingly.
@@ -89,6 +95,27 @@ const CollectionsInfo = (props: CollectionsInfoProps) => {
       history.push("/pages/models/" + specimen);
     }
   };
+
+  /**
+   * @description: This function ensures the modal cannot be dismissed by swiping down.
+   * 
+   * @param {any} data the data that is being passed to the modal
+   * @param {string} role the kind of dismissal that is being attempted
+   * @returns {boolean} whether the modal can be dismissed
+   */
+  async function canDismiss(data?: any, role?: string): Promise<boolean> {
+    return role !== 'gesture';
+  }
+
+  /**
+   * @description Opens the image overlay and shows the image from the images array with the given index.
+   * 
+   * @param {number} index the index of the image to show
+   */
+  const handleClickOnImage = React.useCallback((index: number): void => {
+    setImageNumber(index);
+    setShowImageOverlay(true);
+  }, []);
 
   const handleClickOnSpeciesFromGenus = async (species: string): Promise<void> => {
     await Preferences.set({ key: 'specimen', value: species });
@@ -126,6 +153,16 @@ const CollectionsInfo = (props: CollectionsInfoProps) => {
           </FadeIn>
         }
 
+        {/* Image modal popup if image is selected */}
+        <IonModal style={{ '--width': '95vw', '--background': 'var(--ion-color-light)' }} animated isOpen={showImageOverlay} canDismiss={canDismiss} backdropDismiss={false} handle={false} breakpoints={[0, 1]} initialBreakpoint={1}>
+          <IonButtons style={{ padding: "10px" }}>
+            <IonButton title="Open image" color='primary' onClick={() => { setShowImageOverlay(false) }}>
+              <IonIcon size='large' icon={closeOutline} />
+            </IonButton>
+          </IonButtons>
+          <IonImg style={{ height: "90%", borderRadius : "10px" }} src={context.localSearchChecked ? localImageInfo[imageNumber] : globalImageInfo[imageNumber]} />
+        </IonModal>
+
         {infoLoading ?
           <IonSpinner color="primary" className='full-center' />
           :
@@ -137,13 +174,13 @@ const CollectionsInfo = (props: CollectionsInfoProps) => {
               {context.localSearchChecked ?
                 <>
                   {localImageInfo && (classificationInfo && (!("listOfCommonNameSpecies" in classificationInfo) || !classificationInfo.listOfCommonNameSpecies)) &&
-                    <CollectionsImages images={localImageInfo} errorMessage={`No Local Images Available for ${adjustString(specimen)}`} headerMessage={"Local HSC Images"} />
+                    <CollectionsImages handleClickOnImage={handleClickOnImage} images={localImageInfo} errorMessage={`No Local Images Available for ${adjustString(specimen)}`} headerMessage={"Local HSC Images"} />
                   }
                 </>
                 :
                 <>
                   {globalImageInfo && (classificationInfo && (!("listOfCommonNameSpecies" in classificationInfo) || !classificationInfo.listOfCommonNameSpecies)) &&
-                    <CollectionsImages images={globalImageInfo} errorMessage={`No Images Available for ${adjustString(specimen)}`} headerMessage={"Images"} />
+                    <CollectionsImages handleClickOnImage={handleClickOnImage} images={globalImageInfo} errorMessage={`No Images Available for ${adjustString(specimen)}`} headerMessage={"Images"} />
                   }
                 </>
               }
@@ -256,9 +293,9 @@ const CollectionsInfo = (props: CollectionsInfoProps) => {
                       Object.keys(wikiInfo).map((keyName: string, i: number) => {
                         if (keyName === 'wikiLink') {
                           return (
-                            <IonLabel key={keyName + i.toString()} style={{ textAlign: "left" }} className="ion-text-wrap">
-                              <a style={{ color: 'var(--ion-color-light)', padding: '15px' }} href={wikiInfo[keyName as keyof typeof wikiInfo]}>{wikiInfo[keyName as keyof typeof wikiInfo]}</a>
-                            </IonLabel>
+                            <IonItem color='light' key={keyName + i.toString()} style={{ textAlign: "left" }} className="ion-text-wrap">
+                              <a target="_blank" style={{ color: 'var(--ion-color-dark)', margin : "2.5px" }} href={wikiInfo[keyName as keyof typeof wikiInfo]}>{wikiInfo[keyName as keyof typeof wikiInfo]}</a>
+                            </IonItem>
                           )
                         }
                         return (

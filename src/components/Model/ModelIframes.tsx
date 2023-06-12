@@ -145,7 +145,7 @@ const ModelIframes = React.memo((props: ModelIframesProps) => {
             </div>
           </div>
         }
-        <iframe src="" frameBorder="0" height='100%' width='100%' id="model-viewer"
+        <iframe src="" frameBorder="0" height='100%' width='100%' id="model-viewer" title={"Model Viewer for " + model.toLowerCase()}
           allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking="true"
           execution-while-out-of-viewport="true" execution-while-not-rendered="true" web-share="true"
           allowFullScreen onLoad={handleIframeLoad}

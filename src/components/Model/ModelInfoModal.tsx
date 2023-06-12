@@ -52,14 +52,15 @@ const ModelInfoModal = (props: ModelInfoModalProps) => {
         <IonHeader>
           <IonToolbar>
             <IonTitle color='primary'>
-              {!inModelList(model) ? `No matching model for ${model}!` : (
-                <>
-                  {adjustString(model)}
-                  {classificationInfo && "name" in classificationInfo && (
-                    <span>{" (" + classificationInfo.name + ")"}</span>
-                  )}
-                </>
-              )}
+              {!inModelList(model) ?
+                `No matching model for ${model}!`
+                :
+                (
+                  <>
+                    {adjustString(model)}
+                  </>
+                )
+              }
             </IonTitle>
             <IonButtons style={{ marginLeft: "-0.5%" }}>
               <IonButton onClick={closeModal}>
@@ -76,6 +77,10 @@ const ModelInfoModal = (props: ModelInfoModalProps) => {
           :
           <IonCard className="ion-no-padding" color='light'>
 
+            {classificationInfo && "name" in classificationInfo && (
+              <IonCardTitle style={{ textAlign: "center" }}><u>{"" + classificationInfo.name + ""}</u></IonCardTitle>
+            )}
+
             {imageInfo && (classificationInfo && (!("listOfCommonNameSpecies" in classificationInfo) || !classificationInfo.listOfCommonNameSpecies)) &&
               <FadeIn delay={125}>
                 <br />
@@ -88,7 +93,7 @@ const ModelInfoModal = (props: ModelInfoModalProps) => {
                     <IonCardHeader>
                       <IonCardTitle> Images </IonCardTitle>
                     </IonCardHeader>
-                    <div style={{marginLeft : "20px", marginRight : "20px", height: "50vh", display: "flex", flexDirection: "row", borderRadius: "10px", overflowX: "auto" }}>
+                    <div style={{ marginLeft: "20px", marginRight: "20px", height: "50vh", display: "flex", flexDirection: "row", borderRadius: "10px", overflowX: "auto" }}>
 
                       {imageInfo.map((src: string, index: number) => {
                         return (
@@ -163,9 +168,9 @@ const ModelInfoModal = (props: ModelInfoModalProps) => {
                     Object.keys(wikiInfo).map((keyName: string, i: number) => {
                       if (keyName === 'wikiLink') {
                         return (
-                          <IonLabel key={keyName + i.toString()} style={{ textAlign: "left" }} className="ion-text-wrap">
-                            <a style={{ color: 'var(--ion-color-light)', padding: '15px' }} href={wikiInfo[keyName as keyof typeof wikiInfo]}>{wikiInfo[keyName as keyof typeof wikiInfo]}</a>
-                          </IonLabel>
+                          <IonItem color='light' key={keyName + i.toString()} style={{ textAlign: "left" }} className="ion-text-wrap">
+                            <a target="_blank" style={{ color: 'var(--ion-color-dark)' }} href={wikiInfo[keyName as keyof typeof wikiInfo]}>{wikiInfo[keyName as keyof typeof wikiInfo]}</a>
+                          </IonItem>
                         )
                       }
                       return (
