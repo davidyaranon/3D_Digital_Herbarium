@@ -124,6 +124,24 @@ const ModelHeader = React.memo((props: ModelHeaderProps) => {
     };
   }, [filteredModels]);
 
+  /**
+   * @description This function is called when the user pressed the back button.
+   * If there are any modals open, it will be closed.
+   */
+  React.useEffect(() => {
+    const handleBackButton = () => {
+      setShowInfoModal(false); 
+      setShowSearchModal(false);
+      setFilteredModels([]);
+    };
+
+    window.addEventListener('popstate', handleBackButton);
+
+    return () => {
+      window.removeEventListener('popstate', handleBackButton);
+    };
+  }, []);
+
   return (
     <>
       <IonHeader className='ion-no-border' style={{ padding: "5px" }} translucent>

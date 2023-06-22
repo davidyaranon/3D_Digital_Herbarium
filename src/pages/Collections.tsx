@@ -122,7 +122,7 @@ const Collections = ({ match }: RouteComponentProps<CollectionsPostParams>) => {
       <CollectionsHeader specimenLoading={specimenLoading} setSpecimenLoading={setSpecimenLoading} />
 
       {/* Collections Main Content */}
-      <IonContent id='collections-page-content' style={{ "--background": "#FFFFFF" }}>
+      <IonContent id='collections-page-content' style={{ "--background": "var(--ion-background-color)" }}>
 
         {specimen === 'select' ?
           <>

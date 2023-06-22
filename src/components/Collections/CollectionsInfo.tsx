@@ -31,6 +31,7 @@ interface CollectionsInfoProps {
  * @returns {string} the adjusted string
  */
 const adjustString = (modelName: string): string => {
+  if(!modelName) return modelName;
   let newString = modelName.toLowerCase();
   newString = newString.replace(/(^|\s)\S/g, function (letter) {
     return letter.toUpperCase();

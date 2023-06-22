@@ -15,6 +15,8 @@ export type ContextType = {
   setModel : React.Dispatch<React.SetStateAction<string>>;
   localSearchChecked : boolean;
   setLocalSearchChecked : React.Dispatch<React.SetStateAction<boolean>>;
+  darkModeEnabled : boolean;
+  setDarkModeEnabled : React.Dispatch<React.SetStateAction<boolean>>;
   specimen : string;
   setSpecimen : React.Dispatch<React.SetStateAction<string>>;
 }
@@ -25,11 +27,12 @@ export const ContextProvider = ({ children } : Props) => {
   /* Name of most recently loaded model */
   const [model, setModel] = React.useState<string>("");
   const [localSearchChecked, setLocalSearchChecked] = React.useState<boolean>(false);
+  const [darkModeEnabled, setDarkModeEnabled] = React.useState<boolean>(false);
   const [specimen, setSpecimen] = React.useState<string>("");
 
   const memoizedContextValue = React.useMemo(() => ({
-    model, setModel, localSearchChecked, setLocalSearchChecked, specimen, setSpecimen
-  }), [model, setModel, localSearchChecked, setLocalSearchChecked, specimen, setSpecimen]);
+    model, setModel, localSearchChecked, setLocalSearchChecked, darkModeEnabled, setDarkModeEnabled, specimen, setSpecimen
+  }), [model, setModel, localSearchChecked, setLocalSearchChecked, darkModeEnabled, setDarkModeEnabled, specimen, setSpecimen]);
 
   return(
     <Context.Provider value={memoizedContextValue}> { children } </Context.Provider>

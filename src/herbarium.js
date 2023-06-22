@@ -434,7 +434,7 @@ export const getSearchTermClassification = async (searchTerm, isLocal, is3dModel
           searchRes.name.trim().toLowerCase() !== searchTerm.trim().toLowerCase()) {
           const r = await fetch("https://api.gbif.org/v1/species/match?name=" + searchRes.name);
           const d = await r.json();
-          console.log({d})
+          console.log({ d })
           if ("usageKey" in d) {
             newUsageKey = d.usageKey;
           }
@@ -616,18 +616,15 @@ export const getSpeciesProfile = async (usageKey) => {
  */
 export const getSpeciesImages = async (usageKey, name) => {
   try {
-    // if (isLocal) {
-      const localRes = await fetch('https://api.gbif.org/v1/occurrence/search?datasetKey=' + HSCDatasetKey + '&mediaType=StillImage&q=' + name + "&scientificName=" + name)
-      const localJson = await localRes.json();
-      if (!("results" in localJson)) { return []; };
-      let localImages = [];
-      const localImagesLength = localJson.results.length < 10 ? localJson.results.length : 10;
-      for (let i = 0; i < localImagesLength; i++) {
-        const image = localJson.results[i].media[0].identifier;
-        localImages.push(image);
-      }
-    //   return images;
-    // }
+    const localRes = await fetch('https://api.gbif.org/v1/occurrence/search?datasetKey=' + HSCDatasetKey + '&mediaType=StillImage&q=' + name + "&scientificName=" + name)
+    const localJson = await localRes.json();
+    if (!("results" in localJson)) { return []; };
+    let localImages = [];
+    const localImagesLength = localJson.results.length < 10 ? localJson.results.length : 10;
+    for (let i = 0; i < localImagesLength; i++) {
+      const image = localJson.results[i].media[0].identifier;
+      localImages.push(image);
+    }
     const res = await fetch("https://api.gbif.org/v1/occurrence/search?speciesKey=" + usageKey + "&mediaType=StillImage");
     const data = await res.json();
     if (!("results" in data)) { return []; };

@@ -7,10 +7,9 @@
 { /* Ionic / React */ }
 import React from 'react';
 import {
-  IonBadge,
-  IonContent, IonIcon, IonItem,
-  IonLabel, IonList, IonListHeader,
-  IonMenu, IonMenuToggle, IonNote, IonPopover, IonText, IonToggle,
+  IonBadge, IonContent, IonIcon, IonItem,
+  IonLabel, IonList, IonListHeader, IonMenu,
+  IonMenuToggle, IonNote, IonPopover, IonText, IonToggle,
 } from '@ionic/react';
 import { useLocation } from 'react-router-dom';
 
@@ -30,7 +29,16 @@ const Menu: React.FC = () => {
 
   // State Variables
   const [isLocalSearchChecked, setIsLocalSearchChecked] = React.useState<boolean>(false);
+  // const [darkModeEnabled, setDarkModeEnabled] = React.useState<boolean>(false);
   const [showLocalSearchPopover, setShowLocalSearchPopover] = React.useState<boolean>(true);
+
+  // const handleEnableDarkMode = async (event: CustomEvent): Promise<void> => {
+  //   document.body.classList.toggle("dark");
+  //   const isDarkModeEnabled = event.detail.checked;
+  //   setDarkModeEnabled(isDarkModeEnabled);
+  //   context.setDarkModeEnabled(isDarkModeEnabled);
+  //   await Preferences.set({ key: 'isDarkModeEnabled', value: isDarkModeEnabled });
+  // };
 
   /**
    * @description This function is called when the user clicks on the toggle for enabling local search.
@@ -84,11 +92,29 @@ const Menu: React.FC = () => {
   }, []);
 
   /**
+   * @description This function checks if the dark mode toggle is checked or not.
+   * If it is checked, it sets the state variable to true.
+   * If it is not checked, it sets the state variable to false.
+   * It also sets the context variable to the state variable.
+   */
+  // const handleCheckDarkMode = React.useCallback(async (): Promise<void> => {
+  //   const isChecked = await Preferences.get({ key: 'isDarkModeEnabled' });
+  //   if (isChecked.value === 'true') {
+  //     setDarkModeEnabled(true);
+  //     context.setDarkModeEnabled(true);
+  //   } else {
+  //     setDarkModeEnabled(false);
+  //     context.setDarkModeEnabled(false);
+  //   }
+  // }, []);
+
+  /**
    * @description This function is called when the page is loaded.
    * It checks if the local search toggle is checked or not.
    */
   React.useEffect(() => {
     handleCheckLocalSearch();
+    // handleCheckDarkMode();
   }, [])
 
   return (
@@ -122,9 +148,9 @@ const Menu: React.FC = () => {
             <div style={{ width: "1vw" }} />
             <IonBadge id='local-search-trigger' color='light'>i</IonBadge>
           </IonItem>
-          <IonItem lines="none">
-            <IonToggle disabled labelPlacement="fixed" justify="start" color='selected' onIonChange={handleEnableLocalSearch}>Dark Mode</IonToggle>
-          </IonItem>
+          {/* <IonItem lines="none">
+            <IonToggle labelPlacement="fixed" justify="start" checked={darkModeEnabled} color='selected' onIonChange={handleEnableDarkMode}>Dark Mode</IonToggle>
+          </IonItem> */}
         </IonList>
 
         {/* Popover for local search toggle */}

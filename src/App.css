@@ -120,7 +120,7 @@
   height: 100%;
   border-radius: 20px;
   transform: translateZ(0px);
-  border: 5px solid var(--ion-color-light);
+  border: 5px solid transparent !important;
 }
 
 /* @media screen and (max-width: 586px) {

@@ -30,6 +30,7 @@ const CollectionsImages = (props: CollectionsImagesProps) => {
             {images.map((src: string, index: number) => {
               return (
                 <img
+                  onLoad={() => console.log("loaded image " + index)}
                   className='species-image'
                   loading="lazy"
                   role="button" 
@@ -40,7 +41,7 @@ const CollectionsImages = (props: CollectionsImagesProps) => {
                   tabIndex={0}
                   onClick={() => handleClickOnImage(index)}
                   onKeyDown={(e) => {
-                    if (e.keyCode === 13) { // Check for the Enter key
+                    if (e.keyCode === 13) {
                       handleClickOnImage(index);
                     }
                   }}

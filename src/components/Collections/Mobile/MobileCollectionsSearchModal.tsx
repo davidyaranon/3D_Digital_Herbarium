@@ -45,7 +45,7 @@ const MobileCollectionsSearchModal = React.memo((props: MobileCollectionsSearchM
    * @param {string} role the kind of dismissal that is being attempted
    * @returns {Promise<boolean>} whether the modal can be dismissed
    */
-  async function canDismiss(data?: any, role?: string) : Promise<boolean> {
+  async function canDismiss(data?: any, role?: string): Promise<boolean> {
     return role !== 'gesture';
   }
 
@@ -72,7 +72,6 @@ const MobileCollectionsSearchModal = React.memo((props: MobileCollectionsSearchM
       breakpoints={[0, 1]} initialBreakpoint={1}
     >
 
-      { /* Header with title, searchbar and close button */}
       <FadeIn delay={250}>
         <div style={{ width: "100%" }}>
           <IonHeader>
