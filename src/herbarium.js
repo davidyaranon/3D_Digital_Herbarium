@@ -5,6 +5,21 @@
  * used to fetch data from external APIs and to handle data entered on the frontend.
  */
 
+
+// FIREBASE HOSTING
+import { initializeApp } from "firebase/app";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCbFt9sqEnLgZSkI-MfbdlQftxbtRzFj0U",
+  authDomain: "cph-3d-digital-herbarium.firebaseapp.com",
+  projectId: "cph-3d-digital-herbarium",
+  storageBucket: "cph-3d-digital-herbarium.appspot.com",
+  messagingSenderId: "467955589527",
+  appId: "1:467955589527:web:c82c8d02483f606422e4d2"
+};
+
+const app = initializeApp(firebaseConfig);
+
 // GLOBAL VARIABLES
 const PLANT_ID_API_KEY = 'hlBL87ZjwFG5U7cegIbdE2mtJl7La5XATUL6hQk0l4gETxhtWc';
 const HSCDatasetKey = '6958627a-e1cd-489f-b4f3-6e7760203b9d';
