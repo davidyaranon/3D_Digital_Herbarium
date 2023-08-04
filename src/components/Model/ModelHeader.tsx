@@ -82,13 +82,11 @@ const ModelHeader = React.memo((props: ModelHeaderProps) => {
     const parts = path.split('/');
     const lastPart = parts[parts.length - 1];
     if (lastPart.toLocaleLowerCase().trim() === model.toLocaleLowerCase().trim()) return;
-    // if (model.toLocaleLowerCase() !== context.model.toLocaleLowerCase()) {
     console.log('setting context.model to ' + model)
     handleSetModelLoading(true);
     context.setModel(model);
     await Preferences.set({ key: 'model', value: model });
     history.push('/pages/models/' + model)
-    // }
   }, [context.model, context.setModel, handleSetModelLoading, history]);
 
 

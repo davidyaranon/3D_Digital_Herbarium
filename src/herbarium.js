@@ -70,7 +70,7 @@ export const annotations = {
     ],
     annotationsLength: 4
   }
-}
+};
 
 // The local genera, species, and common names with multimedia images. 
 // Used for autocomplete.
@@ -119,7 +119,7 @@ export const adjustString = (modelName) => {
   }
   );
   return newString;
-}
+};
 
 /**
  * @function inModelList
@@ -166,7 +166,7 @@ async function commonNameHandlerGenus(searchTerm) {
   var json = await match.json();
   if (json.results.length > 0) { return json.results[0] }
   else { return false; }
-}
+};
 
 /**
  * @function getSpeciesListFromCommonName
@@ -711,7 +711,7 @@ export function timeout(delay) {
  */
 const hasMultipleSpaces = (str) => {
   return str.split(' ').length > 2;
-}
+};
 
 
 /**
@@ -828,4 +828,5 @@ export const handlePlantIdSubmit = async (userImages) => {
 
   return json;
 
-}
+};
+
