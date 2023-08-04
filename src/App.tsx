@@ -44,6 +44,7 @@ import Menu from './components/Menu/Menu';
 import { useContext } from './my-context';
 import { Preferences } from '@capacitor/preferences';
 import NotFound from './pages/NotFound';
+import About from './pages/About';
 
 setupIonicReact({
   mode: 'ios'
@@ -112,6 +113,10 @@ const App: React.FC = () => {
 
             <Route path="/pages/plantid" exact={true}>
               <PlantId />
+            </Route>
+
+            <Route path="/pages/about" exact={true}>
+              <About />
             </Route>
 
             <Route>

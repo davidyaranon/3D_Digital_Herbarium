@@ -142,7 +142,7 @@ const CollectionsInfo = (props: CollectionsInfoProps) => {
 
         <FadeIn delay={125}>
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            {inModelList(adjustString(specimen)) &&
+            {specimen && inModelList(adjustString(specimen)) &&
               <a style={{ cursor: 'pointer' }} onClick={handleRedirectToModelFromCollections}><IonText color='primary'><u>3D Model available for {specimen}</u></IonText></a>
             }
           </div>

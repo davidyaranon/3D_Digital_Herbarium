@@ -126,7 +126,7 @@ const Menu: React.FC = () => {
 
           <IonListHeader>CPH 3D Digital Herbarium</IonListHeader>
           <div style={{ height: "1vh" }} />
-          <IonNote><IonText color='medium'>ab632@humboldt.edu</IonText></IonNote>
+          <IonNote><IonText color='medium'>dy45@humboldt.edu</IonText></IonNote>
 
           {appPages.map((appPage: AppPage, index: number) => {
             return (

@@ -1,13 +1,18 @@
 import React from "react";
 import { IonContent, IonPage, IonText } from "@ionic/react";
+import InatHeader from "../components/Inat/InatHeader";
 
 const Inat = () => {
-  console.log("Inat page");
+
   return (
     <IonPage>
+
+      <InatHeader />
+
       <IonContent id='inat-page-content'>
-        <p><IonText color='primary'>iNat (work in progress)</IonText></p>
+        <p className='ion-padding'><IonText color='primary'>iNat (work in progress)</IonText></p>
       </IonContent>
+
     </IonPage>
   );
 

@@ -15,7 +15,7 @@ const Home: React.FC = () => {
           <h2><IonText color='primary'>Alpha release: Summer 2023</IonText></h2>
           <h3>
             <IonText color='primary'>Contact us&nbsp;
-              <a href='mailto:ab632@humboldt.edu'>
+              <a href='mailto:dy45@humboldt.edu'>
                 <span><u>here</u></span>
               </a>
             </IonText>

@@ -22,6 +22,7 @@ export const listOfModels = [
   "Big Leaf Maple",
   "Salal",
   "Red Alder",
+  "False Lily Of The Valley",
 ];
 
 // Maps common model name to species name
@@ -35,7 +36,8 @@ export const modelSpeciesName = {
   "Jade": "crassula ovata",
   "Big Leaf Maple": "acer macrophyllum",
   "Salal": "gaultheria shallon",
-  "Red Alder": "alnus rubra"
+  "Red Alder": "alnus rubra",
+  "False Lily Of The Valley": "maianthemum dilatatum",
 };
 
 // Maps species to sketchfab link
@@ -49,7 +51,8 @@ export const sketchFabLinks = {
   'crassula ovata': "4d00a2d7792f4a89aa227ea9c217bcdf",
   'acer macrophyllum': "6a7b87e2ff98433daa34b3da43092f86",
   'gaultheria shallon': "709cd4b1e7c54157b0c1ebe25eb37f22",
-  'alnus rubra': "ca37de74282f4eb7af25e3ab81e761ff"
+  'alnus rubra': "ca37de74282f4eb7af25e3ab81e761ff",
+  'maianthemum dilatatum': 'ae64a3739dfc4fa1a86171e120f18494',
 };
 
 // Used for sketchfab annotations in 3D model page
